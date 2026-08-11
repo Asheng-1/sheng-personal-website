@@ -289,6 +289,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     width: min(100%, 42rem);
     aspect-ratio: 0.82;
     overflow: hidden;
+    transform: translateX(clamp(1.5rem, 3.25vw, 3rem));
   }
 
   :global(.frameless-portrait picture) {
@@ -348,6 +349,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
 
     :global(.frameless-portrait) {
       width: min(100%, 34rem);
+      transform: none;
     }
   }
 
