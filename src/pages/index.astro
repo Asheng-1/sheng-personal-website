@@ -4,6 +4,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SiteHeader from '@/components/layout/SiteHeader.astro';
 import SiteFooter from '@/components/layout/SiteFooter.astro';
 import Hero from '@/components/sections/Hero.astro';
+import About from '@/components/sections/About.astro';
+import LearningGrid from '@/components/sections/LearningGrid.astro';
+import Roadmap from '@/components/sections/Roadmap.astro';
+import Principles from '@/components/sections/Principles.astro';
 import { TargetCursor } from '@/components/effects/TargetCursor';
 ---
 
@@ -13,16 +17,12 @@ import { TargetCursor } from '@/components/effects/TargetCursor';
 >
   <SiteHeader name={profile.name} nav={profile.nav} />
   <Hero profile={profile} />
-  <!-- Task 6 replaces these temporary anchor targets with the content sections. -->
-  <div id="learning" class="anchor-sentinel" aria-hidden="true"></div>
-  <div id="roadmap" class="anchor-sentinel" aria-hidden="true"></div>
+  <main>
+    <About />
+    <LearningGrid items={profile.learning} />
+    <Roadmap items={profile.roadmap} />
+    <Principles items={profile.principles} />
+  </main>
   <SiteFooter />
   <TargetCursor client:idle targets={['a', 'button', '[data-cursor-target]']} />
 </BaseLayout>
-
-<style>
-  .anchor-sentinel {
-    min-height: 1px;
-    scroll-margin-top: 1rem;
-  }
-</style>

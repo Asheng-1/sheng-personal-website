@@ -92,6 +92,11 @@ button {
 }
 
 .scroll-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.scroll-reveal[data-enhanced='true'][data-visible='false'] {
   opacity: 0;
   transform: translateY(1.25rem);
   transition:
@@ -102,6 +107,154 @@ button {
 .scroll-reveal[data-visible='true'] {
   opacity: 1;
   transform: translateY(0);
+}
+
+.content-section {
+  width: min(100% - 2rem, var(--content-reading));
+  margin: 0 auto;
+  padding: clamp(4.5rem, 9vw, 8rem) 0;
+  scroll-margin-top: 1rem;
+}
+
+.section-kicker {
+  margin: 0;
+  color: var(--color-cyan);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.65fr);
+  gap: 0.75rem clamp(2rem, 8vw, 7rem);
+  align-items: end;
+}
+
+.section-heading .section-kicker {
+  grid-column: 1 / -1;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.section-heading > p:last-child {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.spotlight-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  isolation: isolate;
+}
+
+.spotlight-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(
+    15rem circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(117, 234, 216, 0.16),
+    transparent 68%
+  );
+  content: '';
+  pointer-events: none;
+}
+
+.star-border {
+  --star-shift-x: 0px;
+  --star-shift-y: 0px;
+  position: relative;
+  transform: translate(var(--star-shift-x), var(--star-shift-y));
+  transition:
+    transform 130ms ease-out,
+    background-color 160ms ease,
+    color 160ms ease;
+  isolation: isolate;
+}
+
+.star-border::before {
+  position: absolute;
+  z-index: -1;
+  inset: -2px;
+  padding: 2px;
+  background: linear-gradient(
+    110deg,
+    transparent 12%,
+    var(--color-cyan) 38%,
+    var(--color-violet) 52%,
+    transparent 76%
+  );
+  background-size: 220% 100%;
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.star-border:hover::before,
+.star-border:focus-visible::before {
+  opacity: 1;
+  animation: star-border-sweep 1.4s linear infinite;
+}
+
+.grid-scan {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.grid-scan__plane {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(117, 234, 216, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(117, 234, 216, 0.08) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 18%,
+    #000 82%,
+    transparent
+  );
+}
+
+.grid-scan__band {
+  position: absolute;
+  top: 20%;
+  right: 0;
+  left: 0;
+  height: 5rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(117, 234, 216, 0.16),
+    transparent
+  );
+}
+
+.grid-scan[data-active='true'] .grid-scan__band {
+  animation: grid-scan-pass 7s ease-in-out 1 both;
 }
 
 .target-cursor {
@@ -163,6 +316,47 @@ button {
   }
 }
 
+@keyframes star-border-sweep {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@keyframes grid-scan-pass {
+  from {
+    transform: translateY(-200%);
+  }
+  to {
+    transform: translateY(60rem);
+  }
+}
+
+@media (max-width: 53.125rem) {
+  .section-heading {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .section-heading .section-kicker {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 30rem) {
+  .content-section {
+    width: min(100% - 1.5rem, var(--content-reading));
+  }
+}
+
+@media (pointer: coarse) {
+  .spotlight-card::before {
+    display: none;
+  }
+
+  .star-border {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -184,5 +378,15 @@ button {
   .scroll-reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .star-border {
+    transform: none;
+  }
+
+  .star-border:hover::before,
+  .star-border:focus-visible::before,
+  .grid-scan__band {
+    animation: none;
   }
 }

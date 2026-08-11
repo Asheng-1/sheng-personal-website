@@ -3,6 +3,7 @@ import { FramelessPortrait } from '@/components/effects/FramelessPortrait';
 import { QuantumNetworkBackground } from '@/components/effects/QuantumNetworkBackground';
 import { DecryptedText } from '@/components/effects/DecryptedText';
 import { ClickSpark } from '@/components/effects/ClickSpark';
+import { StarBorder } from '@/components/effects/StarBorder';
 import type { Profile } from '@/data/profile';
 import heroImage from '@/assets/sheng-ip-hero.png';
 
@@ -22,8 +23,10 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     <h1 id="hero-title">{heroLead}，<span>{heroEmphasis}</span></h1>
     <p class="hero__intro">{profile.introduction}</p>
     <div class="hero__actions">
-      <a class="hero__action hero__action--primary" href="#roadmap"
-        >查看入行路线</a
+      <StarBorder
+        client:visible
+        className="hero__action hero__action--primary"
+        href="#roadmap">查看入行路线</StarBorder
       >
       <a class="hero__action hero__action--secondary" href="#learning"
         >正在学习</a
@@ -113,7 +116,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     margin-top: 2rem;
   }
 
-  .hero__action {
+  .hero__actions :global(.hero__action) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -129,14 +132,14 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
       color 160ms ease;
   }
 
-  .hero__action--primary {
+  .hero__actions :global(.hero__action--primary) {
     border-color: var(--color-cyan);
     background: var(--color-cyan);
     color: var(--color-bg);
   }
 
-  .hero__action--secondary:hover,
-  .hero__action--secondary:focus-visible {
+  .hero__actions :global(.hero__action--secondary:hover),
+  .hero__actions :global(.hero__action--secondary:focus-visible) {
     border-color: var(--color-violet);
     color: var(--color-violet);
   }

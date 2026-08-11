@@ -12,12 +12,15 @@ function collectAstroFiles(directory: string): string[] {
   });
 }
 
-const sourceDirectory = fileURLToPath(new URL('../src/', import.meta.url));
-const literalIds = new Set(
-  collectAstroFiles(sourceDirectory).flatMap((path) =>
-    [...readFileSync(path, 'utf8').matchAll(/\bid\s*=\s*(?:"([^"]+)"|'([^']+)')/g)].map(
-      (match) => match[1] ?? match[2],
-    ),
+const sectionDirectory = fileURLToPath(
+  new URL('../src/components/sections/', import.meta.url),
+);
+const sectionSources = collectAstroFiles(sectionDirectory).map((path) =>
+  readFileSync(path, 'utf8'),
+);
+const literalIds = sectionSources.flatMap((source) =>
+  [...source.matchAll(/\bid\s*=\s*(?:"([^"]+)"|'([^']+)')/g)].map(
+    (match) => match[1] ?? match[2],
   ),
 );
 
@@ -26,5 +29,25 @@ describe('site shell source', () => {
     for (const { href } of profile.nav) {
       expect(literalIds).toContain(href.slice(1));
     }
+  });
+
+  it('defines every page section id exactly once', () => {
+    for (const id of ['top', 'about', 'learning', 'roadmap', 'principles']) {
+      expect(
+        literalIds.filter((value) => value === id),
+        id,
+      ).toHaveLength(1);
+    }
+
+    expect(new Set(literalIds).size).toBe(literalIds.length);
+  });
+
+  it('defines one page-level heading', () => {
+    const h1Count = sectionSources.reduce(
+      (count, source) => count + (source.match(/<h1\b/g) ?? []).length,
+      0,
+    );
+
+    expect(h1Count).toBe(1);
   });
 });

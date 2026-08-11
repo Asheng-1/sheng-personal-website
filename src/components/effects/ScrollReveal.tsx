@@ -13,6 +13,8 @@ export function ScrollReveal({ children, className = '' }: Props) {
     const node = ref.current;
     if (!node) return;
 
+    node.dataset.enhanced = 'true';
+
     if (
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
       !('IntersectionObserver' in window)
@@ -36,7 +38,12 @@ export function ScrollReveal({ children, className = '' }: Props) {
   }, []);
 
   return (
-    <div ref={ref} className={classes} data-visible="false">
+    <div
+      ref={ref}
+      className={classes}
+      data-visible="false"
+      data-enhanced="false"
+    >
       {children}
     </div>
   );
