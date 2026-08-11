@@ -14,11 +14,7 @@ const { title, description } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <SiteHeader
-    name={profile.name}
-    nav={profile.nav}
-    currentPath={Astro.url.pathname}
-  />
+  <SiteHeader name={profile.name} nav={profile.nav} />
   <main class="site-main"><slot /></main>
   <SiteFooter identity={profile.footer} />
   <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />

@@ -1,8 +1,8 @@
 import type { PointerEvent, ReactNode } from "react";
-import type { SiteHref } from "@/data/profile";
+import type { AnchorHref } from "@/data/profile";
 
 interface Props {
-  href: SiteHref;
+  href: AnchorHref;
   children: ReactNode;
   className?: string;
 }

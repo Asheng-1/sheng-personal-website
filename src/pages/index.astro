@@ -3,6 +3,9 @@ import { profile } from "@/data/profile";
 import SiteLayout from "@/layouts/SiteLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 import About from "@/components/sections/About.astro";
+import LearningGrid from "@/components/sections/LearningGrid.astro";
+import Roadmap from "@/components/sections/Roadmap.astro";
+import Principles from "@/components/sections/Principles.astro";
 ---
 
 <SiteLayout
@@ -11,4 +14,7 @@ import About from "@/components/sections/About.astro";
 >
   <Hero profile={profile} />
   <About />
+  <LearningGrid items={profile.learning} />
+  <Roadmap items={profile.roadmap} />
+  <Principles items={profile.principles} />
 </SiteLayout>

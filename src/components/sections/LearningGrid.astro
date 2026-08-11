@@ -18,7 +18,7 @@ const { items } = Astro.props;
   <ScrollReveal client:visible className="section-reveal">
     <header class="section-heading">
       <p class="section-kicker">LEARNING / 02</p>
-      <h1 id="learning-title">正在建立的能力</h1>
+      <h2 id="learning-title">正在建立的能力</h2>
       <p>从具体、可复盘的小练习开始，把理解逐步变成稳定的方法。</p>
     </header>
     <ul class="learning__grid" aria-label="正在建立的能力">
@@ -46,14 +46,6 @@ const { items } = Astro.props;
     padding: 0;
     margin: clamp(2rem, 4vw, 3rem) 0 0;
     list-style: none;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(2.25rem, 5vw, 4.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.045em;
-    overflow-wrap: anywhere;
   }
 
   .learning__grid li {

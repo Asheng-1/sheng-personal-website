@@ -17,10 +17,14 @@ const requiredByPage = {
   home: [
     "保持好奇",
     "奔赴未知",
-    'href="/learning"',
-    'href="/roadmap"',
+    'href="#top"',
+    'href="#learning"',
+    'href="#roadmap"',
     'id="top"',
     'id="about"',
+    'id="learning"',
+    'id="roadmap"',
+    'id="principles"',
     'alt="Sheng 的 3D IP 形象"',
   ],
   learning: ['id="learning"', "正在建立的能力"],
@@ -33,11 +37,9 @@ const forbiddenLiterals = [
   "example@email",
   "切换明暗主题",
   'rel="canonical"',
-  'href="#learning"',
-  'href="#roadmap"',
 ];
 
-const expectedNavRoutes = ["/", "/learning", "/roadmap"];
+const expectedNavRoutes = ["#top", "#learning", "#roadmap"];
 const expectedFooter = "SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY";
 const expectedLearningCardCount = 3;
 
@@ -158,7 +160,7 @@ export function inspectBuiltPage(html, page) {
       navRoutes.length === expectedNavRoutes.length &&
       navRoutes.every((href, index) => href === expectedNavRoutes[index]),
     activeNavCount: primaryNav
-      ? (primaryNav.innerHtml.match(/aria-current="page"/gi) ?? []).length
+      ? (primaryNav.innerHtml.match(/aria-current="location"/gi) ?? []).length
       : 0,
     footerValid: Boolean(
       footer &&
@@ -232,7 +234,7 @@ export function inspectBuiltPage(html, page) {
     );
   }
 
-  if (page === "learning") {
+  if (page === "home") {
     const learning = findContainers(html, "section").find(
       ({ attributes }) => readAttribute(attributes, "id") === "learning",
     );
@@ -259,16 +261,11 @@ export function inspectBuiltPage(html, page) {
   return result;
 }
 
-export function inspectBuiltSite(pages) {
-  return {
-    home: inspectBuiltPage(pages.home, "home"),
-    learning: inspectBuiltPage(pages.learning, "learning"),
-    roadmap: inspectBuiltPage(pages.roadmap, "roadmap"),
-  };
+export function inspectBuiltSite(html) {
+  return inspectBuiltPage(html, "home");
 }
 
 function pageHasContractFailure(result) {
-  const expectedCanvasCount = result.page === "home" ? 1 : 0;
   return (
     result.missing.length > 0 ||
     result.h1Count !== 1 ||
@@ -281,12 +278,12 @@ function pageHasContractFailure(result) {
     !result.heroIdentityVisible ||
     !result.learningStatusesValid ||
     !result.responsivePortraitValid ||
-    result.canvasCount !== expectedCanvasCount
+    result.canvasCount !== 1
   );
 }
 
 export function hasContractFailure(result) {
-  return Object.values(result).some(pageHasContractFailure);
+  return pageHasContractFailure(result);
 }
 
 const isDirectRun =
@@ -294,23 +291,16 @@ const isDirectRun =
   resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (isDirectRun) {
-  const pages = {
-    home: readFileSync(new URL("../dist/index.html", import.meta.url), "utf8"),
-    learning: readFileSync(
-      new URL("../dist/learning/index.html", import.meta.url),
-      "utf8",
-    ),
-    roadmap: readFileSync(
-      new URL("../dist/roadmap/index.html", import.meta.url),
-      "utf8",
-    ),
-  };
-  const result = inspectBuiltSite(pages);
+  const html = readFileSync(
+    new URL("../dist/index.html", import.meta.url),
+    "utf8",
+  );
+  const result = inspectBuiltSite(html);
 
   if (hasContractFailure(result)) {
     console.error(result);
     process.exit(1);
   }
 
-  console.log("Built-site contract verified for /, /learning, and /roadmap.");
+  console.log("Built-site single-page contract verified.");
 }

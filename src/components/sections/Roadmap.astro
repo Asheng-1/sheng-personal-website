@@ -18,7 +18,7 @@ const { items } = Astro.props;
   <ScrollReveal client:visible className="section-reveal">
     <header class="section-heading">
       <p class="section-kicker">ROADMAP / 03</p>
-      <h1 id="roadmap-title">一步一步，走进入行现场</h1>
+      <h2 id="roadmap-title">一步一步，走进入行现场</h2>
       <p>这不是已经完成的履历，而是一条会根据练习反馈持续调整的学习路线。</p>
     </header>
     <div class="roadmap__stage">
@@ -49,14 +49,6 @@ const { items } = Astro.props;
     border-radius: 20px;
     overflow: hidden;
     isolation: isolate;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(2.25rem, 5vw, 4.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.045em;
-    overflow-wrap: anywhere;
   }
 
   ol {
