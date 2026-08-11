@@ -8,15 +8,32 @@ import { profile } from "@/data/profile";
 interface Props {
   title: string;
   description: string;
+  fitScreen?: boolean;
+  showFooter?: boolean;
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  fitScreen = false,
+  showFooter = true,
+} = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
-  <SiteHeader name={profile.name} nav={profile.nav} />
-  <main class="site-main"><slot /></main>
-  <SiteFooter identity={profile.footer} />
+<BaseLayout
+  title={title}
+  description={description}
+  bodyClass={fitScreen ? "screen-locked" : undefined}
+>
+  <SiteHeader
+    name={profile.name}
+    nav={profile.nav}
+    currentPath={Astro.url.pathname}
+  />
+  <main class:list={["site-main", { "site-main--fit": fitScreen }]}>
+    <slot />
+  </main>
+  {showFooter && <SiteFooter identity={profile.footer} />}
   <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
 </BaseLayout>
 
@@ -34,5 +51,16 @@ const { title, description } = Astro.props;
         rgba(117, 234, 216, 0.07),
         transparent 28rem
       );
+  }
+
+  .site-main--fit {
+    height: calc(100svh - 5rem);
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  :global(body.screen-locked) {
+    height: 100svh;
+    overflow: hidden;
   }
 </style>

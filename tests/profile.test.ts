@@ -34,9 +34,9 @@ describe("profile content contract", () => {
     expect(profile.links).toEqual([]);
   });
 
-  it("uses unique local anchor navigation", () => {
+  it("uses unique page navigation", () => {
     const hrefs = profile.nav.map((item) => item.href);
-    expect(hrefs).toEqual(["#top", "#learning", "#roadmap"]);
+    expect(hrefs).toEqual(["/", "/learning", "/roadmap"]);
     expect(new Set(hrefs).size).toBe(hrefs.length);
   });
 });

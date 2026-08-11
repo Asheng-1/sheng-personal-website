@@ -1,0 +1,12 @@
+---
+import { profile } from "@/data/profile";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import LearningGrid from "@/components/sections/LearningGrid.astro";
+---
+
+<SiteLayout
+  title={`正在学习 | ${profile.name}`}
+  description="记录 Sheng 正在练习的数据标注、提示词设计与回答评估。"
+>
+  <LearningGrid items={profile.learning} />
+</SiteLayout>

@@ -1,8 +1,8 @@
-export type AnchorHref = `#${string}`;
+export type SiteHref = "/" | "/learning" | "/roadmap";
 
 export interface NavItem {
   label: string;
-  href: AnchorHref;
+  href: SiteHref;
 }
 
 export interface ContentItem {
@@ -43,9 +43,9 @@ export const profile = {
     "正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。",
   footer: "SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY",
   nav: [
-    { label: "首页", href: "#top" },
-    { label: "正在学习", href: "#learning" },
-    { label: "路线图", href: "#roadmap" },
+    { label: "首页", href: "/" },
+    { label: "正在学习", href: "/learning" },
+    { label: "路线图", href: "/roadmap" },
   ],
   learning: [
     {
