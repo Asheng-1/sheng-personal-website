@@ -76,7 +76,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
         formats={["avif", "webp"]}
         fallbackFormat="png"
         widths={[640, 960, 1440, 1672]}
-        sizes="(max-width: 850px) calc(100vw - 1.5rem), min(54vw, 736px)"
+        sizes="(max-width: 850px) calc(100vw - 1.5rem), 1672px"
         quality={100}
         alt="Sheng 的 3D IP 形象"
         loading="eager"
@@ -289,7 +289,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     width: min(118%, 50rem);
     aspect-ratio: 0.82;
     overflow: hidden;
-    transform: translate(clamp(2.5rem, 4.25vw, 4rem), -2.75rem);
+    transform: translate(clamp(2.5rem, 4.25vw, 4rem), -4.25rem);
   }
 
   :global(.frameless-portrait picture) {
@@ -303,7 +303,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     display: block;
     width: auto;
     max-width: none;
-    height: min(80svh, 46rem);
+    height: min(86svh, 50rem);
     -webkit-mask-image: radial-gradient(
       ellipse 15.5% 52% at 50% 50%,
       #000 62%,

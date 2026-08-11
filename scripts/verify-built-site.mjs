@@ -101,6 +101,76 @@ function hasResponsiveSrcset(attributes) {
   return Boolean(srcset && srcset.split(",").filter(Boolean).length >= 2);
 }
 
+function splitTopLevel(value) {
+  const parts = [];
+  let depth = 0;
+  let start = 0;
+
+  for (let index = 0; index < value.length; index += 1) {
+    if (value[index] === "(") depth += 1;
+    if (value[index] === ")") depth -= 1;
+    if (value[index] === "," && depth === 0) {
+      parts.push(value.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+
+  parts.push(value.slice(start).trim());
+  return parts.filter(Boolean);
+}
+
+function cssLengthInPixels(value, viewport) {
+  const normalized = value.trim();
+  const minMatch = normalized.match(/^min\((.+)\)$/i);
+  if (minMatch) {
+    return Math.min(
+      ...splitTopLevel(minMatch[1]).map((part) =>
+        cssLengthInPixels(part, viewport),
+      ),
+    );
+  }
+
+  const lengthMatch = normalized.match(/^(\d+(?:\.\d+)?)(px|vw|vh)$/i);
+  if (!lengthMatch) return Number.NaN;
+  const amount = Number.parseFloat(lengthMatch[1]);
+  const unit = lengthMatch[2].toLowerCase();
+  if (unit === "px") return amount;
+  if (unit === "vw") return (amount / 100) * viewport.width;
+  return (amount / 100) * viewport.height;
+}
+
+function mediaMatches(media, viewport) {
+  const maxWidth = media.match(/max-width\s*:\s*(\d+(?:\.\d+)?)px/i);
+  if (maxWidth && viewport.width > Number.parseFloat(maxWidth[1])) return false;
+  const minWidth = media.match(/min-width\s*:\s*(\d+(?:\.\d+)?)px/i);
+  if (minWidth && viewport.width < Number.parseFloat(minWidth[1])) return false;
+  return true;
+}
+
+function advertisedSourceWidth(sizes, viewport) {
+  for (const entry of splitTopLevel(sizes)) {
+    const withMedia = entry.match(/^(\([^)]*\))\s+(.+)$/);
+    if (withMedia && !mediaMatches(withMedia[1], viewport)) continue;
+    const width = cssLengthInPixels(withMedia?.[2] ?? entry, viewport);
+    if (Number.isFinite(width)) return width;
+  }
+  return viewport.width;
+}
+
+function selectedResponsiveWidth(attributes, viewport) {
+  const widths = (readAttribute(attributes, "srcset") ?? "")
+    .split(",")
+    .map((candidate) => Number.parseInt(candidate.match(/(\d+)w\s*$/)?.[1] ?? "", 10))
+    .filter(Number.isFinite)
+    .sort((left, right) => left - right);
+  const advertised = advertisedSourceWidth(
+    readAttribute(attributes, "sizes") ?? "100vw",
+    viewport,
+  );
+
+  return widths.find((width) => width >= advertised) ?? widths.at(-1) ?? 0;
+}
+
 export function renderedTextFromHtml(html) {
   return html
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
@@ -168,6 +238,7 @@ export function inspectBuiltPage(html, page) {
     heroIdentityVisible: true,
     learningStatusesValid: true,
     responsivePortraitValid: true,
+    portraitDensityValid: true,
   };
 
   if (page === "home") {
@@ -229,6 +300,14 @@ export function inspectBuiltPage(html, page) {
       Boolean(readAttribute(portraitImageAttributes, "height")) &&
       Boolean(readAttribute(portraitImageAttributes, "sizes")),
     );
+    const avifSource = portraitSources.find(
+      (attributes) => readAttribute(attributes, "type") === "image/avif",
+    );
+    result.portraitDensityValid = Boolean(
+      avifSource &&
+      selectedResponsiveWidth(avifSource, { width: 1154, height: 912 }) >=
+        1672,
+    );
   }
 
   if (page === "learning") {
@@ -281,6 +360,7 @@ function pageHasContractFailure(result) {
     !result.heroIdentityVisible ||
     !result.learningStatusesValid ||
     !result.responsivePortraitValid ||
+    !result.portraitDensityValid ||
     result.canvasCount !== expectedCanvasCount
   );
 }

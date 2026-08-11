@@ -30,9 +30,9 @@ const validPages = {
       <p class="hero__role">AI TRAINER IN PROGRESS</p>
       <h1>保持好奇，<span>奔赴未知。</span></h1>
       <a href="/roadmap">查看入行路线</a><a href="/learning">正在学习</a>
-      <picture><source type="image/avif" srcset="/p-480.avif 480w, /p-960.avif 960w">
-      <source type="image/webp" srcset="/p-480.webp 480w, /p-960.webp 960w">
-      <img src="/portrait.png" width="1672" height="941" sizes="100vw" alt="Sheng 的 3D IP 形象"></picture>
+      <picture><source type="image/avif" srcset="/p-640.avif 640w, /p-960.avif 960w, /p-1440.avif 1440w, /p-1672.avif 1672w" sizes="(max-width: 850px) calc(100vw - 1.5rem), 1672px">
+      <source type="image/webp" srcset="/p-640.webp 640w, /p-960.webp 960w, /p-1440.webp 1440w, /p-1672.webp 1672w" sizes="(max-width: 850px) calc(100vw - 1.5rem), 1672px">
+      <img src="/portrait.png" width="1672" height="941" sizes="(max-width: 850px) calc(100vw - 1.5rem), 1672px" alt="Sheng 的 3D IP 形象"></picture>
     </section></main>${close}`,
   learning: `${head("正在学习 | Sheng", "screen-locked")}${nav("/learning")}
     <main><section id="learning"><h1>正在建立的能力</h1><ul class="learning__grid">
@@ -53,6 +53,7 @@ describe("built-site verifier", () => {
       activeNavCount: 1,
       heroIdentityVisible: true,
       responsivePortraitValid: true,
+      portraitDensityValid: true,
       canvasCount: 1,
       singleScreenValid: true,
     });
@@ -112,6 +113,19 @@ describe("built-site verifier", () => {
     };
 
     expect(inspectBuiltSite(mutated).home.responsivePortraitValid).toBe(false);
+    expect(hasContractFailure(inspectBuiltSite(mutated))).toBe(true);
+  });
+
+  it("rejects a desktop portrait that does not use the full-resolution source", () => {
+    const mutated = {
+      ...validPages,
+      home: validPages.home.replaceAll(
+        "1672px",
+        "min(142vh, 1309px)",
+      ),
+    };
+
+    expect(inspectBuiltSite(mutated).home.portraitDensityValid).toBe(false);
     expect(hasContractFailure(inspectBuiltSite(mutated))).toBe(true);
   });
 
