@@ -53,6 +53,14 @@ describe("single-screen homepage source", () => {
     expect(heroSource).not.toContain('href="#learning"');
   });
 
+  it("puts learning first and removes the focus badge", () => {
+    expect(heroSource.indexOf('href="/learning"')).toBeLessThan(
+      heroSource.indexOf('href="/roadmap"'),
+    );
+    expect(heroSource).not.toContain("hero__hud");
+    expect(heroSource).not.toContain("CURRENT FOCUS");
+  });
+
   it("gives every page exactly one page-level heading", () => {
     expect(heroSource.match(/<h1\b/g)).toHaveLength(1);
     expect(learningSource.match(/<h1\b/g)).toHaveLength(1);
