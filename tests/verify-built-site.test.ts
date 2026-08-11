@@ -6,7 +6,6 @@ import {
   renderedTextFromHtml,
 } from "../scripts/verify-built-site.mjs";
 
-const footer = "SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY";
 const head = (title: string, bodyClass?: string) => `<html lang="zh-CN"><head>
   <meta name="theme-color" content="#070811">
   <meta property="og:type" content="website">
@@ -21,7 +20,6 @@ const nav = (active: "/" | "/learning" | "/roadmap") => `<header>
     <a href="/roadmap"${active === "/roadmap" ? ' aria-current="page"' : ""}>路线图</a>
   </nav>
 </header>`;
-const end = `<footer>${footer}</footer></body></html>`;
 const close = `</body></html>`;
 
 const validPages = {
@@ -36,14 +34,14 @@ const validPages = {
       <source type="image/webp" srcset="/p-480.webp 480w, /p-960.webp 960w">
       <img src="/portrait.png" width="1672" height="941" sizes="100vw" alt="Sheng 的 3D IP 形象"></picture>
     </section></main>${close}`,
-  learning: `${head("正在学习 | Sheng")}${nav("/learning")}
+  learning: `${head("正在学习 | Sheng", "screen-locked")}${nav("/learning")}
     <main><section id="learning"><h1>正在建立的能力</h1><ul class="learning__grid">
       <li><p class="learning__status">正在学习</p><h3>数据标注</h3></li>
       <li><p class="learning__status">正在学习</p><h3>提示词设计</h3></li>
       <li><p class="learning__status">正在学习</p><h3>回答评估</h3></li>
-    </ul></section></main>${end}`,
-  roadmap: `${head("入行路线 | Sheng")}${nav("/roadmap")}
-    <main><section id="roadmap"><h1>一步一步，走进入行现场</h1></section></main>${end}`,
+    </ul></section></main>${close}`,
+  roadmap: `${head("入行路线 | Sheng", "screen-locked")}${nav("/roadmap")}
+    <main><section id="roadmap"><h1>一步一步，走进入行现场</h1></section></main>${close}`,
 };
 
 describe("built-site verifier", () => {
@@ -56,13 +54,19 @@ describe("built-site verifier", () => {
       heroIdentityVisible: true,
       responsivePortraitValid: true,
       canvasCount: 1,
-      singleScreenHomeValid: true,
+      singleScreenValid: true,
     });
     expect(result.learning).toMatchObject({
       learningStatusesValid: true,
       canvasCount: 0,
+      footerValid: true,
+      singleScreenValid: true,
     });
-    expect(result.roadmap.canvasCount).toBe(0);
+    expect(result.roadmap).toMatchObject({
+      canvasCount: 0,
+      footerValid: true,
+      singleScreenValid: true,
+    });
     expect(hasContractFailure(result)).toBe(false);
   });
 
@@ -121,6 +125,16 @@ describe("built-site verifier", () => {
     };
 
     expect(inspectBuiltSite(mutated).learning.canvasCount).toBe(1);
+    expect(hasContractFailure(inspectBuiltSite(mutated))).toBe(true);
+  });
+
+  it("rejects a secondary page that is not viewport locked", () => {
+    const mutated = {
+      ...validPages,
+      learning: validPages.learning.replace(' class="screen-locked"', ""),
+    };
+
+    expect(inspectBuiltSite(mutated).learning.singleScreenValid).toBe(false);
     expect(hasContractFailure(inspectBuiltSite(mutated))).toBe(true);
   });
 

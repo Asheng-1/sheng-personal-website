@@ -5,7 +5,6 @@ import { resolve } from "node:path";
 const requiredCommon = [
   '<html lang="zh-CN"',
   "Sheng",
-  "AI TRAINER IN PROGRESS",
   '<meta name="theme-color" content="#070811">',
   '<meta property="og:type" content="website">',
   '<meta property="og:title"',
@@ -15,6 +14,7 @@ const requiredCommon = [
 
 const requiredByPage = {
   home: [
+    "AI TRAINER IN PROGRESS",
     "保持好奇",
     "奔赴未知",
     'href="/learning"',
@@ -38,7 +38,6 @@ const forbiddenLiterals = [
 ];
 
 const expectedNavRoutes = ["/", "/learning", "/roadmap"];
-const expectedFooter = "SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY";
 const expectedLearningCardCount = 3;
 
 function readAttribute(attributes, name) {
@@ -160,19 +159,11 @@ export function inspectBuiltPage(html, page) {
     activeNavCount: primaryNav
       ? (primaryNav.innerHtml.match(/aria-current="page"/gi) ?? []).length
       : 0,
-    footerValid:
-      page === "home"
-        ? !footer
-        : Boolean(
-            footer &&
-            !isExplicitlyHidden(footer.attributes) &&
-            renderedTextFromHtml(footer.innerHtml) === expectedFooter,
-          ),
-    singleScreenHomeValid:
-      page !== "home" ||
-      ((html.match(/<section\b/gi) ?? []).length === 1 &&
-        html.includes('<body class="screen-locked">') &&
-        !footer),
+    footerValid: !footer,
+    singleScreenValid:
+      (html.match(/<section\b/gi) ?? []).length === 1 &&
+      html.includes('<body class="screen-locked">') &&
+      !footer,
     canvasCount: (html.match(/<canvas\b/gi) ?? []).length,
     heroIdentityVisible: true,
     learningStatusesValid: true,
@@ -286,7 +277,7 @@ function pageHasContractFailure(result) {
     !result.navRoutesValid ||
     result.activeNavCount !== 1 ||
     !result.footerValid ||
-    !result.singleScreenHomeValid ||
+    !result.singleScreenValid ||
     !result.heroIdentityVisible ||
     !result.learningStatusesValid ||
     !result.responsivePortraitValid ||

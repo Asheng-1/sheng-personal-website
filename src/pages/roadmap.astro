@@ -7,6 +7,8 @@ import Roadmap from "@/components/sections/Roadmap.astro";
 <SiteLayout
   title={`入行路线 | ${profile.name}`}
   description="Sheng 的 AI 训练师学习路线。"
+  fitScreen
+  showFooter={false}
 >
   <Roadmap items={profile.roadmap} />
 </SiteLayout>

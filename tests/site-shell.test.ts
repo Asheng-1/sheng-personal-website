@@ -68,4 +68,11 @@ describe("single-screen homepage source", () => {
     expect(learningPageSource).toContain("<LearningGrid");
     expect(roadmapPageSource).toContain("<Roadmap");
   });
+
+  it("locks every content page to one viewport without a footer", () => {
+    for (const source of [indexSource, learningPageSource, roadmapPageSource]) {
+      expect(source).toContain("fitScreen");
+      expect(source).toContain("showFooter={false}");
+    }
+  });
 });
