@@ -1,9 +1,8 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import { profile } from '@/data/profile';
 ---
 
-<Layout title="Sheng">
-  <main>
-    <h1>Sheng</h1>
-  </main>
-</Layout>
+<main>
+  <h1>{profile.heroStatement}</h1>
+  <p>{profile.introduction}</p>
+</main>
