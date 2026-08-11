@@ -10,6 +10,9 @@ import SiteFooter from '@/components/layout/SiteFooter.astro';
   <main id="top" tabindex="-1" class="site-main">
     <h1>{profile.heroStatement}</h1>
     <p>{profile.introduction}</p>
+    <!-- Task 6 replaces these temporary anchor targets with the content sections. -->
+    <div id="learning" class="anchor-sentinel" aria-hidden="true"></div>
+    <div id="roadmap" class="anchor-sentinel" aria-hidden="true"></div>
   </main>
   <SiteFooter />
 </BaseLayout>
@@ -35,5 +38,10 @@ import SiteFooter from '@/components/layout/SiteFooter.astro';
     color: var(--color-muted);
     font-size: clamp(1rem, 2vw, 1.18rem);
     line-height: 1.7;
+  }
+
+  .anchor-sentinel {
+    min-height: 1px;
+    scroll-margin-top: 1rem;
   }
 </style>
