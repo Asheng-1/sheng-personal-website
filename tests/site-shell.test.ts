@@ -57,7 +57,7 @@ describe("single-screen homepage source", () => {
 
   it("adds the selected React Bits-inspired interaction layers", () => {
     expect(headerSource).toContain("section-nav__label");
-    expect(heroSource.match(/<StarBorder\b/g)).toHaveLength(2);
+    expect(heroSource.match(/<SpecularButton\b/g)).toHaveLength(2);
     expect(globalStyles).toContain(".spotlight-card:hover::after");
     expect(roadmapSource).toContain("electric-border-flow");
   });
