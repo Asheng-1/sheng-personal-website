@@ -1,0 +1,248 @@
+---
+import { FramelessPortrait } from '@/components/effects/FramelessPortrait';
+import type { Profile } from '@/data/profile';
+import heroImage from '@/assets/sheng-ip-hero.png';
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
+---
+
+<section id="top" class="hero" aria-labelledby="hero-title">
+  <div class="hero__copy">
+    <p class="hero__hello">{profile.eyebrow}</p>
+    <p class="hero__role">{profile.role}</p>
+    <h1 id="hero-title">{heroLead}，<span>{heroEmphasis}</span></h1>
+    <p class="hero__intro">{profile.introduction}</p>
+    <div class="hero__actions">
+      <a class="hero__action hero__action--primary" href="#roadmap">查看入行路线</a>
+      <a class="hero__action hero__action--secondary" href="#learning">正在学习</a>
+    </div>
+  </div>
+  <div class="hero__visual">
+    <FramelessPortrait
+      client:load
+      src={heroImage.src}
+      alt="Sheng 的 3D IP 形象"
+      width={heroImage.width}
+      height={heroImage.height}
+    />
+    <div class="hero__hud"><span aria-hidden="true"></span>CURRENT FOCUS<strong>回答评估</strong></div>
+    <div class="hero__telemetry" aria-hidden="true">PROFILE / SHENG<br />SCAN COMPLETE</div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+    align-items: center;
+    gap: clamp(2.5rem, 7vw, 7rem);
+    width: min(100% - 2rem, var(--content-wide));
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    scroll-margin-top: 1rem;
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__hello,
+  .hero__role {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+  }
+
+  .hero__hello {
+    color: var(--color-cyan);
+  }
+
+  .hero__role {
+    margin-top: 0.65rem;
+    color: var(--color-muted);
+  }
+
+  h1 {
+    max-width: 8ch;
+    margin: 1.5rem 0 0;
+    font-size: clamp(3rem, 6.5vw, 6.35rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+  }
+
+  h1 span {
+    display: block;
+    color: var(--color-violet);
+  }
+
+  .hero__intro {
+    max-width: 38rem;
+    margin: 1.6rem 0 0;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.75;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .hero__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .hero__action--primary {
+    border-color: var(--color-cyan);
+    background: var(--color-cyan);
+    color: var(--color-bg);
+  }
+
+  .hero__action--secondary:hover,
+  .hero__action--secondary:focus-visible {
+    border-color: var(--color-violet);
+    color: var(--color-violet);
+  }
+
+  .hero__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: min(44vw, 38rem);
+    isolation: isolate;
+  }
+
+  .hero__visual::before {
+    position: absolute;
+    z-index: -2;
+    width: min(80%, 35rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(145, 127, 255, 0.45), rgba(145, 127, 255, 0) 68%);
+    content: '';
+    filter: blur(8px);
+  }
+
+  .hero__visual::after {
+    position: absolute;
+    z-index: -1;
+    width: min(87%, 39rem);
+    aspect-ratio: 1;
+    border: 1px solid rgba(117, 234, 216, 0.28);
+    border-radius: 50%;
+    content: '';
+    transform: rotate(-18deg) scaleY(0.58);
+  }
+
+  :global(.frameless-portrait) {
+    width: min(100%, 46rem);
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(ellipse 74% 78% at 50% 50%, #000 57%, transparent 100%);
+    mask-image: radial-gradient(ellipse 74% 78% at 50% 50%, #000 57%, transparent 100%);
+  }
+
+  :global(.frameless-portrait img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 180ms ease-out;
+    will-change: transform;
+  }
+
+  .hero__hud {
+    position: absolute;
+    right: 1.5%;
+    bottom: 10%;
+    display: grid;
+    gap: 0.25rem;
+    min-width: 10.75rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
+      conic-gradient(from 210deg, var(--color-violet), var(--color-cyan), rgba(145, 127, 255, 0.2), var(--color-violet)) border-box;
+    color: var(--color-muted);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .hero__hud span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+  }
+
+  .hero__hud strong {
+    color: var(--color-text);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hero__telemetry {
+    position: absolute;
+    top: 13%;
+    left: 1%;
+    color: var(--color-muted);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.8;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 53.125rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      padding-block: 3.5rem 2rem;
+    }
+
+    .hero__visual {
+      min-height: 0;
+    }
+
+    :global(.frameless-portrait) {
+      width: min(100%, 36rem);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .hero {
+      width: min(100% - 1.5rem, var(--content-wide));
+    }
+
+    h1 {
+      font-size: clamp(2.75rem, 14vw, 4rem);
+    }
+
+    .hero__telemetry {
+      display: none;
+    }
+
+    .hero__hud {
+      right: 0;
+      bottom: 5%;
+    }
+  }
+</style>
