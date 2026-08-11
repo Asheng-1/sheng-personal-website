@@ -1,19 +1,19 @@
 ---
-import { FramelessPortrait } from '@/components/effects/FramelessPortrait';
-import { QuantumNetworkBackground } from '@/components/effects/QuantumNetworkBackground';
-import { DecryptedText } from '@/components/effects/DecryptedText';
-import { ClickSpark } from '@/components/effects/ClickSpark';
-import { StarBorder } from '@/components/effects/StarBorder';
-import type { Profile } from '@/data/profile';
-import { Picture } from 'astro:assets';
-import heroImage from '@/assets/sheng-ip-hero.png';
+import { FramelessPortrait } from "@/components/effects/FramelessPortrait";
+import { QuantumNetworkBackground } from "@/components/effects/QuantumNetworkBackground";
+import { DecryptedText } from "@/components/effects/DecryptedText";
+import { ClickSpark } from "@/components/effects/ClickSpark";
+import { StarBorder } from "@/components/effects/StarBorder";
+import type { Profile } from "@/data/profile";
+import { Picture } from "astro:assets";
+import heroImage from "@/assets/sheng-ip-hero.png";
 
 interface Props {
   profile: Profile;
 }
 
 const { profile } = Astro.props;
-const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
+const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
 ---
 
 <section id="top" class="hero" aria-labelledby="hero-title">
@@ -39,7 +39,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     <FramelessPortrait client:load>
       <Picture
         src={heroImage}
-        formats={['avif', 'webp']}
+        formats={["avif", "webp"]}
         fallbackFormat="png"
         widths={[360, 640, 960, 1440]}
         sizes="(max-width: 850px) calc(100vw - 1.5rem), min(54vw, 736px)"
@@ -56,27 +56,29 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
       PROFILE / SHENG<br />SCAN COMPLETE
     </div>
   </div>
-  <ClickSpark client:idle targets={['.hero__actions a']} />
+  <ClickSpark client:idle targets={[".hero__actions a"]} />
 </section>
 
 <style>
   .hero {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 0.88fr) minmax(23rem, 1.12fr);
     align-items: center;
-    gap: clamp(2.5rem, 7vw, 7rem);
+    gap: clamp(1.5rem, 4vw, 4.5rem);
     width: min(100% - 2rem, var(--content-wide));
-    min-height: 100dvh;
+    min-height: calc(100svh - 5rem);
     margin: 0 auto;
-    padding: clamp(4rem, 8vw, 7rem) 0;
-    scroll-margin-top: 1rem;
+    padding: clamp(3rem, 5vw, 5rem) 0;
+    scroll-margin-top: 5.5rem;
     isolation: isolate;
   }
 
   .hero__copy {
     position: relative;
     z-index: 1;
+    min-width: 0;
   }
 
   .hero__static-network {
@@ -98,8 +100,14 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
       linear-gradient(rgba(117, 234, 216, 0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(145, 127, 255, 0.1) 1px, transparent 1px);
     background-size: 2.6rem 2.6rem;
-    content: '';
-    mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 78%, transparent);
+    content: "";
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 24%,
+      #000 78%,
+      transparent
+    );
     transform: perspective(28rem) rotateX(62deg);
     transform-origin: bottom;
   }
@@ -108,9 +116,19 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     position: absolute;
     inset: 8% 2% 12% 16%;
     background:
-      linear-gradient(118deg, transparent 22%, rgba(145, 127, 255, 0.18) 22.2%, transparent 22.5%),
-      linear-gradient(24deg, transparent 61%, rgba(117, 234, 216, 0.14) 61.2%, transparent 61.5%);
-    content: '';
+      linear-gradient(
+        118deg,
+        transparent 22%,
+        rgba(145, 127, 255, 0.18) 22.2%,
+        transparent 22.5%
+      ),
+      linear-gradient(
+        24deg,
+        transparent 61%,
+        rgba(117, 234, 216, 0.14) 61.2%,
+        transparent 61.5%
+      );
+    content: "";
   }
 
   .hero__static-network span {
@@ -147,7 +165,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
   h1 {
     max-width: 8ch;
     margin: 1.5rem 0 0;
-    font-size: clamp(3rem, 6.5vw, 6.35rem);
+    font-size: clamp(3rem, 6vw, 5.85rem);
     line-height: 0.98;
     letter-spacing: -0.06em;
   }
@@ -163,6 +181,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     color: var(--color-muted);
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     line-height: 1.75;
+    overflow-wrap: anywhere;
   }
 
   .hero__actions {
@@ -206,55 +225,80 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     z-index: 1;
     display: grid;
     place-items: center;
-    min-height: min(44vw, 38rem);
+    min-height: clamp(35rem, 50vw, 45rem);
     isolation: isolate;
   }
 
   .hero__visual::before {
     position: absolute;
     z-index: -2;
-    width: min(80%, 35rem);
+    width: min(76%, 34rem);
     aspect-ratio: 1;
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(145, 127, 255, 0.45),
+      rgba(145, 127, 255, 0.4),
       rgba(145, 127, 255, 0) 68%
     );
-    content: '';
-    filter: blur(8px);
+    content: "";
+    filter: blur(14px);
   }
 
   .hero__visual::after {
     position: absolute;
     z-index: -1;
-    width: min(87%, 39rem);
-    aspect-ratio: 1;
-    border: 1px solid rgba(117, 234, 216, 0.28);
-    border-radius: 50%;
-    content: '';
-    transform: rotate(-18deg) scaleY(0.58);
+    right: 4%;
+    bottom: 6%;
+    left: 4%;
+    height: 30%;
+    background-image:
+      linear-gradient(rgba(117, 234, 216, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(145, 127, 255, 0.11) 1px, transparent 1px);
+    background-size: 2.25rem 2.25rem;
+    content: "";
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 24%,
+      transparent 92%
+    );
+    opacity: 0.68;
+    transform: perspective(28rem) rotateX(64deg);
+    transform-origin: bottom;
   }
 
   :global(.frameless-portrait) {
-    width: min(100%, 46rem);
+    position: relative;
+    z-index: 1;
+    width: min(100%, 42rem);
+    aspect-ratio: 0.82;
     overflow: hidden;
-    -webkit-mask-image: radial-gradient(
-      ellipse 74% 78% at 50% 50%,
-      #000 57%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 74% 78% at 50% 50%,
-      #000 57%,
-      transparent 100%
-    );
+  }
+
+  :global(.frameless-portrait picture) {
+    position: absolute;
+    inset: 0 -85%;
+    display: grid;
+    place-items: center;
   }
 
   :global(.frameless-portrait img) {
     display: block;
-    width: 100%;
-    height: auto;
+    width: auto;
+    max-width: none;
+    height: 112%;
+    -webkit-mask-image: radial-gradient(
+      ellipse 20% 60% at 50% 50%,
+      #000 48%,
+      rgba(0, 0, 0, 0.96) 66%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 20% 60% at 50% 50%,
+      #000 48%,
+      rgba(0, 0, 0, 0.96) 66%,
+      transparent 100%
+    );
     transition: transform 180ms ease-out;
     will-change: transform;
   }
@@ -313,16 +357,17 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
   @media (max-width: 53.125rem) {
     .hero {
       grid-template-columns: minmax(0, 1fr);
-      gap: 1rem;
-      padding-block: 3.5rem 2rem;
+      min-height: auto;
+      gap: 0.5rem;
+      padding-block: clamp(2.75rem, 8vw, 4rem) 2.5rem;
     }
 
     .hero__visual {
-      min-height: 0;
+      min-height: clamp(31rem, 105vw, 39rem);
     }
 
     :global(.frameless-portrait) {
-      width: min(100%, 36rem);
+      width: min(100%, 34rem);
     }
   }
 
@@ -333,6 +378,15 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
 
     h1 {
       font-size: clamp(2.75rem, 14vw, 4rem);
+    }
+
+    .hero__visual {
+      min-height: 30rem;
+      margin-top: 0.5rem;
+    }
+
+    :global(.frameless-portrait) {
+      width: min(112%, 28rem);
     }
 
     .hero__telemetry {

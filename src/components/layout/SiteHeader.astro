@@ -1,6 +1,6 @@
 ---
-import ActiveSectionNav from '@/components/effects/ActiveSectionNav';
-import type { NavItem } from '@/data/profile';
+import ActiveSectionNav from "@/components/effects/ActiveSectionNav";
+import type { NavItem } from "@/data/profile";
 
 interface Props {
   name: string;
@@ -15,15 +15,23 @@ const { name, nav } = Astro.props;
     <a class="site-header__brand" href="#top" aria-label={`${name} home`}>
       {name.toUpperCase()} / LAB
     </a>
-    <ActiveSectionNav client:idle items={nav} />
-    <p class="site-header__status" aria-label="System status: online">SYS ONLINE</p>
+    <div class="site-header__nav">
+      <ActiveSectionNav client:idle items={nav} />
+    </div>
+    <p class="site-header__status" aria-label="System status: online">
+      SYS ONLINE
+    </p>
   </div>
 </header>
 
 <style>
   .site-header {
+    position: sticky;
+    z-index: 50;
+    top: 0;
     border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface);
+    background: rgba(7, 8, 17, 0.82);
+    backdrop-filter: blur(18px);
   }
 
   .site-header__inner {
@@ -57,6 +65,11 @@ const { name, nav } = Astro.props;
     white-space: nowrap;
   }
 
+  .site-header__nav {
+    min-width: 0;
+    justify-self: center;
+  }
+
   :global(.section-nav) {
     display: flex;
     align-items: center;
@@ -78,31 +91,44 @@ const { name, nav } = Astro.props;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-decoration: none;
-    transition: background-color 160ms ease, color 160ms ease;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
   }
 
-  :global(.section-nav__link[aria-current='location']) {
+  :global(.section-nav__link[aria-current="location"]) {
     background: var(--color-violet);
     color: var(--color-bg);
   }
 
   @media (max-width: 47rem) {
     .site-header__inner {
-      grid-template-columns: 1fr auto;
-      padding: 0.5rem 0;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.65rem;
+      min-height: 4.5rem;
+    }
+
+    .site-header__nav {
+      min-width: 0;
+      justify-self: end;
     }
 
     :global(.section-nav) {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      justify-self: start;
       overflow-x: auto;
       max-width: 100%;
     }
 
     .site-header__status {
-      grid-column: 2;
-      grid-row: 1;
+      display: none;
+    }
+
+    .site-header__brand {
+      font-size: 0.68rem;
+    }
+
+    :global(.section-nav__link) {
+      padding-inline: 0.62rem;
+      font-size: 0.66rem;
     }
   }
 </style>
