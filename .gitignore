@@ -6,9 +6,9 @@ dist/
 
 # Local design previews
 .superpowers/
+.worktrees/
 
 # Image-generation working copies
 assets/sheng-ip-original.png
 assets/sheng-ip-hero-v1.png
 assets/sheng-ip-hero-v2.png
-
