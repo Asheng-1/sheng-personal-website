@@ -1,10 +1,10 @@
 ---
 import { ScrollReveal } from '@/components/effects/ScrollReveal';
 import { SpotlightCard } from '@/components/effects/SpotlightCard';
-import type { ContentItem } from '@/data/profile';
+import type { LearningItem } from '@/data/profile';
 
 interface Props {
-  items: readonly ContentItem[];
+  items: readonly LearningItem[];
 }
 
 const { items } = Astro.props;
@@ -27,6 +27,7 @@ const { items } = Astro.props;
           <li>
             <SpotlightCard client:visible>
               <span class="learning__marker" aria-hidden="true" />
+              <p class="learning__status">{item.status}</p>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
             </SpotlightCard>
@@ -63,13 +64,21 @@ const { items } = Astro.props;
     transform: rotate(45deg);
   }
 
+  .learning__status {
+    margin: 0.85rem 0 0;
+    color: var(--color-cyan);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
   h3 {
     margin: auto 0 0;
     font-size: clamp(1.4rem, 2.5vw, 2rem);
     letter-spacing: -0.025em;
   }
 
-  li p {
+  li p:not(.learning__status) {
     margin: 0.7rem 0 0;
     color: var(--color-muted);
     line-height: 1.75;

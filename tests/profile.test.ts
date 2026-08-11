@@ -9,6 +9,9 @@ describe('profile content contract', () => {
     expect(profile.introduction).toBe(
       '正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。',
     );
+    expect(profile.footer).toBe(
+      'SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY',
+    );
   });
 
   it('contains honest learning and roadmap content', () => {
@@ -16,6 +19,11 @@ describe('profile content contract', () => {
       '数据标注',
       '提示词设计',
       '回答评估',
+    ]);
+    expect(profile.learning.map((item) => item.status)).toEqual([
+      '正在学习',
+      '正在学习',
+      '正在学习',
     ]);
     expect(profile.roadmap.map((item) => item.title)).toEqual([
       '了解行业',

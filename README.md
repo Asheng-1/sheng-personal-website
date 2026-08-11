@@ -4,7 +4,7 @@ Sheng 的暗色科技风个人网站。首版为单页 Astro 站点，通过页�
 
 ## 本地运行
 
-需要 Node.js 20 或更高版本。
+需要 Node.js 22.12.0 或更高版本。
 
 ```powershell
 npm install

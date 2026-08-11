@@ -157,6 +157,7 @@ button {
   padding: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--color-border);
+  border-radius: 20px;
   background: var(--color-surface);
   isolation: isolate;
 }
@@ -200,6 +201,7 @@ button {
   );
   background-size: 220% 100%;
   content: '';
+  border-radius: inherit;
   opacity: 0;
   pointer-events: none;
   -webkit-mask:

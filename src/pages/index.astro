@@ -23,6 +23,6 @@ import { TargetCursor } from '@/components/effects/TargetCursor';
     <Roadmap items={profile.roadmap} />
     <Principles items={profile.principles} />
   </main>
-  <SiteFooter />
+  <SiteFooter identity={profile.footer} />
   <TargetCursor client:idle targets={['a', 'button', '[data-cursor-target]']} />
 </BaseLayout>

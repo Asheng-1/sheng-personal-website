@@ -1,5 +1,15 @@
+---
+interface Props {
+  identity: string;
+}
+
+const { identity } = Astro.props;
+const shineLabel = 'BUILT WITH CURIOSITY';
+const identityLead = identity.slice(0, -shineLabel.length);
+---
+
 <footer class="site-footer">
-  <p>SHENG 路 AI TRAINER IN PROGRESS 路 <span class="site-footer__shine">BUILT WITH CURIOSITY</span></p>
+  <p>{identityLead}<span class="site-footer__shine">{shineLabel}</span></p>
 </footer>
 
 <style>
@@ -27,7 +37,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: footer-shine 8s linear infinite;
+    animation: footer-shine 8s linear 1 both;
   }
 
   @keyframes footer-shine {

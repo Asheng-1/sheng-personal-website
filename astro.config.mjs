@@ -20,7 +20,6 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   server: {
-    host: true,
     port: 4321,
   },
 });

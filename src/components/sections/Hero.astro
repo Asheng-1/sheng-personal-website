@@ -5,6 +5,7 @@ import { DecryptedText } from '@/components/effects/DecryptedText';
 import { ClickSpark } from '@/components/effects/ClickSpark';
 import { StarBorder } from '@/components/effects/StarBorder';
 import type { Profile } from '@/data/profile';
+import { Picture } from 'astro:assets';
 import heroImage from '@/assets/sheng-ip-hero.png';
 
 interface Props {
@@ -16,6 +17,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
 ---
 
 <section id="top" class="hero" aria-labelledby="hero-title">
+  <div class="hero__static-network" aria-hidden="true"><span></span></div>
   <QuantumNetworkBackground client:load particleCount={58} />
   <div class="hero__copy">
     <p class="hero__hello">{profile.eyebrow}</p>
@@ -34,13 +36,19 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     </div>
   </div>
   <div class="hero__visual">
-    <FramelessPortrait
-      client:load
-      src={heroImage.src}
-      alt="Sheng 的 3D IP 形象"
-      width={heroImage.width}
-      height={heroImage.height}
-    />
+    <FramelessPortrait client:load>
+      <Picture
+        src={heroImage}
+        formats={['avif', 'webp']}
+        fallbackFormat="png"
+        widths={[360, 640, 960, 1440]}
+        sizes="(max-width: 850px) calc(100vw - 1.5rem), min(54vw, 736px)"
+        alt="Sheng 的 3D IP 形象"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </FramelessPortrait>
     <div class="hero__hud">
       <span aria-hidden="true"></span>CURRENT FOCUS<strong>回答评估</strong>
     </div>
@@ -69,6 +77,54 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
   .hero__copy {
     position: relative;
     z-index: 1;
+  }
+
+  .hero__static-network {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .hero__static-network::before {
+    position: absolute;
+    right: -12%;
+    bottom: -16%;
+    left: 28%;
+    height: 58%;
+    background-image:
+      linear-gradient(rgba(117, 234, 216, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(145, 127, 255, 0.1) 1px, transparent 1px);
+    background-size: 2.6rem 2.6rem;
+    content: '';
+    mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 78%, transparent);
+    transform: perspective(28rem) rotateX(62deg);
+    transform-origin: bottom;
+  }
+
+  .hero__static-network::after {
+    position: absolute;
+    inset: 8% 2% 12% 16%;
+    background:
+      linear-gradient(118deg, transparent 22%, rgba(145, 127, 255, 0.18) 22.2%, transparent 22.5%),
+      linear-gradient(24deg, transparent 61%, rgba(117, 234, 216, 0.14) 61.2%, transparent 61.5%);
+    content: '';
+  }
+
+  .hero__static-network span {
+    position: absolute;
+    top: 16%;
+    right: 17%;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow:
+      -19rem 7rem 0 -0.08rem var(--color-violet),
+      8rem 13rem 0 -0.1rem var(--color-cyan),
+      -8rem 24rem 0 -0.08rem var(--color-violet);
   }
 
   .hero__hello,
@@ -122,6 +178,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     justify-content: center;
     padding: 0.1rem 1.1rem;
     border: 1px solid var(--color-border);
+    border-radius: 12px;
     color: var(--color-text);
     font-size: 0.875rem;
     font-weight: 700;
@@ -211,6 +268,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split('，');
     min-width: 10.75rem;
     padding: 0.65rem 0.8rem;
     border: 1px solid transparent;
+    border-radius: 18px;
     background:
       linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
       conic-gradient(

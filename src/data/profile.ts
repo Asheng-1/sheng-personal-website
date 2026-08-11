@@ -11,6 +11,10 @@ export interface ContentItem {
   description: string;
 }
 
+export interface LearningItem extends ContentItem {
+  status: string;
+}
+
 export interface ProfileLink {
   label: string;
   href: string;
@@ -22,8 +26,9 @@ export interface Profile {
   eyebrow: string;
   heroStatement: string;
   introduction: string;
+  footer: string;
   nav: readonly NavItem[];
-  learning: readonly ContentItem[];
+  learning: readonly LearningItem[];
   roadmap: readonly ContentItem[];
   principles: readonly ContentItem[];
   links: readonly ProfileLink[];
@@ -36,15 +41,31 @@ export const profile = {
   heroStatement: '保持好奇，奔赴未知。',
   introduction:
     '正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。',
+  footer: 'SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY',
   nav: [
     { label: '首页', href: '#top' },
     { label: '正在学习', href: '#learning' },
     { label: '路线图', href: '#roadmap' },
   ],
   learning: [
-    { id: 'annotation', title: '数据标注', description: '理解任务规则，让判断有清楚、一致的依据。' },
-    { id: 'prompting', title: '提示词设计', description: '把模糊需求拆成具体、可执行的输入。' },
-    { id: 'evaluation', title: '回答评估', description: '从准确、清晰和实用三个角度检查回答。' },
+    {
+      id: 'annotation',
+      title: '数据标注',
+      description: '理解任务规则，让判断有清楚、一致的依据。',
+      status: '正在学习',
+    },
+    {
+      id: 'prompting',
+      title: '提示词设计',
+      description: '把模糊需求拆成具体、可执行的输入。',
+      status: '正在学习',
+    },
+    {
+      id: 'evaluation',
+      title: '回答评估',
+      description: '从准确、清晰和实用三个角度检查回答。',
+      status: '正在学习',
+    },
   ],
   roadmap: [
     { id: 'understand', title: '了解行业', description: '建立 AI 训练工作的基础认知。' },
