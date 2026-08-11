@@ -1,28 +1,14 @@
 ---
-import { profile } from '@/data/profile';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import SiteHeader from '@/components/layout/SiteHeader.astro';
-import SiteFooter from '@/components/layout/SiteFooter.astro';
-import Hero from '@/components/sections/Hero.astro';
-import About from '@/components/sections/About.astro';
-import LearningGrid from '@/components/sections/LearningGrid.astro';
-import Roadmap from '@/components/sections/Roadmap.astro';
-import Principles from '@/components/sections/Principles.astro';
-import { TargetCursor } from '@/components/effects/TargetCursor';
+import { profile } from "@/data/profile";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Hero from "@/components/sections/Hero.astro";
+import About from "@/components/sections/About.astro";
 ---
 
-<BaseLayout
+<SiteLayout
   title={`${profile.name} | ${profile.role}`}
   description={profile.introduction}
 >
-  <SiteHeader name={profile.name} nav={profile.nav} />
-  <main>
-    <Hero profile={profile} />
-    <About />
-    <LearningGrid items={profile.learning} />
-    <Roadmap items={profile.roadmap} />
-    <Principles items={profile.principles} />
-  </main>
-  <SiteFooter identity={profile.footer} />
-  <TargetCursor client:idle targets={['a', 'button', '[data-cursor-target]']} />
-</BaseLayout>
+  <Hero profile={profile} />
+  <About />
+</SiteLayout>

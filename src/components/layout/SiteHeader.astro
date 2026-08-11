@@ -1,22 +1,36 @@
 ---
-import ActiveSectionNav from "@/components/effects/ActiveSectionNav";
 import type { NavItem } from "@/data/profile";
 
 interface Props {
   name: string;
   nav: readonly NavItem[];
+  currentPath: string;
 }
 
-const { name, nav } = Astro.props;
+const { name, nav, currentPath } = Astro.props;
+const normalizedPath =
+  currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
 ---
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__brand" href="#top" aria-label={`${name} home`}>
+    <a class="site-header__brand" href="/" aria-label={`${name} 首页`}>
       {name.toUpperCase()} / LAB
     </a>
     <div class="site-header__nav">
-      <ActiveSectionNav client:idle items={nav} />
+      <nav aria-label="Primary navigation" class="section-nav">
+        {
+          nav.map(({ href, label }) => (
+            <a
+              aria-current={normalizedPath === href ? "page" : undefined}
+              class="section-nav__link"
+              href={href}
+            >
+              {label}
+            </a>
+          ))
+        }
+      </nav>
     </div>
     <p class="site-header__status" aria-label="System status: online">
       SYS ONLINE
@@ -96,7 +110,7 @@ const { name, nav } = Astro.props;
       color 160ms ease;
   }
 
-  :global(.section-nav__link[aria-current="location"]) {
+  :global(.section-nav__link[aria-current="page"]) {
     background: var(--color-violet);
     color: var(--color-bg);
   }
@@ -129,6 +143,24 @@ const { name, nav } = Astro.props;
     :global(.section-nav__link) {
       padding-inline: 0.62rem;
       font-size: 0.66rem;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .site-header__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.35rem;
+      padding-block: 0.5rem;
+    }
+
+    .site-header__brand,
+    .site-header__nav {
+      justify-self: center;
+    }
+
+    :global(.section-nav) {
+      justify-content: center;
+      overflow: visible;
     }
   }
 </style>

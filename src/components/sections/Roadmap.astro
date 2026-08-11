@@ -1,7 +1,7 @@
 ---
-import { GridScan } from '@/components/effects/GridScan';
-import { ScrollReveal } from '@/components/effects/ScrollReveal';
-import type { ContentItem } from '@/data/profile';
+import { GridScan } from "@/components/effects/GridScan";
+import { ScrollReveal } from "@/components/effects/ScrollReveal";
+import type { ContentItem } from "@/data/profile";
 
 interface Props {
   items: readonly ContentItem[];
@@ -18,7 +18,7 @@ const { items } = Astro.props;
   <ScrollReveal client:visible className="section-reveal">
     <header class="section-heading">
       <p class="section-kicker">ROADMAP / 03</p>
-      <h2 id="roadmap-title">一步一步，走进入行现场</h2>
+      <h1 id="roadmap-title">一步一步，走进入行现场</h1>
       <p>这不是已经完成的履历，而是一条会根据练习反馈持续调整的学习路线。</p>
     </header>
     <div class="roadmap__stage">
@@ -28,7 +28,7 @@ const { items } = Astro.props;
           items.map((item, index) => (
             <li>
               <span class="roadmap__step" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
+                {String(index + 1).padStart(2, "0")}
               </span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
@@ -51,6 +51,14 @@ const { items } = Astro.props;
     isolation: isolate;
   }
 
+  h1 {
+    margin: 0;
+    font-size: clamp(2.25rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+  }
+
   ol {
     position: relative;
     z-index: 1;
@@ -70,7 +78,7 @@ const { items } = Astro.props;
     left: 0;
     height: 1px;
     background: linear-gradient(90deg, var(--color-cyan), var(--color-violet));
-    content: '';
+    content: "";
   }
 
   li {

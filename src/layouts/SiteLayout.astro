@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SiteHeader from "@/components/layout/SiteHeader.astro";
+import SiteFooter from "@/components/layout/SiteFooter.astro";
+import { TargetCursor } from "@/components/effects/TargetCursor";
+import { profile } from "@/data/profile";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <SiteHeader
+    name={profile.name}
+    nav={profile.nav}
+    currentPath={Astro.url.pathname}
+  />
+  <main class="site-main"><slot /></main>
+  <SiteFooter identity={profile.footer} />
+  <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
+</BaseLayout>
+
+<style>
+  .site-main {
+    min-height: calc(100svh - 9rem);
+    background:
+      radial-gradient(
+        circle at 82% 8%,
+        rgba(145, 127, 255, 0.12),
+        transparent 34rem
+      ),
+      radial-gradient(
+        circle at 8% 78%,
+        rgba(117, 234, 216, 0.07),
+        transparent 28rem
+      );
+  }
+</style>

@@ -1,6 +1,6 @@
 # Sheng Personal Website
 
-Sheng 的暗色科技风个人网站。首版为单页 Astro 站点，通过页面锚点展示个人定位、正在学习的内容、入行路线和回答原则。
+Sheng 的暗色科技风个人网站。站点使用 Astro 构建，首页展示个人定位；“正在学习”和“路线图”分别拥有独立页面。
 
 ## 本地运行
 
@@ -26,7 +26,7 @@ npm run preview
 - `npm test`：运行内容、锚点与动效能力测试。
 - `npm run check`：执行 Astro 和 TypeScript 检查。
 - `npm run build`：生成静态站点到 `dist/`。
-- `npm run verify:site`：只检查 `dist/index.html` 的发布契约，因此需在构建后运行。
+- `npm run verify:site`：检查首页、学习页和路线页的发布契约，因此需在构建后运行。
 - `npm run preview`：本地预览已构建的网站。
 
 ## 内容维护
