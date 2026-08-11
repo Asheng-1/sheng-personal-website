@@ -15,6 +15,10 @@ function collectAstroFiles(directory: string): string[] {
 const sectionDirectory = fileURLToPath(
   new URL('../src/components/sections/', import.meta.url),
 );
+const pageSource = readFileSync(
+  fileURLToPath(new URL('../src/pages/index.astro', import.meta.url)),
+  'utf8',
+);
 const sectionSources = collectAstroFiles(sectionDirectory).map((path) =>
   readFileSync(path, 'utf8'),
 );
@@ -49,5 +53,14 @@ describe('site shell source', () => {
     );
 
     expect(h1Count).toBe(1);
+  });
+
+  it('keeps the primary hero inside the single main landmark', () => {
+    const mainBlocks = [
+      ...pageSource.matchAll(/<main\b[^>]*>([\s\S]*?)<\/main>/g),
+    ];
+
+    expect(mainBlocks).toHaveLength(1);
+    expect(mainBlocks[0]?.[1]).toContain('<Hero');
   });
 });

@@ -16,8 +16,8 @@ import { TargetCursor } from '@/components/effects/TargetCursor';
   description={profile.introduction}
 >
   <SiteHeader name={profile.name} nav={profile.nav} />
-  <Hero profile={profile} />
   <main>
+    <Hero profile={profile} />
     <About />
     <LearningGrid items={profile.learning} />
     <Roadmap items={profile.roadmap} />
