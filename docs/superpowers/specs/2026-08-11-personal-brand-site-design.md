@@ -18,10 +18,15 @@ The site must be honest about the current career stage. It must not invent work 
 - Positioning: AI trainer in progress
 - Primary visitor goal: understand Sheng's background and developing capabilities
 - Language: Chinese content with short English section labels
-- Visual direction: dark futuristic laboratory
-- Effect direction: React Bits-inspired hybrid laboratory
+- Page model: one scrolling page with anchored section navigation
+- Visual direction: dark-only futuristic laboratory
+- Effect direction: React Bits-inspired quantum network laboratory
 - IP treatment: frameless character blended into the hero background
 - Maintenance goal: support future learning notes, projects, and articles without redesigning the site
+
+Approved personal signature:
+
+> 保持好奇，奔赴未知。
 
 Approved short introduction:
 
@@ -31,15 +36,15 @@ Approved short introduction:
 
 ### Included in the first release
 
-- One-page personal brand website
-- Responsive navigation
+- One-page personal brand website with no first-release detail routes
+- Responsive anchored navigation using `#top`, `#learning`, and `#roadmap`
 - Hero with Sheng's name, positioning, introduction, calls to action, and IP image
 - About section
 - Learning-now section
 - Entry roadmap section
 - Principles section built around clarity, accuracy, and usefulness
 - Minimal footer
-- Dark theme by default and a complete light theme
+- Dark-only brand presentation
 - Responsive layouts for mobile, tablet, and desktop
 - Accessible motion fallbacks
 - Static deployment support
@@ -51,7 +56,8 @@ Approved short introduction:
 - Contact form or backend service
 - Authentication, database, CMS, payments, or analytics
 - Blog UI before real articles exist
-- Heavy three-dimensional scenes or full-page WebGL
+- Separate About, Learning, Roadmap, or project pages before real content requires them
+- Heavy three-dimensional scenes or multiple full-page WebGL shader layers
 - Fake skill percentages, counters, or career metrics
 
 Contact links are not rendered until Sheng provides verified contact information. The footer therefore presents only the site identity in the first release.
@@ -78,9 +84,12 @@ The first release is a single page with anchored navigation.
 ### 5.1 Navigation
 
 - Brand: `SHENG / LAB`
-- Links: About, Learning Now, Roadmap
-- Theme toggle with an accessible label
-- Mobile navigation collapses to the brand and theme toggle; section navigation is available through a compact menu only if the final content exceeds one screen per section
+- Links: `首页`, `正在学习`, `路线图`
+- Brand and `首页` target `#top`
+- `正在学习` targets `#learning`
+- `路线图` and the primary hero action target `#roadmap`
+- Anchor navigation uses smooth scrolling when motion is allowed and remains functional without JavaScript
+- Mobile navigation keeps the brand visible and uses a compact menu if the three links do not fit
 
 ### 5.2 Hero
 
@@ -88,15 +97,17 @@ Content order:
 
 1. `HELLO, I'M SHENG`
 2. `AI TRAINER IN PROGRESS`
-3. Main statement: `训练 AI，也训练好奇心。`
+3. Personal signature: `保持好奇，奔赴未知。`
 4. Approved short introduction
 5. Primary action: `查看入行路线`
-6. Secondary action: `关于我`
+6. Secondary action: `正在学习`
 7. Frameless IP image
-8. One status panel: `STATUS / 正在探索`
-9. Three value chips: `清晰`, `准确`, `有帮助`
+8. One status panel: `CURRENT FOCUS / 回答评估`
+9. A restrained telemetry label used only as decoration and hidden from assistive technology
 
 The IP image has no visible card, border, or rounded container. Its outer image area fades into the page with a soft mask. A restrained violet halo and one orbital line connect it to the background.
+
+Do not render the earlier `清晰`, `准确`, and `有帮助` chips beneath the IP image. Those concepts remain in the Principles section only.
 
 ### 5.3 About
 
@@ -147,7 +158,7 @@ Do not render placeholder email addresses or dead social links.
 
 ### 6.1 Color tokens
 
-Dark theme:
+Dark-only palette:
 
 - Background: `#070811`
 - Elevated surface: `rgba(15, 18, 31, 0.74)`
@@ -156,16 +167,6 @@ Dark theme:
 - Violet accent: `#917FFF`
 - Cyan accent: `#75EAD8`
 - Border: `rgba(255, 255, 255, 0.11)`
-
-Light theme:
-
-- Background: `#F4F5FB`
-- Elevated surface: `rgba(255, 255, 255, 0.82)`
-- Primary text: `#171827`
-- Secondary text: `#545C70`
-- Violet accent: `#654FE8`
-- Cyan accent: `#137E71`
-- Border: `rgba(31, 34, 57, 0.13)`
 
 Normal-size text must meet WCAG AA contrast of at least 4.5:1.
 
@@ -192,23 +193,28 @@ Font files should be self-hosted or use reliable system fallbacks so the page re
 
 ### 6.4 Theme behavior
 
-- Dark theme is the initial brand presentation
-- On first visit, use dark unless the user has explicitly stored a light preference
-- Persist manual theme choice in local storage
-- Apply the selected theme before first paint to prevent a flash of the wrong theme
+- The first release is dark-only because the dark interface is part of the technology-focused brand direction
+- Do not render a theme toggle or store a theme preference
+- Use the system `color-scheme: dark` declaration for native controls and browser UI
 
 ## 7. Motion and Interaction
 
-Use a maximum of one or two continuously animated elements per viewport. Content comprehension takes priority over spectacle.
+Use a maximum of one or two continuously animated systems per viewport. Content comprehension takes priority over spectacle. Effects are distributed by section so the page feels rich without every component moving at once.
 
 ### 7.1 React Bits-inspired components
 
-- Threads: slow violet/cyan hero background; load with the hero
-- Blur Text: one-time hero text entrance
-- Spotlight Card: pointer-following light on learning and principles cards
+- Particles plus lightweight connection lines: the primary full-page quantum network background
+- Threads or static light traces: slow violet/cyan depth behind the hero
+- Grid Scan: a localized scan layer in the Roadmap section
+- Decrypted Text: one-time entrance for the short role label, never for body copy
+- Pill Nav: anchored navigation with an active-section indicator
+- Magnet plus Star Border: primary call-to-action pointer and focus treatment
+- Click Spark: brief feedback on direct pointer activation
+- Electric Border: limited to the single `CURRENT FOCUS` panel
+- Magic Bento or Spotlight Card: pointer-following light on Learning cards
 - Scroll Reveal: one-time entrance for below-the-fold sections
-- Star Border: primary call-to-action hover and focus treatment
-- Target Cursor: desktop pointer enhancement limited to interactive targets
+- Shiny Text: low-frequency footer highlight
+- Target Cursor: optional desktop pointer enhancement limited to interactive targets
 
 The frameless IP parallax is a small custom transform, not a visible Tilted Card.
 
@@ -220,15 +226,16 @@ The frameless IP parallax is a small custom transform, not a visible Tilted Card
 - Shimmer effects run once on entry or on direct interaction, not continuously
 - No continuous floating on the IP image or HUD panel
 - Custom cursor never hides or blocks the native pointer and is disabled for touch devices
+- Pause the quantum network animation when the page is hidden
 - All effects are disabled or reduced under `prefers-reduced-motion: reduce`
 
 ### 7.3 Mobile behavior
 
 - Use `min-height: 100dvh` for the hero
 - Stack copy above the IP image
-- Reduce thread count and remove pointer parallax
+- Reduce particle and connection density and remove pointer parallax
 - Show one HUD status panel
-- Hide the third value chip only when needed to avoid overlap
+- Hide decorative telemetry if it competes with the IP image
 - Do not make any essential action hover-only
 - Maintain at least 8px between touch targets
 
@@ -242,7 +249,7 @@ The frameless IP parallax is a small custom transform, not a visible Tilted Card
 - React only for interactive islands
 - Markdown or MDX content collections for future updates and projects
 
-Do not add Three.js, a general animation framework, a CMS, or a state-management library in the first release.
+Do not add Three.js, a general animation framework, a CMS, or a state-management library in the first release. A single lightweight OGL or Canvas layer is allowed only for the selected quantum network background.
 
 ### 8.2 Component boundaries
 
@@ -258,20 +265,20 @@ Static Astro components:
 
 Interactive React islands:
 
-- `ThreadsBackground.tsx`
-- `BlurText.tsx`
 - `SpotlightCard.tsx`
 - `ScrollReveal.tsx`
 - `StarBorder.tsx`
 - `TargetCursor.tsx`
-- `ThemeToggle.tsx`
+- `ParticleNetworkBackground.tsx`
+- `GridScan.tsx`
+- `DecryptedText.tsx`
+- `ClickSpark.tsx`
 
 Each component has one clear responsibility. Static layout and copy remain in Astro; React is used only where runtime interaction is required.
 
 ### 8.3 Hydration strategy
 
 - Hero background and initial text effect: `client:load`
-- Theme toggle: `client:load`
 - Target cursor: `client:idle` with desktop capability checks
 - Below-the-fold spotlight and reveal components: `client:visible`
 - Static sections: no client directive and no shipped JavaScript
@@ -301,9 +308,8 @@ The approved image may be resized or encoded for delivery, but its character des
 ## 10. Failure and Fallback Behavior
 
 - If JavaScript fails, all identity, learning, roadmap, principles, and navigation content remains readable
-- If Threads or another effect fails, show the static grid and violet halo background
+- If the particle network, Threads, or another effect fails, show the static grid, violet halo, and perspective-line background
 - If the IP image fails, reserve its layout space and display the alt text without breaking the hero
-- If local storage is unavailable, keep the current theme without showing an error
 - If reduced motion is requested, display final states with no animated delay
 - Navigation anchor targets remain functional without smooth scrolling
 
@@ -326,7 +332,7 @@ There are no form, network, authentication, or API error states in the first rel
 
 - Copy only the selected React Bits components
 - Audit each copied component's dependencies before installation
-- Prefer CSS and lightweight canvas implementations over WebGL
+- Prefer CSS and Canvas 2D; if the selected React Bits background requires OGL, keep it to one full-page rendering layer
 - Hydrate below-the-fold effects only when visible
 - Pause continuous animation when the document is hidden
 - Reduce effect density for narrow viewports and low-power conditions
@@ -342,15 +348,17 @@ The implementation is accepted when all of the following are true:
 3. The hero identifies Sheng and the AI-trainer positioning without scrolling.
 4. No invented experience, project, client, certificate, contact information, or metric is present.
 5. The selected IP is frameless and visually blends into the background.
-6. Desktop shows the planned Threads, text entrance, pointer parallax, cursor target, and spotlight interactions.
+6. Desktop shows the planned quantum network, Grid Scan, one-time text entrance, pointer parallax, cursor target, and card spotlight interactions.
 7. Mobile removes pointer-only effects and keeps all actions usable by touch.
 8. Reduced-motion mode removes continuous and entrance motion without hiding content.
-9. Dark and light themes are complete and persist after reload.
+9. The site is consistently dark-only and does not expose a theme toggle.
 10. Keyboard users can reach every interactive element and see focus indication.
 11. Normal text meets WCAG AA contrast.
 12. Layout is checked at 360px, 768px, 1024px, and 1440px widths.
 13. The site remains readable with JavaScript disabled.
 14. The hero image has responsive output, dimensions, alt text, and a non-breaking fallback.
+15. The first release has one page only; `首页`, `正在学习`, `路线图`, and both hero actions resolve to valid anchors on that page.
+16. The hero displays `保持好奇，奔赴未知。` and does not display the removed value chips.
 
 ## 14. Future Extension Path
 
@@ -358,7 +366,7 @@ When real material becomes available:
 
 1. Add `src/content/updates/` for learning notes.
 2. Add `src/content/projects/` for real exercises and case studies.
-3. Add list and detail routes generated from content collections.
+3. Add list and detail routes generated from content collections only after real material exists.
 4. Add verified social or email links through `profile.ts`.
 
 These additions reuse the existing layout, tokens, and component boundaries. They do not require replacing the first-release architecture.
