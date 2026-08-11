@@ -1,0 +1,108 @@
+---
+import ActiveSectionNav from '@/components/effects/ActiveSectionNav';
+import type { NavItem } from '@/data/profile';
+
+interface Props {
+  name: string;
+  nav: readonly NavItem[];
+}
+
+const { name, nav } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="#top" aria-label={`${name} home`}>
+      {name.toUpperCase()} / LAB
+    </a>
+    <ActiveSectionNav client:idle items={nav} />
+    <p class="site-header__status" aria-label="System status: online">SYS ONLINE</p>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    width: min(100% - 2rem, var(--content-wide));
+    min-height: 5rem;
+    margin: 0 auto;
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    color: var(--color-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-decoration: none;
+  }
+
+  .site-header__status {
+    justify-self: end;
+    margin: 0;
+    color: var(--color-cyan);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  :global(.section-nav) {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: rgba(7, 8, 17, 0.6);
+  }
+
+  :global(.section-nav__link) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  :global(.section-nav__link[aria-current='location']) {
+    background: var(--color-violet);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 47rem) {
+    .site-header__inner {
+      grid-template-columns: 1fr auto;
+      padding: 0.5rem 0;
+    }
+
+    :global(.section-nav) {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-self: start;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .site-header__status {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+</style>

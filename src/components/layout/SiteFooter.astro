@@ -1,0 +1,45 @@
+<footer class="site-footer">
+  <p>SHENG 路 AI TRAINER IN PROGRESS 路 <span class="site-footer__shine">BUILT WITH CURIOSITY</span></p>
+</footer>
+
+<style>
+  .site-footer {
+    width: min(100% - 2rem, var(--content-wide));
+    margin: 0 auto;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  .site-footer__shine {
+    display: inline-block;
+    background: linear-gradient(110deg, var(--color-muted) 30%, var(--color-cyan) 48%, var(--color-text) 52%, var(--color-muted) 70%);
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: footer-shine 8s linear infinite;
+  }
+
+  @keyframes footer-shine {
+    to {
+      background-position: -120% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer__shine {
+      background-position: 50% 0;
+      animation: none;
+    }
+  }
+</style>

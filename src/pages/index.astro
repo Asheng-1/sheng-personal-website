@@ -1,8 +1,39 @@
 ---
 import { profile } from '@/data/profile';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteHeader from '@/components/layout/SiteHeader.astro';
+import SiteFooter from '@/components/layout/SiteFooter.astro';
 ---
 
-<main>
-  <h1>{profile.heroStatement}</h1>
-  <p>{profile.introduction}</p>
-</main>
+<BaseLayout title={`${profile.name} | ${profile.role}`} description={profile.introduction}>
+  <SiteHeader name={profile.name} nav={profile.nav} />
+  <main id="top" tabindex="-1" class="site-main">
+    <h1>{profile.heroStatement}</h1>
+    <p>{profile.introduction}</p>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .site-main {
+    width: min(100% - 2rem, var(--content-reading));
+    min-height: 55vh;
+    margin: 0 auto;
+    padding: clamp(4rem, 12vw, 9rem) 0;
+  }
+
+  h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: clamp(2.4rem, 8vw, 5.75rem);
+    line-height: 1.04;
+  }
+
+  p {
+    max-width: 42rem;
+    margin: 1.5rem 0 0;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    line-height: 1.7;
+  }
+</style>
