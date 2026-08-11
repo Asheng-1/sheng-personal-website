@@ -1,0 +1,14 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+*.log
+
+# Local design previews
+.superpowers/
+
+# Image-generation working copies
+assets/sheng-ip-original.png
+assets/sheng-ip-hero-v1.png
+assets/sheng-ip-hero-v2.png
+
