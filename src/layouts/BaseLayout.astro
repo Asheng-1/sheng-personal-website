@@ -16,6 +16,14 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#070811" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070811'/%3E%3Cpath d='M18 20h28v7H27v4h15c4 0 7 3 7 7v6H18v-7h22v-4H25c-4 0-7-3-7-7v-6Z' fill='%2375ead8'/%3E%3C/svg%3E"
+    />
     <title>{title}</title>
   </head>
   <body><slot /></body>

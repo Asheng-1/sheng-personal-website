@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到 | Sheng" description="这里暂时没有内容，返回 Sheng 的个人主页。">
+  <main class="not-found">
+    <p class="not-found__label">404 / SIGNAL LOST</p>
+    <h1>这里暂时没有内容</h1>
+    <p>这条路径还没有开放，先回到主页继续探索。</p>
+    <a href="/">返回主页</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    place-content: center;
+    justify-items: start;
+    box-sizing: border-box;
+    width: min(100% - 2rem, 48rem);
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding-block: 4rem;
+  }
+
+  .not-found__label {
+    margin: 0;
+    color: var(--color-cyan);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  h1 {
+    margin: 1rem 0 0;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+  .not-found > p:not(.not-found__label) {
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 2rem;
+    padding-inline: 1.25rem;
+    border: 1px solid var(--color-cyan);
+    color: var(--color-cyan);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    background: var(--color-cyan);
+    color: var(--color-bg);
+  }
+</style>
