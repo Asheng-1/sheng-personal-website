@@ -122,13 +122,13 @@ const normalizedPath =
     border-radius: inherit;
     background: linear-gradient(
       120deg,
-      var(--color-violet),
-      #7564ff 58%,
-      var(--color-cyan)
+      #18232a,
+      #101b20 58%,
+      rgba(117, 234, 216, 0.3)
     );
     box-shadow:
-      0 0 1rem rgba(145, 127, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      0 0 1rem rgba(117, 234, 216, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
     content: "";
     opacity: 0;
     transform: scale(0.72);
@@ -161,7 +161,7 @@ const normalizedPath =
   }
 
   :global(.section-nav__link[aria-current="page"]) {
-    color: var(--color-bg);
+    color: var(--color-text);
   }
 
   :global(.section-nav__link[aria-current="page"]::before) {

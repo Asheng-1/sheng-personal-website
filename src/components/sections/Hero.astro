@@ -117,7 +117,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     position: absolute;
     z-index: 0;
     inset: 0;
-    overflow: hidden;
+    overflow: visible;
     pointer-events: none;
     opacity: 0.5;
   }
@@ -286,10 +286,10 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
   :global(.frameless-portrait) {
     position: relative;
     z-index: 1;
-    width: min(106%, 45rem);
+    width: min(118%, 50rem);
     aspect-ratio: 0.82;
     overflow: hidden;
-    transform: translate(clamp(1.5rem, 3.25vw, 3rem), -1.75rem);
+    transform: translate(clamp(2.5rem, 4.25vw, 4rem), -2.75rem);
   }
 
   :global(.frameless-portrait picture) {
@@ -303,7 +303,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     display: block;
     width: auto;
     max-width: none;
-    height: 118%;
+    height: min(80svh, 46rem);
     -webkit-mask-image: radial-gradient(
       ellipse 15.5% 52% at 50% 50%,
       #000 62%,
@@ -349,6 +349,7 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
 
     :global(.frameless-portrait) {
       width: min(100%, 34rem);
+      overflow: hidden;
       transform: none;
     }
 
