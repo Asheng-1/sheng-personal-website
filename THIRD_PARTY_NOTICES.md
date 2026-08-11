@@ -36,7 +36,7 @@ SOFTWARE.
 
 Source: https://github.com/DavidHDev/react-bits
 
-The site includes application-specific implementations inspired by Pill Nav, Particles, Decrypted Text, Click Spark, Grid Scan, Scroll Reveal, Spotlight Card, Star Border, and Target Cursor. The applicable upstream license at commit `6a33cddf2fd32c3b20974f0359d896a7ac56936f` is retained verbatim below:
+The site includes application-specific implementations inspired by Pill Nav, Gooey Nav, Particles, Decrypted Text, Click Spark, Grid Scan, Scroll Reveal, Spotlight Card, Glare Hover, Star Border, Electric Border, and Target Cursor. The applicable upstream license at commit `6a33cddf2fd32c3b20974f0359d896a7ac56936f` is retained verbatim below:
 
 MIT + Commons Clause License Condition v1.0
 

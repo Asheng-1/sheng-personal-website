@@ -12,9 +12,11 @@ const indexSource = readSource("src/pages/index.astro");
 const learningPageSource = readSource("src/pages/learning.astro");
 const roadmapPageSource = readSource("src/pages/roadmap.astro");
 const layoutSource = readSource("src/layouts/SiteLayout.astro");
+const headerSource = readSource("src/components/layout/SiteHeader.astro");
 const heroSource = readSource("src/components/sections/Hero.astro");
 const learningSource = readSource("src/components/sections/LearningGrid.astro");
 const roadmapSource = readSource("src/components/sections/Roadmap.astro");
+const globalStyles = readSource("src/styles/global.css");
 
 describe("single-screen homepage source", () => {
   it("maps every primary navigation item to a real page", () => {
@@ -51,6 +53,13 @@ describe("single-screen homepage source", () => {
     expect(heroSource).toContain('href="/learning"');
     expect(heroSource).not.toContain('href="#roadmap"');
     expect(heroSource).not.toContain('href="#learning"');
+  });
+
+  it("adds the selected React Bits-inspired interaction layers", () => {
+    expect(headerSource).toContain("section-nav__label");
+    expect(heroSource.match(/<StarBorder\b/g)).toHaveLength(2);
+    expect(globalStyles).toContain(".spotlight-card:hover::after");
+    expect(roadmapSource).toContain("electric-border-flow");
   });
 
   it("puts learning first and removes the focus badge", () => {

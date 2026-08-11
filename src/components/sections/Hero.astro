@@ -25,9 +25,10 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     <h1 id="hero-title">{heroLead}，<span>{heroEmphasis}</span></h1>
     <p class="hero__intro">{profile.introduction}</p>
     <div class="hero__actions">
-      <a class="hero__action hero__action--secondary" href="/learning"
-        >正在学习</a
-      >
+      <StarBorder
+        client:visible
+        className="hero__action hero__action--secondary"
+        href="/learning">正在学习</StarBorder>
       <StarBorder
         client:visible
         className="hero__action hero__action--primary"
