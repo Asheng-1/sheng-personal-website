@@ -90,6 +90,7 @@
 ### Task 1: Import and Prune the Template Scaffold
 
 **Files:**
+
 - Create from template: `package.json`
 - Create from template: `package-lock.json`
 - Create from template: `astro.config.mjs`
@@ -101,6 +102,7 @@
 - Delete after import: template-specific `src/Components/`, `src/React/`, and template media not used by Sheng
 
 **Interfaces:**
+
 - Produces scripts: `dev`, `build`, `preview`, `test`, `verify:site`, `check`
 - Produces the Astro + React + Tailwind runtime used by every later task
 - Produces the `@/* -> src/*` import alias
@@ -163,13 +165,13 @@ npm pkg set scripts.verify:site="node scripts/verify-built-site.mjs"
 Create `vitest.config.ts`:
 
 ```ts
-import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  test: { environment: 'node' },
+  test: { environment: "node" },
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
 });
 ```
@@ -220,12 +222,14 @@ git commit -m "chore: import and prune Astro portfolio scaffold"
 ### Task 2: Define the Honest Content Model and Move the Approved Asset
 
 **Files:**
+
 - Create: `src/data/profile.ts`
 - Create: `tests/profile.test.ts`
 - Create: `src/assets/sheng-ip-hero.png`
 - Modify: `src/pages/index.astro`
 
 **Interfaces:**
+
 - Produces `profile: Profile`
 - `Profile` contains `name`, `role`, `eyebrow`, `heroStatement`, `introduction`, `nav`, `learning`, `roadmap`, `principles`, and `links`
 - `links` is an empty readonly array until verified links are supplied
@@ -236,37 +240,37 @@ git commit -m "chore: import and prune Astro portfolio scaffold"
 Create `tests/profile.test.ts`:
 
 ```ts
-import { describe, expect, it } from 'vitest';
-import { profile } from '@/data/profile';
+import { describe, expect, it } from "vitest";
+import { profile } from "@/data/profile";
 
-describe('profile content contract', () => {
-  it('uses the approved identity and introduction', () => {
-    expect(profile.name).toBe('Sheng');
-    expect(profile.role).toBe('AI TRAINER IN PROGRESS');
-    expect(profile.heroStatement).toBe('保持好奇，奔赴未知。');
+describe("profile content contract", () => {
+  it("uses the approved identity and introduction", () => {
+    expect(profile.name).toBe("Sheng");
+    expect(profile.role).toBe("AI TRAINER IN PROGRESS");
+    expect(profile.heroStatement).toBe("保持好奇，奔赴未知。");
     expect(profile.introduction).toBe(
-      '正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。',
+      "正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。",
     );
   });
 
-  it('contains honest learning and roadmap content', () => {
+  it("contains honest learning and roadmap content", () => {
     expect(profile.learning.map((item) => item.title)).toEqual([
-      '数据标注',
-      '提示词设计',
-      '回答评估',
+      "数据标注",
+      "提示词设计",
+      "回答评估",
     ]);
     expect(profile.roadmap.map((item) => item.title)).toEqual([
-      '了解行业',
-      '基础练习',
-      '建立作品',
-      '寻找实践机会',
+      "了解行业",
+      "基础练习",
+      "建立作品",
+      "寻找实践机会",
     ]);
     expect(profile.links).toEqual([]);
   });
 
-  it('uses unique local anchor navigation', () => {
+  it("uses unique local anchor navigation", () => {
     const hrefs = profile.nav.map((item) => item.href);
-    expect(hrefs).toEqual(['#top', '#learning', '#roadmap']);
+    expect(hrefs).toEqual(["#top", "#learning", "#roadmap"]);
   });
 });
 ```
@@ -318,32 +322,68 @@ export interface Profile {
 }
 
 export const profile = {
-  name: 'Sheng',
-  role: 'AI TRAINER IN PROGRESS',
+  name: "Sheng",
+  role: "AI TRAINER IN PROGRESS",
   eyebrow: "HELLO, I'M SHENG",
-  heroStatement: '保持好奇，奔赴未知。',
+  heroStatement: "保持好奇，奔赴未知。",
   introduction:
-    '正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。',
+    "正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。",
   nav: [
-    { label: '首页', href: '#top' },
-    { label: '正在学习', href: '#learning' },
-    { label: '路线图', href: '#roadmap' },
+    { label: "首页", href: "#top" },
+    { label: "正在学习", href: "#learning" },
+    { label: "路线图", href: "#roadmap" },
   ],
   learning: [
-    { id: 'annotation', title: '数据标注', description: '理解任务规则，让判断有清楚、一致的依据。' },
-    { id: 'prompting', title: '提示词设计', description: '把模糊需求拆成具体、可执行的输入。' },
-    { id: 'evaluation', title: '回答评估', description: '从准确、清晰和实用三个角度检查回答。' },
+    {
+      id: "annotation",
+      title: "数据标注",
+      description: "理解任务规则，让判断有清楚、一致的依据。",
+    },
+    {
+      id: "prompting",
+      title: "提示词设计",
+      description: "把模糊需求拆成具体、可执行的输入。",
+    },
+    {
+      id: "evaluation",
+      title: "回答评估",
+      description: "从准确、清晰和实用三个角度检查回答。",
+    },
   ],
   roadmap: [
-    { id: 'understand', title: '了解行业', description: '建立 AI 训练工作的基础认知。' },
-    { id: 'practice', title: '基础练习', description: '从标注、提示词和回答评估开始。' },
-    { id: 'portfolio', title: '建立作品', description: '把真实练习整理成可阅读的案例。' },
-    { id: 'opportunity', title: '寻找实践机会', description: '参与真实任务，继续积累反馈。' },
+    {
+      id: "understand",
+      title: "了解行业",
+      description: "建立 AI 训练工作的基础认知。",
+    },
+    {
+      id: "practice",
+      title: "基础练习",
+      description: "从标注、提示词和回答评估开始。",
+    },
+    {
+      id: "portfolio",
+      title: "建立作品",
+      description: "把真实练习整理成可阅读的案例。",
+    },
+    {
+      id: "opportunity",
+      title: "寻找实践机会",
+      description: "参与真实任务，继续积累反馈。",
+    },
   ],
   principles: [
-    { id: 'clear', title: '清晰', description: '回答容易理解，重点明确。' },
-    { id: 'accurate', title: '准确', description: '遵循任务要求，不加入没有依据的判断。' },
-    { id: 'useful', title: '有帮助', description: '给用户一个能够继续行动的下一步。' },
+    { id: "clear", title: "清晰", description: "回答容易理解，重点明确。" },
+    {
+      id: "accurate",
+      title: "准确",
+      description: "遵循任务要求，不加入没有依据的判断。",
+    },
+    {
+      id: "useful",
+      title: "有帮助",
+      description: "给用户一个能够继续行动的下一步。",
+    },
   ],
   links: [],
 } as const satisfies Profile;
@@ -365,7 +405,7 @@ Create `src/pages/index.astro`:
 
 ```astro
 ---
-import { profile } from '@/data/profile';
+import { profile } from "@/data/profile";
 ---
 
 <main>
@@ -396,6 +436,7 @@ git commit -m "feat: add Sheng profile content model"
 ### Task 3: Build the Dark Design Tokens and Anchored Site Shell
 
 **Files:**
+
 - Create: `src/styles/global.css`
 - Create: `src/layouts/BaseLayout.astro`
 - Create: `src/components/effects/ActiveSectionNav.tsx`
@@ -404,6 +445,7 @@ git commit -m "feat: add Sheng profile content model"
 - Modify: `src/pages/index.astro`
 
 **Interfaces:**
+
 - `BaseLayout` accepts `{ title: string; description: string }`
 - `SiteHeader` accepts `{ name: string; nav: readonly NavItem[] }`
 - `ActiveSectionNav` accepts `{ items: readonly NavItem[] }` and never changes routes
@@ -439,14 +481,35 @@ Create `src/styles/global.css` with these base tokens and rules:
   --focus-ring: 0 0 0 3px #75ead8;
 }
 
-html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; background: var(--color-bg); color: var(--color-text); }
-a, button { min-height: 44px; }
-:focus-visible { outline: 3px solid var(--color-cyan); outline-offset: 3px; }
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+a,
+button {
+  min-height: 44px;
+}
+:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 3px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 ```
 
@@ -456,10 +519,14 @@ a, button { min-height: 44px; }
 
 ```astro
 ---
-import '@/styles/global.css';
-interface Props { title: string; description: string }
+import "@/styles/global.css";
+interface Props {
+  title: string;
+  description: string;
+}
 const { title, description } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="zh-CN">
   <head>
@@ -481,12 +548,17 @@ Core observer setup:
 
 ```tsx
 useEffect(() => {
-  if (!('IntersectionObserver' in window)) return;
-  const nodes = items.map(({ href }) => document.querySelector(href)).filter(Boolean) as Element[];
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries.find((entry) => entry.isIntersecting);
-    if (visible) setActive(`#${visible.target.id}`);
-  }, { rootMargin: '-35% 0px -55%' });
+  if (!("IntersectionObserver" in window)) return;
+  const nodes = items
+    .map(({ href }) => document.querySelector(href))
+    .filter(Boolean) as Element[];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting);
+      if (visible) setActive(`#${visible.target.id}`);
+    },
+    { rootMargin: "-35% 0px -55%" },
+  );
   nodes.forEach((node) => observer.observe(node));
   return () => observer.disconnect();
 }, [items]);
@@ -518,12 +590,14 @@ git commit -m "feat: add dark anchored site shell"
 ### Task 4: Build the Frameless Hero and Responsive IP Treatment
 
 **Files:**
+
 - Create: `src/components/sections/Hero.astro`
 - Create: `src/components/effects/FramelessPortrait.tsx`
 - Modify: `src/pages/index.astro`
 - Modify: `src/styles/global.css`
 
 **Interfaces:**
+
 - `Hero` consumes `profile: Profile`
 - `FramelessPortrait` accepts `{ src: string; alt: string; width: number; height: number }`
 - The hero exposes `#top`; the primary CTA targets `#roadmap` and the secondary CTA targets `#learning`
@@ -534,9 +608,10 @@ Modify `src/pages/index.astro`:
 
 ```astro
 ---
-import Hero from '@/components/sections/Hero.astro';
-import { profile } from '@/data/profile';
+import Hero from "@/components/sections/Hero.astro";
+import { profile } from "@/data/profile";
 ---
+
 <Hero profile={profile} />
 ```
 
@@ -553,24 +628,49 @@ Expected: FAIL because `Hero.astro` does not exist.
 Create `FramelessPortrait.tsx` with pointer parallax that never changes the image source:
 
 ```tsx
-import { useRef } from 'react';
+import { useRef } from "react";
 
-interface Props { src: string; alt: string; width: number; height: number }
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
 
 export function FramelessPortrait({ src, alt, width, height }: Props) {
   const imageRef = useRef<HTMLImageElement>(null);
   const move = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(pointer: coarse)').matches) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    )
+      return;
     const rect = event.currentTarget.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-    if (imageRef.current) imageRef.current.style.transform = `translate(${x * 7}px, ${y * 5}px) scale(1.01)`;
+    if (imageRef.current)
+      imageRef.current.style.transform = `translate(${x * 7}px, ${y * 5}px) scale(1.01)`;
   };
-  const reset = () => { if (imageRef.current) imageRef.current.style.transform = ''; };
+  const reset = () => {
+    if (imageRef.current) imageRef.current.style.transform = "";
+  };
 
-  return <div className="frameless-portrait" onPointerMove={move} onPointerLeave={reset}>
-    <img ref={imageRef} src={src} alt={alt} width={width} height={height} fetchPriority="high" />
-  </div>;
+  return (
+    <div
+      className="frameless-portrait"
+      onPointerMove={move}
+      onPointerLeave={reset}
+    >
+      <img
+        ref={imageRef}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        fetchPriority="high"
+      />
+    </div>
+  );
 }
 ```
 
@@ -591,9 +691,19 @@ The component must render, in order:
     </div>
   </div>
   <div class="hero__visual">
-    <FramelessPortrait client:load src={heroImage.src} alt="Sheng 的 3D IP 形象" width={1672} height={941} />
-    <div class="hero__hud"><span aria-hidden="true"></span>CURRENT FOCUS<strong>回答评估</strong></div>
-    <div class="hero__telemetry" aria-hidden="true">PROFILE / SHENG<br />SCAN COMPLETE</div>
+    <FramelessPortrait
+      client:load
+      src={heroImage.src}
+      alt="Sheng 的 3D IP 形象"
+      width={1672}
+      height={941}
+    />
+    <div class="hero__hud">
+      <span aria-hidden="true"></span>CURRENT FOCUS<strong>回答评估</strong>
+    </div>
+    <div class="hero__telemetry" aria-hidden="true">
+      PROFILE / SHENG<br />SCAN COMPLETE
+    </div>
   </div>
 </section>
 ```
@@ -635,6 +745,7 @@ git commit -m "feat: add frameless IP hero"
 ### Task 5: Add Controlled React Bits-Inspired Effects
 
 **Files:**
+
 - Create: `src/lib/effects.ts`
 - Create: `tests/effects.test.ts`
 - Create: `src/components/effects/QuantumNetworkBackground.tsx`
@@ -647,6 +758,7 @@ git commit -m "feat: add frameless IP hero"
 - Modify: `src/styles/global.css`
 
 **Interfaces:**
+
 - Produces `EffectCapabilities` and `shouldRunPointerEffects(capabilities): boolean`
 - `QuantumNetworkBackground` accepts `{ particleCount?: number; className?: string }`
 - `DecryptedText` accepts `{ text: string; className?: string }`
@@ -659,15 +771,39 @@ git commit -m "feat: add frameless IP hero"
 Create `tests/effects.test.ts`:
 
 ```ts
-import { describe, expect, it } from 'vitest';
-import { shouldRunPointerEffects } from '@/lib/effects';
+import { describe, expect, it } from "vitest";
+import { shouldRunPointerEffects } from "@/lib/effects";
 
-describe('shouldRunPointerEffects', () => {
-  it('runs only for a wide fine-pointer viewport without reduced motion', () => {
-    expect(shouldRunPointerEffects({ reducedMotion: false, coarsePointer: false, viewportWidth: 1440 })).toBe(true);
-    expect(shouldRunPointerEffects({ reducedMotion: true, coarsePointer: false, viewportWidth: 1440 })).toBe(false);
-    expect(shouldRunPointerEffects({ reducedMotion: false, coarsePointer: true, viewportWidth: 1440 })).toBe(false);
-    expect(shouldRunPointerEffects({ reducedMotion: false, coarsePointer: false, viewportWidth: 600 })).toBe(false);
+describe("shouldRunPointerEffects", () => {
+  it("runs only for a wide fine-pointer viewport without reduced motion", () => {
+    expect(
+      shouldRunPointerEffects({
+        reducedMotion: false,
+        coarsePointer: false,
+        viewportWidth: 1440,
+      }),
+    ).toBe(true);
+    expect(
+      shouldRunPointerEffects({
+        reducedMotion: true,
+        coarsePointer: false,
+        viewportWidth: 1440,
+      }),
+    ).toBe(false);
+    expect(
+      shouldRunPointerEffects({
+        reducedMotion: false,
+        coarsePointer: true,
+        viewportWidth: 1440,
+      }),
+    ).toBe(false);
+    expect(
+      shouldRunPointerEffects({
+        reducedMotion: false,
+        coarsePointer: false,
+        viewportWidth: 600,
+      }),
+    ).toBe(false);
   });
 });
 ```
@@ -692,7 +828,9 @@ export interface EffectCapabilities {
 }
 
 export function shouldRunPointerEffects(value: EffectCapabilities): boolean {
-  return !value.reducedMotion && !value.coarsePointer && value.viewportWidth >= 850;
+  return (
+    !value.reducedMotion && !value.coarsePointer && value.viewportWidth >= 850
+  );
 }
 ```
 
@@ -722,16 +860,19 @@ Use this core cleanup pattern in `ScrollReveal.tsx`:
 useEffect(() => {
   const node = ref.current;
   if (!node) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    node.dataset.visible = 'true';
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    node.dataset.visible = "true";
     return;
   }
-  const observer = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      node.dataset.visible = 'true';
-      observer.disconnect();
-    }
-  }, { threshold: 0.15 });
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        node.dataset.visible = "true";
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.15 },
+  );
   observer.observe(node);
   return () => observer.disconnect();
 }, []);
@@ -740,8 +881,18 @@ useEffect(() => {
 Use this render-loop contract in `QuantumNetworkBackground.tsx`:
 
 ```tsx
-interface Particle { x: number; y: number; vx: number; vy: number; radius: number; cyan: boolean }
-interface Pointer { x: number; y: number }
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  cyan: boolean;
+}
+interface Pointer {
+  x: number;
+  y: number;
+}
 
 function renderQuantumFrame(
   context: CanvasRenderingContext2D,
@@ -769,14 +920,17 @@ function renderQuantumFrame(
       context.strokeStyle = `rgba(145,127,255,${(1 - distance / 142) * 0.18})`;
       context.stroke();
     });
-    const pointerDistance = Math.hypot(pointer.x - particle.x, pointer.y - particle.y);
+    const pointerDistance = Math.hypot(
+      pointer.x - particle.x,
+      pointer.y - particle.y,
+    );
     if (!reduced && pointerDistance < 170) {
       particle.x += (particle.x - pointer.x) * 0.0026;
       particle.y += (particle.y - pointer.y) * 0.0026;
     }
     context.beginPath();
     context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-    context.fillStyle = particle.cyan ? '#75ead8' : '#917fff';
+    context.fillStyle = particle.cyan ? "#75ead8" : "#917fff";
     context.fill();
   });
 }
@@ -784,7 +938,7 @@ function renderQuantumFrame(
 useEffect(() => {
   const canvas = canvasRef.current;
   if (!canvas) return;
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext("2d");
   if (!context) return;
   const resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -793,11 +947,17 @@ useEffect(() => {
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
   };
   resize();
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let frame = 0;
   let running = !document.hidden;
   const draw = () => {
-    renderQuantumFrame(context, canvas, particlesRef.current, pointerRef.current, reduced);
+    renderQuantumFrame(
+      context,
+      canvas,
+      particlesRef.current,
+      pointerRef.current,
+      reduced,
+    );
     if (!reduced && running) frame = requestAnimationFrame(draw);
   };
   const visibility = () => {
@@ -805,14 +965,14 @@ useEffect(() => {
     cancelAnimationFrame(frame);
     if (running && !reduced) frame = requestAnimationFrame(draw);
   };
-  document.addEventListener('visibilitychange', visibility);
-  window.addEventListener('resize', resize);
+  document.addEventListener("visibilitychange", visibility);
+  window.addEventListener("resize", resize);
   draw();
   return () => {
     running = false;
     cancelAnimationFrame(frame);
-    document.removeEventListener('visibilitychange', visibility);
-    window.removeEventListener('resize', resize);
+    document.removeEventListener("visibilitychange", visibility);
+    window.removeEventListener("resize", resize);
   };
 }, []);
 ```
@@ -824,13 +984,13 @@ In `Hero.astro`, render:
 ```astro
 <QuantumNetworkBackground client:load particleCount={58} />
 <DecryptedText client:load text={profile.role} />
-<ClickSpark client:idle targets={['.hero__actions a']} />
+<ClickSpark client:idle targets={[".hero__actions a"]} />
 ```
 
 In `index.astro`, render:
 
 ```astro
-<TargetCursor client:idle targets={['a', 'button', '[data-cursor-target]']} />
+<TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
 ```
 
 Below-fold reveal islands are added in Task 6 with `client:visible`.
@@ -865,6 +1025,7 @@ git commit -m "feat: add accessible interactive effects"
 ### Task 6: Build the Content Sections and Interactive Cards
 
 **Files:**
+
 - Create: `src/components/effects/SpotlightCard.tsx`
 - Create: `src/components/effects/StarBorder.tsx`
 - Create: `src/components/effects/GridScan.tsx`
@@ -876,6 +1037,7 @@ git commit -m "feat: add accessible interactive effects"
 - Modify: `src/styles/global.css`
 
 **Interfaces:**
+
 - `SpotlightCard` accepts `{ children: React.ReactNode; className?: string }`
 - `StarBorder` accepts `{ href: AnchorHref; children: React.ReactNode; className?: string }`
 - Every section consumes only the relevant readonly `ContentItem[]` or text props
@@ -908,13 +1070,33 @@ Expected: FAIL because the four section files do not exist.
 `SpotlightCard.tsx` uses pointer position only for decoration:
 
 ```tsx
-export function SpotlightCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+export function SpotlightCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const move = (event: React.PointerEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty('--spotlight-x', `${event.clientX - rect.left}px`);
-    event.currentTarget.style.setProperty('--spotlight-y', `${event.clientY - rect.top}px`);
+    event.currentTarget.style.setProperty(
+      "--spotlight-x",
+      `${event.clientX - rect.left}px`,
+    );
+    event.currentTarget.style.setProperty(
+      "--spotlight-y",
+      `${event.clientY - rect.top}px`,
+    );
   };
-  return <article className={`spotlight-card ${className}`} onPointerMove={move} data-cursor-target>{children}</article>;
+  return (
+    <article
+      className={`spotlight-card ${className}`}
+      onPointerMove={move}
+      data-cursor-target
+    >
+      {children}
+    </article>
+  );
 }
 ```
 
@@ -966,6 +1148,7 @@ git commit -m "feat: add learning and roadmap sections"
 ### Task 7: Add Built-Site Verification, Metadata, Licensing, and Final QA
 
 **Files:**
+
 - Create: `scripts/verify-built-site.mjs`
 - Create: `src/pages/404.astro`
 - Create: `public/robots.txt`
@@ -976,6 +1159,7 @@ git commit -m "feat: add learning and roadmap sections"
 - Modify: `.gitignore`
 
 **Interfaces:**
+
 - Produces `npm run verify:site`, which exits nonzero on a broken generated page contract
 - Produces deployment-ready `dist/`
 - Documents exact content-editing and verification commands
@@ -985,15 +1169,18 @@ git commit -m "feat: add learning and roadmap sections"
 Create `scripts/verify-built-site.mjs`:
 
 ```js
-import { readFileSync } from 'node:fs';
+import { readFileSync } from "node:fs";
 
-const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
+const html = readFileSync(
+  new URL("../dist/index.html", import.meta.url),
+  "utf8",
+);
 const required = [
   '<html lang="zh-CN"',
-  'Sheng',
-  'AI TRAINER IN PROGRESS',
-  '保持好奇',
-  '奔赴未知',
+  "Sheng",
+  "AI TRAINER IN PROGRESS",
+  "保持好奇",
+  "奔赴未知",
   'href="#top"',
   'href="#learning"',
   'href="#roadmap"',
@@ -1006,7 +1193,15 @@ const required = [
 
 const missing = required.filter((value) => !html.includes(value));
 const h1Count = (html.match(/<h1\b/g) ?? []).length;
-const forbidden = ['Formspree', 'Spotify', '90%', '95%', 'example@email', '切换明暗主题', '<span>清晰</span><span>准确</span><span>有帮助</span>'];
+const forbidden = [
+  "Formspree",
+  "Spotify",
+  "90%",
+  "95%",
+  "example@email",
+  "切换明暗主题",
+  "<span>清晰</span><span>准确</span><span>有帮助</span>",
+];
 const foundForbidden = forbidden.filter((value) => html.includes(value));
 
 if (missing.length || h1Count !== 1 || foundForbidden.length) {
@@ -1014,7 +1209,7 @@ if (missing.length || h1Count !== 1 || foundForbidden.length) {
   process.exit(1);
 }
 
-console.log('Built-site contract verified.');
+console.log("Built-site contract verified.");
 ```
 
 - [ ] **Step 2: Run the verifier and capture any contract failure**

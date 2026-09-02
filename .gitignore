@@ -16,3 +16,4 @@ assets/sheng-ip-hero-v2.png
 coverage/
 playwright-report/
 test-results/
+.codex-runtime/

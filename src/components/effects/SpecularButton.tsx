@@ -14,7 +14,7 @@ type SpecularStyle = CSSProperties &
 
 interface Props {
   children: ReactNode;
-  href?: SiteHref;
+  href?: SiteHref | `${SiteHref}#${string}`;
   size?: "sm" | "md" | "lg";
   radius?: number;
   tint?: string;

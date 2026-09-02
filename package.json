@@ -10,15 +10,17 @@
     "astro": "astro",
     "check": "astro check",
     "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "verify:site": "node scripts/verify-built-site.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/react": "^5.0.4",
+    "@tailwindcss/vite": "^4.1.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "astro": "^7.1.0",
-    "@tailwindcss/vite": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.0",

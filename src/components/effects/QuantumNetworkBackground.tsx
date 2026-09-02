@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 interface Props {
   particleCount?: number;
@@ -91,14 +91,14 @@ function renderQuantumFrame(
 
     context.beginPath();
     context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-    context.fillStyle = particle.cyan ? '#75ead8' : '#917fff';
+    context.fillStyle = particle.cyan ? "#75ead8" : "#917fff";
     context.fill();
   });
 }
 
 export function QuantumNetworkBackground({
   particleCount = 58,
-  className = '',
+  className = "",
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -111,10 +111,10 @@ export function QuantumNetworkBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     if (!context) return;
 
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reduced = motionQuery.matches;
     let frame: number | null = null;
 
@@ -206,22 +206,22 @@ export function QuantumNetworkBackground({
     resize();
     schedule();
 
-    document.addEventListener('visibilitychange', handleVisibility);
-    window.addEventListener('resize', resize);
-    window.addEventListener('pointermove', updatePointer, { passive: true });
-    window.addEventListener('blur', resetPointer);
-    motionQuery.addEventListener('change', handleMotionPreference);
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", updatePointer, { passive: true });
+    window.addEventListener("blur", resetPointer);
+    motionQuery.addEventListener("change", handleMotionPreference);
 
     return () => {
       stop();
-      document.removeEventListener('visibilitychange', handleVisibility);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('pointermove', updatePointer);
-      window.removeEventListener('blur', resetPointer);
-      motionQuery.removeEventListener('change', handleMotionPreference);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("blur", resetPointer);
+      motionQuery.removeEventListener("change", handleMotionPreference);
     };
   }, [particleCount]);
 
-  const classes = ['quantum-network', className].filter(Boolean).join(' ');
+  const classes = ["quantum-network", className].filter(Boolean).join(" ");
   return <canvas ref={canvasRef} className={classes} aria-hidden="true" />;
 }

@@ -1,75 +1,174 @@
 ---
 import { FramelessPortrait } from "@/components/effects/FramelessPortrait";
 import { QuantumNetworkBackground } from "@/components/effects/QuantumNetworkBackground";
-import { DecryptedText } from "@/components/effects/DecryptedText";
 import { ClickSpark } from "@/components/effects/ClickSpark";
 import { SpecularButton } from "@/components/effects/SpecularButton";
+import { SplitFlapText } from "@/components/effects/SplitFlapText";
 import type { Profile } from "@/data/profile";
 import { Picture } from "astro:assets";
-import heroImage from "@/assets/sheng-ip-hero.png";
+import heroImage from "@/assets/sheng-ip-hero-refined.png";
+import avatarImage from "@/assets/sheng-avatar-luffy.jpg";
 
 interface Props {
   profile: Profile;
 }
 
 const { profile } = Astro.props;
-const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
 ---
 
-<section id="top" class="hero" aria-labelledby="hero-title">
+<section
+  id="top"
+  class="hero"
+  data-interface="personal-os"
+  aria-labelledby="hero-title"
+>
   <div class="hero__static-network" aria-hidden="true"><span></span></div>
-  <QuantumNetworkBackground client:load particleCount={58} />
-  <div class="hero__copy">
-    <p class="hero__hello">{profile.eyebrow}</p>
-    <p class="hero__role"><DecryptedText client:load text={profile.role} /></p>
-    <h1 id="hero-title">{heroLead}，<span>{heroEmphasis}</span></h1>
-    <p class="hero__intro">{profile.introduction}</p>
-    <div class="hero__actions">
-      <SpecularButton
-        client:visible
-        className="hero__action hero__action--secondary"
-        href="/learning"
-        size="lg"
-        radius={18}
-        tint="#917fff"
-        tintOpacity={0.06}
-        blur={0}
-        textColor="#f5f5f5"
-        lineColor="#ffffff"
-        baseColor="#1b1d28"
-        intensity={0.72}
-        shineSize={10}
-        shineFade={40}
-        thickness={1}
-        speed={0.35}
-        followMouse
-        proximity={250}
-        autoAnimate={false}>正在学习</SpecularButton
-      >
-      <SpecularButton
-        client:visible
-        className="hero__action hero__action--primary"
-        href="/roadmap"
-        size="lg"
-        radius={18}
-        tint="#ffffff"
-        tintOpacity={0}
-        blur={0}
-        textColor="#f5f5f5"
-        lineColor="#ffffff"
-        baseColor="#525252"
-        intensity={1}
-        shineSize={10}
-        shineFade={40}
-        thickness={1}
-        speed={0.35}
-        followMouse
-        proximity={250}
-        autoAnimate={false}>查看入行路线</SpecularButton
-      >
+  <QuantumNetworkBackground client:load particleCount={44} />
+
+  <div class="hero__interface">
+    <aside class="hero__identity-panel" aria-label="数字身份">
+      <div class="hero__identity-mark">
+        <Picture
+          src={avatarImage}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          widths={[96, 192, 256]}
+          sizes="(max-width: 850px) 40px, 68px"
+          quality={86}
+          alt="Sheng 常用头像"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      <div class="hero__identity-copy">
+        <p class="hero__hello">{profile.eyebrow}</p>
+        <p class="hero__identity-name">{profile.name.toUpperCase()}</p>
+        <p class="hero__role">
+          <span class="hero__online-dot" aria-hidden="true"></span>
+          {profile.role}
+        </p>
+      </div>
+      <span class="hero__panel-corner" aria-hidden="true"></span>
+    </aside>
+
+    <div class="hero__copy">
+      <p class="hero__copy-kicker">AI TRAINER IN PROGRESS</p>
+      <h1 id="hero-title" aria-label={profile.heroStatement}>
+        <SplitFlapText
+          client:visible
+          words={["保持好奇，"]}
+          flipDuration={0.12}
+          stagger={0.06}
+          charset="alphanumeric"
+          flipsPerChar={8}
+          tileColor="rgba(13, 20, 34, 0.5)"
+          textColor="#f8fafc"
+          tileRadius={3}
+          gap={4}
+          fontSize={72}
+          padTo={5}
+          variant="minimal"
+          className="hero__flap-line"
+        />
+        <SplitFlapText
+          client:visible
+          words={["探索未知。"]}
+          flipDuration={0.12}
+          stagger={0.06}
+          charset="alphanumeric"
+          flipsPerChar={8}
+          tileColor="rgba(22, 20, 44, 0.48)"
+          textColor="#917fff"
+          tileRadius={3}
+          gap={4}
+          fontSize={72}
+          padTo={5}
+          variant="minimal"
+          className="hero__flap-line hero__flap-line--accent"
+        />
+      </h1>
+      <p class="hero__intro">{profile.introduction}</p>
+      <div class="hero__actions" aria-label="快速入口">
+        <SpecularButton
+          client:visible
+          className="hero__action hero__action--primary"
+          href="/learning"
+          size="md"
+          radius={10}
+          tint="#75ead8"
+          tintOpacity={0.08}
+          blur={0}
+          textColor="#f5f5f5"
+          lineColor="#75ead8"
+          baseColor="#102226"
+          intensity={0.8}
+          shineSize={10}
+          shineFade={40}
+          thickness={1}
+          speed={0.35}
+          followMouse
+          proximity={250}
+          autoAnimate={false}>了解我</SpecularButton
+        >
+        <SpecularButton
+          client:visible
+          className="hero__action hero__action--secondary"
+          href="/learning#contact"
+          size="md"
+          radius={10}
+          tint="#ffffff"
+          tintOpacity={0}
+          blur={0}
+          textColor="#f5f5f5"
+          lineColor="#8c96aa"
+          baseColor="#121722"
+          intensity={0.55}
+          shineSize={10}
+          shineFade={40}
+          thickness={1}
+          speed={0.35}
+          followMouse
+          proximity={250}
+          autoAnimate={false}>联系我</SpecularButton
+        >
+      </div>
     </div>
+
+    <div class="hero__status-panel" aria-label="个人状态">
+      <div class="hero__status-heading">
+        <p>PROFILE STATUS</p>
+        <span>LIVE DATA</span>
+      </div>
+      <dl>
+        <div>
+          <dt>ROLE</dt>
+          <dd>AI 训练师</dd>
+        </div>
+        <div>
+          <dt>FOCUS</dt>
+          <dd>认知 × 创造力</dd>
+        </div>
+        <div>
+          <dt>MODE</dt>
+          <dd>探索 / 学习 / 构建</dd>
+        </div>
+        <div>
+          <dt>STATUS</dt>
+          <dd>持续在线</dd>
+        </div>
+      </dl>
+    </div>
+
+    <p class="hero__coordinate" aria-label="系统坐标">
+      <span aria-hidden="true">⌖</span> COORDINATE&nbsp;&nbsp;31.2304° N, 121.4737°
+      E
+    </p>
   </div>
+
   <div class="hero__visual">
+    <div class="hero__scan-ring" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
     <FramelessPortrait client:load>
       <Picture
         src={heroImage}
@@ -77,17 +176,19 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
         fallbackFormat="png"
         widths={[640, 960, 1440, 1672]}
         sizes="(max-width: 850px) calc(100vw - 1.5rem), 1672px"
-        quality={100}
+        quality={82}
         alt="Sheng 的 3D IP 形象"
         loading="eager"
         decoding="async"
         fetchpriority="high"
       />
     </FramelessPortrait>
-    <div class="hero__telemetry" aria-hidden="true">
+    <div class="hero__visual-status" aria-hidden="true">
+      <span></span>
       PROFILE / SHENG<br />SCAN COMPLETE
     </div>
   </div>
+
   <ClickSpark client:idle targets={[".hero__actions a"]} />
 </section>
 
@@ -96,144 +197,318 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     position: relative;
     display: grid;
     box-sizing: border-box;
-    grid-template-columns: minmax(0, 0.88fr) minmax(23rem, 1.12fr);
-    align-items: center;
-    gap: clamp(1.5rem, 4vw, 4.5rem);
-    width: min(100% - 2rem, var(--content-wide));
-    min-height: calc(100svh - 5rem);
+    grid-template-columns: minmax(28rem, 0.9fr) minmax(32rem, 1.1fr);
+    align-items: stretch;
+    gap: clamp(1rem, 2.5vw, 3rem);
+    width: min(100% - 2rem, 100rem);
+    height: calc(100svh - 5rem);
+    min-height: 0;
     margin: 0 auto;
-    padding: clamp(3rem, 5vw, 5rem) 0;
-    scroll-margin-top: 5.5rem;
+    padding: clamp(1.6rem, 3.2vh, 2.5rem) clamp(0rem, 1vw, 1rem);
+    overflow: hidden;
     isolation: isolate;
   }
 
-  .hero__copy {
+  .hero__interface {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    align-content: center;
+    gap: clamp(0.8rem, 1.8vh, 1.25rem);
     min-width: 0;
+    padding: clamp(0.5rem, 1.8vh, 1.25rem) 0;
+  }
+
+  .hero :global(.quantum-network) {
+    opacity: 0.3;
   }
 
   .hero__static-network {
     position: absolute;
     z-index: 0;
     inset: 0;
-    overflow: visible;
+    overflow: hidden;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.55;
   }
 
   .hero__static-network::before {
     position: absolute;
-    right: -12%;
-    bottom: -16%;
-    left: 28%;
-    height: 58%;
+    right: -5%;
+    bottom: -18%;
+    left: 37%;
+    height: 64%;
     background-image:
-      linear-gradient(rgba(117, 234, 216, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(145, 127, 255, 0.1) 1px, transparent 1px);
-    background-size: 2.6rem 2.6rem;
+      linear-gradient(rgba(117, 234, 216, 0.075) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(117, 234, 216, 0.075) 1px, transparent 1px);
+    background-size: 2.5rem 2.5rem;
     content: "";
-    mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      #000 24%,
-      #000 78%,
-      transparent
-    );
-    transform: perspective(28rem) rotateX(62deg);
+    mask-image: linear-gradient(to bottom, transparent, #000 28%, transparent);
+    transform: perspective(30rem) rotateX(62deg);
     transform-origin: bottom;
   }
 
   .hero__static-network::after {
     position: absolute;
-    inset: 8% 2% 12% 16%;
+    inset: 0;
     background:
-      linear-gradient(
-        118deg,
-        transparent 22%,
-        rgba(145, 127, 255, 0.18) 22.2%,
-        transparent 22.5%
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 5px,
+        rgba(255, 255, 255, 0.012) 6px
       ),
-      linear-gradient(
-        24deg,
-        transparent 61%,
-        rgba(117, 234, 216, 0.14) 61.2%,
-        transparent 61.5%
+      radial-gradient(
+        circle at 76% 50%,
+        rgba(54, 80, 164, 0.2),
+        transparent 34%
       );
     content: "";
   }
 
   .hero__static-network span {
     position: absolute;
-    top: 16%;
-    right: 17%;
-    width: 0.35rem;
-    height: 0.35rem;
+    top: 18%;
+    right: 14%;
+    width: 0.24rem;
+    height: 0.24rem;
     border-radius: 50%;
     background: var(--color-cyan);
     box-shadow:
-      -19rem 7rem 0 -0.08rem var(--color-violet),
-      8rem 13rem 0 -0.1rem var(--color-cyan),
-      -8rem 24rem 0 -0.08rem var(--color-violet);
+      -24rem 9rem 0 -0.04rem var(--color-violet),
+      7rem 17rem 0 -0.05rem var(--color-cyan),
+      -12rem 31rem 0 -0.04rem var(--color-violet);
+  }
+
+  .hero__identity-panel,
+  .hero__copy,
+  .hero__status-panel,
+  .hero__coordinate {
+    border: 1px solid rgba(137, 161, 188, 0.2);
+    background: linear-gradient(
+      145deg,
+      rgba(13, 21, 32, 0.86),
+      rgba(7, 11, 20, 0.68)
+    );
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.035),
+      0 1.2rem 3rem rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+  }
+
+  .hero__identity-panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    align-items: center;
+    gap: 1rem;
+    min-height: 6.4rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.75rem;
+  }
+
+  .hero__identity-mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid rgba(117, 234, 216, 0.5);
+    border-radius: 50%;
+    background: rgba(9, 15, 24, 0.9);
+    box-shadow:
+      0 0 0 0.22rem rgba(117, 234, 216, 0.055),
+      0 0 1.2rem rgba(117, 234, 216, 0.12);
+  }
+
+  .hero__identity-mark::after {
+    position: absolute;
+    inset: 0.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+  }
+
+  .hero__identity-mark :global(picture),
+  .hero__identity-mark :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__identity-mark :global(img) {
+    object-fit: cover;
+    object-position: 50% 45%;
   }
 
   .hero__hello,
-  .hero__role {
+  .hero__role,
+  .hero__copy-kicker,
+  .hero__status-heading p,
+  .hero__status-heading span,
+  .hero__coordinate {
     margin: 0;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
   }
 
-  .hero__hello {
+  .hero__hello,
+  .hero__copy-kicker,
+  .hero__status-heading p {
     color: var(--color-cyan);
   }
 
+  .hero__identity-name {
+    margin: 0.3rem 0 0;
+    color: var(--color-text);
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+
   .hero__role {
-    margin-top: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.3rem;
     color: var(--color-muted);
   }
 
+  .hero__online-dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 0.75rem rgba(117, 234, 216, 0.95);
+  }
+
+  .hero__panel-corner {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-top: 1px solid var(--color-cyan);
+    border-right: 1px solid var(--color-cyan);
+  }
+
+  .hero__copy {
+    align-self: center;
+    padding: clamp(1rem, 2.3vh, 1.5rem) clamp(1.1rem, 2.4vw, 2rem);
+    border-color: rgba(117, 234, 216, 0.27);
+    border-radius: 0.85rem;
+  }
+
   h1 {
-    max-width: 8ch;
-    margin: 1.5rem 0 0;
-    font-size: clamp(3rem, 6vw, 5.85rem);
+    display: grid;
+    justify-items: start;
+    gap: 0.2rem;
+    margin: clamp(0.8rem, 1.6vh, 1.2rem) 0 0;
+    font-size: clamp(3rem, 5.2vw, 5.2rem);
     line-height: 0.98;
     letter-spacing: -0.06em;
   }
 
-  h1 span {
-    display: block;
-    color: var(--color-violet);
+  h1 :global(.hero__flap-line) {
+    --split-flap-tile-border: rgba(117, 234, 216, 0.065);
+    --split-flap-tile-shadow: inset 0 -1px rgba(255, 255, 255, 0.025);
+    font-size: 1rem;
+  }
+
+  h1 :global(.split-flap__tile) {
+    width: 0.9em;
+    height: 1.02em;
   }
 
   .hero__intro {
-    max-width: 38rem;
-    margin: 1.6rem 0 0;
+    max-width: 36rem;
+    margin: 1rem 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(117, 234, 216, 0.24);
     color: var(--color-muted);
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
-    line-height: 1.75;
-    overflow-wrap: anywhere;
+    font-size: clamp(0.95rem, 1.35vw, 1.05rem);
+    line-height: 1.6;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2rem;
+    gap: 0.65rem;
+    margin-top: 1rem;
   }
 
   .hero__actions :global(.hero__action) {
-    font-size: 0.875rem;
+    min-width: 6rem;
+    border-radius: 0.5rem;
+    font-size: 0.78rem;
     font-weight: 700;
   }
 
-  .hero__actions :global(.hero__action--primary) {
-    box-shadow: 0 0.9rem 2.5rem rgba(117, 234, 216, 0.1);
+  .hero__status-panel {
+    padding: 0.8rem 1rem 0.95rem;
+    border-color: rgba(117, 234, 216, 0.28);
+    border-radius: 0.75rem;
   }
 
-  .hero__actions :global(.hero__action--secondary) {
-    opacity: 0.9;
+  .hero__status-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hero__status-heading span {
+    color: var(--color-muted);
+    font-size: 0.5rem;
+  }
+
+  .hero__status-panel dl {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0.65rem 0 0;
+  }
+
+  .hero__status-panel dl > div {
+    min-width: 0;
+    padding: 0 0.7rem;
+    border-left: 1px solid rgba(137, 161, 188, 0.18);
+  }
+
+  .hero__status-panel dl > div:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .hero__status-panel dt {
+    color: rgba(178, 185, 202, 0.68);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero__status-panel dd {
+    margin: 0.32rem 0 0;
+    color: var(--color-text);
+    font-size: clamp(0.62rem, 0.9vw, 0.75rem);
+    line-height: 1.45;
+  }
+
+  .hero__coordinate {
+    width: fit-content;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.5rem;
+    color: rgba(117, 234, 216, 0.78);
+    font-size: 0.52rem;
+    white-space: nowrap;
+  }
+
+  .hero__coordinate span {
+    margin-right: 0.35rem;
+    font-size: 0.9rem;
   }
 
   .hero__visual {
@@ -241,60 +516,96 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     z-index: 1;
     display: grid;
     place-items: center;
-    min-height: clamp(35rem, 50vw, 45rem);
+    min-width: 0;
+    min-height: 0;
     isolation: isolate;
   }
 
-  .hero__visual::before {
-    position: absolute;
-    z-index: -2;
-    width: min(76%, 34rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(145, 127, 255, 0.4),
-      rgba(145, 127, 255, 0) 68%
-    );
-    content: "";
-    filter: blur(14px);
-  }
-
-  .hero__visual::after {
+  .hero__scan-ring {
     position: absolute;
     z-index: -1;
-    right: 4%;
-    bottom: 6%;
-    left: 4%;
-    height: 30%;
-    background-image:
-      linear-gradient(rgba(117, 234, 216, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(145, 127, 255, 0.11) 1px, transparent 1px);
-    background-size: 2.25rem 2.25rem;
+    width: min(78%, 40rem);
+    aspect-ratio: 1;
+    border: 1px solid rgba(117, 234, 216, 0.24);
+    border-radius: 50%;
+    background:
+      linear-gradient(rgba(117, 234, 216, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(117, 234, 216, 0.05) 1px, transparent 1px),
+      radial-gradient(circle, rgba(75, 72, 199, 0.34), transparent 66%);
+    background-size:
+      2rem 2rem,
+      2rem 2rem,
+      auto;
+    box-shadow:
+      0 0 5rem rgba(83, 77, 221, 0.16),
+      inset 0 0 3rem rgba(117, 234, 216, 0.04);
+  }
+
+  .hero__scan-ring::before,
+  .hero__scan-ring::after,
+  .hero__scan-ring span {
+    position: absolute;
+    border-radius: 50%;
     content: "";
-    mask-image: linear-gradient(
-      to bottom,
+  }
+
+  .hero__scan-ring::before {
+    inset: 8%;
+    border: 1px dashed rgba(145, 127, 255, 0.34);
+    animation: hero-ring-spin 28s linear infinite;
+  }
+
+  .hero__scan-ring::after {
+    inset: 18%;
+    border: 1px solid rgba(117, 234, 216, 0.16);
+  }
+
+  .hero__scan-ring span:nth-child(1) {
+    inset: -3%;
+    border-top: 2px solid var(--color-cyan);
+    border-right: 2px solid transparent;
+    opacity: 0.8;
+    animation: hero-ring-spin 16s linear infinite reverse;
+  }
+
+  .hero__scan-ring span:nth-child(2) {
+    top: 50%;
+    right: -5%;
+    left: -5%;
+    height: 1px;
+    border-radius: 0;
+    background: linear-gradient(
+      90deg,
       transparent,
-      #000 24%,
-      transparent 92%
+      rgba(117, 234, 216, 0.5),
+      transparent
     );
-    opacity: 0.68;
-    transform: perspective(28rem) rotateX(64deg);
-    transform-origin: bottom;
+  }
+
+  .hero__scan-ring span:nth-child(3) {
+    top: 50%;
+    bottom: -5%;
+    left: 50%;
+    width: 1px;
+    border-radius: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(117, 234, 216, 0.45),
+      transparent
+    );
   }
 
   :global(.frameless-portrait) {
     position: relative;
     z-index: 1;
-    width: min(118%, 50rem);
-    aspect-ratio: 0.82;
-    overflow: hidden;
-    transform: translate(clamp(2.5rem, 4.25vw, 4rem), -4.25rem);
+    width: min(110%, 52rem);
+    height: 100%;
+    overflow: visible;
   }
 
   :global(.frameless-portrait picture) {
     position: absolute;
-    inset: 0 -85%;
+    inset: 0 -70%;
     display: grid;
     place-items: center;
   }
@@ -303,81 +614,208 @@ const [heroLead, heroEmphasis] = profile.heroStatement.split("，");
     display: block;
     width: auto;
     max-width: none;
-    height: min(86svh, 50rem);
+    height: min(91svh, 53rem);
+    translate: 5% -1%;
     -webkit-mask-image: radial-gradient(
-      ellipse 15.5% 52% at 50% 50%,
-      #000 62%,
-      rgba(0, 0, 0, 0.96) 74%,
-      rgba(0, 0, 0, 0.3) 88%,
+      ellipse 16% 53% at 50% 50%,
+      #000 64%,
+      rgba(0, 0, 0, 0.95) 75%,
+      rgba(0, 0, 0, 0.25) 89%,
       transparent 100%
     );
     mask-image: radial-gradient(
-      ellipse 15.5% 52% at 50% 50%,
-      #000 62%,
-      rgba(0, 0, 0, 0.96) 74%,
-      rgba(0, 0, 0, 0.3) 88%,
+      ellipse 16% 53% at 50% 50%,
+      #000 64%,
+      rgba(0, 0, 0, 0.95) 75%,
+      rgba(0, 0, 0, 0.25) 89%,
       transparent 100%
     );
-    filter: contrast(1.035) saturate(1.035);
+    filter: contrast(1.045) saturate(1.035);
     transition: transform 180ms ease-out;
     will-change: transform;
   }
 
-  .hero__telemetry {
+  .hero__visual-status {
     position: absolute;
-    top: 13%;
-    left: 1%;
-    color: var(--color-muted);
-    font-size: 0.58rem;
+    right: 2%;
+    bottom: 7%;
+    padding-left: 0.8rem;
+    border-left: 1px solid rgba(117, 234, 216, 0.55);
+    color: rgba(178, 185, 202, 0.68);
+    font-size: 0.5rem;
     font-weight: 700;
-    letter-spacing: 0.13em;
-    line-height: 1.8;
-    opacity: 0.8;
+    letter-spacing: 0.12em;
+    line-height: 1.7;
+  }
+
+  .hero__visual-status span {
+    position: absolute;
+    top: 0.15rem;
+    left: -0.18rem;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 0.65rem var(--color-cyan);
+  }
+
+  @keyframes hero-ring-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .hero {
+      grid-template-columns: minmax(24rem, 0.9fr) minmax(25rem, 1.1fr);
+    }
+
+    .hero__status-panel dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 0.6rem;
+    }
+
+    .hero__status-panel dl > div:nth-child(3) {
+      padding-left: 0;
+      border-left: 0;
+    }
   }
 
   @media (max-width: 53.125rem) {
     .hero {
       grid-template-columns: minmax(0, 1fr);
-      min-height: auto;
-      gap: 0.5rem;
-      padding-block: clamp(2.75rem, 8vw, 4rem) 2.5rem;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 0.2rem;
+      width: min(100% - 1.5rem, var(--content-wide));
+      height: calc(100svh - 4.5rem);
+      padding: clamp(0.75rem, 2vh, 1.2rem) 0 0;
+    }
+
+    .hero__interface {
+      z-index: 3;
+      grid-template-rows: auto auto;
+      gap: 0.6rem;
+      padding: 0;
+    }
+
+    .hero__identity-panel {
+      grid-template-columns: 2.5rem 1fr;
+      min-height: 0;
+      padding: 0.55rem 0.7rem;
+    }
+
+    .hero__identity-mark {
+      width: 2.15rem;
+    }
+
+    .hero__identity-name {
+      margin-top: 0.1rem;
+      font-size: 0.9rem;
+    }
+
+    .hero__role {
+      margin-top: 0.12rem;
+      font-size: 0.52rem;
+    }
+
+    .hero__copy {
+      padding: 0.75rem 0.85rem;
+    }
+
+    .hero__copy-kicker {
+      font-size: 0.54rem;
+    }
+
+    h1 {
+      margin-top: 0.55rem;
+      font-size: clamp(2.35rem, 10vw, 3.6rem);
+    }
+
+    h1 :global(.hero__flap-line) {
+      --split-flap-font-size: clamp(2.2rem, 9.2vw, 3.25rem) !important;
+      --split-flap-gap: 3px !important;
+    }
+
+    .hero__intro {
+      margin-top: 0.55rem;
+      padding-top: 0.5rem;
+      font-size: 0.82rem;
+    }
+
+    .hero__actions {
+      margin-top: 0.65rem;
+    }
+
+    .hero__actions :global(.hero__action) {
+      min-height: 2.5rem;
+      padding: 0.58rem 0.85rem;
+    }
+
+    .hero__status-panel,
+    .hero__coordinate {
+      display: none;
     }
 
     .hero__visual {
-      min-height: clamp(31rem, 105vw, 39rem);
+      min-height: 0;
+      place-items: end center;
+    }
+
+    .hero__scan-ring {
+      bottom: 2%;
+      width: min(82vw, 28rem);
     }
 
     :global(.frameless-portrait) {
-      width: min(100%, 34rem);
+      width: 100%;
+      height: 100%;
       overflow: hidden;
-      transform: none;
+    }
+
+    :global(.frameless-portrait picture) {
+      position: static;
+      width: 100%;
+      height: 100%;
+      inset: auto;
+      place-items: end center;
+      transform: scale(1.45);
+      transform-origin: center bottom;
     }
 
     :global(.frameless-portrait img) {
-      height: 112%;
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      translate: none;
+    }
+
+    .hero__visual-status {
+      display: none;
     }
   }
 
   @media (max-width: 30rem) {
-    .hero {
-      width: min(100% - 1.5rem, var(--content-wide));
-    }
-
-    h1 {
-      font-size: clamp(2.75rem, 14vw, 4rem);
-    }
-
-    .hero__visual {
-      min-height: 30rem;
-      margin-top: 0.5rem;
-    }
-
-    :global(.frameless-portrait) {
-      width: min(112%, 28rem);
-    }
-
-    .hero__telemetry {
+    .hero__identity-panel {
       display: none;
+    }
+
+    .hero__interface {
+      grid-template-rows: auto;
+    }
+  }
+
+  @media (max-height: 43.75rem) and (min-width: 53.126rem) {
+    .hero {
+      height: auto;
+      min-height: calc(100svh - 5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scan-ring::before,
+    .hero__scan-ring span:nth-child(1) {
+      animation: none;
     }
   }
 </style>

@@ -1,14 +1,13 @@
 ---
 import { profile } from "@/data/profile";
 import SiteLayout from "@/layouts/SiteLayout.astro";
-import LearningGrid from "@/components/sections/LearningGrid.astro";
+import AboutShowcase from "@/components/sections/AboutShowcase.astro";
 ---
 
 <SiteLayout
-  title={`正在学习 | ${profile.name}`}
-  description="记录 Sheng 正在练习的数据标注、提示词设计与回答评估。"
-  fitScreen
+  title={`关于我 | ${profile.name}`}
+  description="来自广东广州的 Sheng，关于他的个人介绍与作品。"
   showFooter={false}
 >
-  <LearningGrid items={profile.learning} />
+  <AboutShowcase content={profile.about} contact={profile.contact} />
 </SiteLayout>

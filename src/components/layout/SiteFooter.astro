@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { identity } = Astro.props;
-const shineLabel = 'BUILT WITH CURIOSITY';
+const shineLabel = "BUILT WITH CURIOSITY";
 const identityLead = identity.slice(0, -shineLabel.length);
 ---
 
@@ -31,7 +31,13 @@ const identityLead = identity.slice(0, -shineLabel.length);
 
   .site-footer__shine {
     display: inline-block;
-    background: linear-gradient(110deg, var(--color-muted) 30%, var(--color-cyan) 48%, var(--color-text) 52%, var(--color-muted) 70%);
+    background: linear-gradient(
+      110deg,
+      var(--color-muted) 30%,
+      var(--color-cyan) 48%,
+      var(--color-text) 52%,
+      var(--color-muted) 70%
+    );
     background-size: 220% 100%;
     background-position: 100% 0;
     -webkit-background-clip: text;

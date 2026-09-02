@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
@@ -16,15 +16,15 @@ const requiredByPage = {
   home: [
     "AI TRAINER IN PROGRESS",
     "保持好奇",
-    "奔赴未知",
+    "探索未知",
     'href="/learning"',
-    'href="/roadmap"',
+    'href="/learning#contact"',
     'id="top"',
     '<body class="screen-locked">',
     'alt="Sheng 的 3D IP 形象"',
   ],
-  learning: ['id="learning"', "正在建立的能力"],
-  roadmap: ['id="roadmap"'],
+  learning: [],
+  roadmap: [],
 };
 
 const forbiddenLiterals = [
@@ -35,10 +35,10 @@ const forbiddenLiterals = [
   'rel="canonical"',
   'href="#learning"',
   'href="#roadmap"',
+  'href="/roadmap"',
 ];
 
-const expectedNavRoutes = ["/", "/learning", "/roadmap"];
-const expectedLearningCardCount = 3;
+const expectedNavRoutes = ["/", "/learning"];
 
 function readAttribute(attributes, name) {
   const match = attributes.match(
@@ -160,7 +160,9 @@ function advertisedSourceWidth(sizes, viewport) {
 function selectedResponsiveWidth(attributes, viewport) {
   const widths = (readAttribute(attributes, "srcset") ?? "")
     .split(",")
-    .map((candidate) => Number.parseInt(candidate.match(/(\d+)w\s*$/)?.[1] ?? "", 10))
+    .map((candidate) =>
+      Number.parseInt(candidate.match(/(\d+)w\s*$/)?.[1] ?? "", 10),
+    )
     .filter(Number.isFinite)
     .sort((left, right) => left - right);
   const advertised = advertisedSourceWidth(
@@ -195,7 +197,7 @@ export function renderedTextFromHtml(html) {
     .trim();
 }
 
-export function inspectBuiltPage(html, page) {
+export function inspectBuiltPage(html, page, styles = html) {
   const renderedText = renderedTextFromHtml(html);
   const primaryNav = findContainers(html, "nav").find(
     ({ attributes }) =>
@@ -207,7 +209,9 @@ export function inspectBuiltPage(html, page) {
         readAttribute(match[1] ?? "", "href"),
       )
     : [];
-  const footer = findContainers(html, "footer")[0];
+  const footer = findContainers(html, "footer").find(({ attributes }) =>
+    hasClass(attributes, "site-footer"),
+  );
 
   const result = {
     page,
@@ -236,9 +240,23 @@ export function inspectBuiltPage(html, page) {
       !footer,
     canvasCount: (html.match(/<canvas\b/gi) ?? []).length,
     heroIdentityVisible: true,
+    heroSignatureValid: true,
+    futureOsInterfaceValid: true,
+    identityAvatarValid: true,
     learningStatusesValid: true,
+    aboutSectionsValid: true,
     responsivePortraitValid: true,
     portraitDensityValid: true,
+    learningRailAccessible: true,
+    aboutRailAccessible: true,
+    identityContactValid: true,
+    identityLabelsLocalized: true,
+    publishedEmailValid: true,
+    aboutScrollValid: true,
+    standaloneContactAbsent: true,
+    viewportFallbackValid:
+      /(?:max-height\s*:\s*43\.75rem|height\s*<=\s*43\.75rem)/i.test(styles) &&
+      /overflow-y\s*:\s*auto/i.test(styles),
   };
 
   if (page === "home") {
@@ -258,6 +276,71 @@ export function inspectBuiltPage(html, page) {
       role &&
       !isExplicitlyHidden(role.attributes) &&
       renderedTextFromHtml(role.innerHtml) === "AI TRAINER IN PROGRESS",
+    );
+
+    const heroHeading = hero ? findContainers(hero.innerHtml, "h1")[0] : null;
+    result.heroSignatureValid = Boolean(
+      heroHeading &&
+      renderedTextFromHtml(heroHeading.innerHtml).replace(/\s+/g, "") ===
+        "保持好奇，探索未知。",
+    );
+
+    const identityPanel = hero
+      ? findElementByClass(hero.innerHtml, "hero__identity-panel")
+      : null;
+    const statusPanel = hero
+      ? findElementByClass(hero.innerHtml, "hero__status-panel")
+      : null;
+    const scanRing = hero
+      ? findElementByClass(hero.innerHtml, "hero__scan-ring")
+      : null;
+    const introduction = hero
+      ? findElementByClass(hero.innerHtml, "hero__intro")
+      : null;
+    result.futureOsInterfaceValid = Boolean(
+      hero &&
+      readAttribute(hero.attributes, "data-interface") === "personal-os" &&
+      identityPanel &&
+      readAttribute(identityPanel.attributes, "aria-label") === "数字身份" &&
+      statusPanel &&
+      readAttribute(statusPanel.attributes, "aria-label") === "个人状态" &&
+      (hero.innerHtml.match(/<dt\b/gi) ?? []).length >= 3 &&
+      scanRing &&
+      readAttribute(scanRing.attributes, "aria-hidden") === "true" &&
+      introduction &&
+      renderedTextFromHtml(introduction.innerHtml) ===
+        "正在把好奇，训练成判断力。",
+    );
+
+    const identityAvatar = identityPanel
+      ? findContainers(identityPanel.innerHtml, "picture")[0]
+      : null;
+    const identityAvatarSources = identityAvatar
+      ? [...identityAvatar.innerHtml.matchAll(/<source\b([^>]*)>/gi)].map(
+          (match) => match[1] ?? "",
+        )
+      : [];
+    const identityAvatarImage = identityAvatar
+      ? [...identityAvatar.innerHtml.matchAll(/<img\b([^>]*)>/gi)].map(
+          (match) => match[1] ?? "",
+        )[0]
+      : null;
+    result.identityAvatarValid = Boolean(
+      identityAvatar &&
+      identityAvatarSources.some(
+        (attributes) =>
+          readAttribute(attributes, "type") === "image/avif" &&
+          hasResponsiveSrcset(attributes),
+      ) &&
+      identityAvatarSources.some(
+        (attributes) =>
+          readAttribute(attributes, "type") === "image/webp" &&
+          hasResponsiveSrcset(attributes),
+      ) &&
+      identityAvatarImage &&
+      readAttribute(identityAvatarImage, "alt") === "Sheng 常用头像" &&
+      Boolean(readAttribute(identityAvatarImage, "width")) &&
+      Boolean(readAttribute(identityAvatarImage, "height")),
     );
 
     const portrait = findContainers(hero?.innerHtml ?? "", "picture").find(
@@ -305,43 +388,101 @@ export function inspectBuiltPage(html, page) {
     );
     result.portraitDensityValid = Boolean(
       avifSource &&
-      selectedResponsiveWidth(avifSource, { width: 1154, height: 912 }) >=
-        1672,
+      selectedResponsiveWidth(avifSource, { width: 1154, height: 912 }) >= 1672,
     );
   }
 
   if (page === "learning") {
-    const learning = findContainers(html, "section").find(
-      ({ attributes }) => readAttribute(attributes, "id") === "learning",
+    const about = findContainers(html, "section").find(
+      ({ attributes }) => readAttribute(attributes, "id") === "about",
     );
-    const learningList = learning
-      ? findContainers(learning.innerHtml, "ul").find(({ attributes }) =>
-          hasClass(attributes, "learning__grid"),
-        )
+    const consolePanel = findElementByClass(html, "about__console");
+    const identity = findElementByClass(html, "about__identity");
+    const biography = findElementByClass(html, "about__biography");
+    const focusAreas = findElementByClass(html, "about__focus-areas");
+    const identityContact = findElementByClass(html, "about__contact-fact");
+    const portfolio = findElementByClass(html, "about__portfolio");
+    const workGrid = findElementByClass(html, "about__work-grid");
+    const standaloneContact = findContainers(html, "section").find(
+      ({ attributes }) => readAttribute(attributes, "id") === "contact",
+    );
+    const aboutText = renderedTextFromHtml(html);
+    const identityText = identity
+      ? renderedTextFromHtml(identity.innerHtml)
+      : "";
+    const identityContactHref = identity
+      ? [...identity.innerHtml.matchAll(/<a\b([^>]*)>/gi)]
+          .map((match) => readAttribute(match[1] ?? "", "href"))
+          .find(Boolean)
       : null;
-    const cards = learningList
-      ? findContainers(learningList.innerHtml, "li")
-      : [];
-    result.learningStatusesValid =
-      cards.length === expectedLearningCardCount &&
-      cards.every(({ innerHtml }) => {
-        const status = findElementByClass(innerHtml, "learning__status");
-        return Boolean(
-          status &&
-          !isExplicitlyHidden(status.attributes) &&
-          renderedTextFromHtml(status.innerHtml) === "正在学习",
-        );
-      });
+
+    result.aboutSectionsValid = Boolean(
+      about &&
+      consolePanel &&
+      identity &&
+      biography &&
+      focusAreas &&
+      identityContact &&
+      portfolio &&
+      workGrid &&
+      identityText.includes("来自广东广州") &&
+      aboutText.includes(
+        "你好，我是 Sheng，来自广东广州。正在从事 AI 行业工作，沿着通往 AGI 之路持续学习和积累。",
+      ) &&
+      aboutText.includes(
+        "对我来说，这不只是一个新的职业选择，也是一次重新认识技术、内容和人的过程。我会从具体的学习与练习开始，逐步建立自己的理解和判断。",
+      ) &&
+      aboutText.includes(
+        "这个网站会记录我的学习、作品和思考，也会随着我的经历继续更新。",
+      ) &&
+      aboutText.includes("具身智能") &&
+      aboutText.includes("AI Agent") &&
+      aboutText.includes("多模态交互") &&
+      aboutText.includes("作品正在整理中，之后会从这里开始更新。"),
+    );
+    result.aboutRailAccessible = Boolean(
+      identity &&
+      readAttribute(identity.attributes, "aria-label") === "个人信息" &&
+      biography &&
+      readAttribute(biography.attributes, "aria-label") === "个人介绍" &&
+      focusAreas &&
+      readAttribute(focusAreas.attributes, "aria-labelledby") ===
+        "focus-areas-title" &&
+      portfolio &&
+      readAttribute(portfolio.attributes, "aria-labelledby") ===
+        "portfolio-title",
+    );
+    result.identityContactValid = Boolean(
+      identityContact &&
+      readAttribute(identityContact.attributes, "id") === "contact" &&
+      identityContactHref &&
+      identityContactHref.startsWith("mailto:"),
+    );
+    const identityContactText = identityContact
+      ? renderedTextFromHtml(identityContact.innerHtml)
+      : "";
+    result.identityLabelsLocalized =
+      identityText.includes("所在地") &&
+      identityContactText.includes("联系方式") &&
+      !identityText.includes("LOCATION") &&
+      !identityText.includes("CONTACT");
+    const publishedEmailLinks =
+      html.match(/href="mailto:asheng060@163\.com"/g) ?? [];
+    result.publishedEmailValid =
+      publishedEmailLinks.length === 1 &&
+      aboutText.includes("asheng060@163.com");
+    result.aboutScrollValid =
+      !html.includes('<body class="screen-locked">') && !footer;
+    result.standaloneContactAbsent = !standaloneContact;
   }
 
   return result;
 }
 
-export function inspectBuiltSite(pages) {
+export function inspectBuiltSite(pages, styles) {
   return {
-    home: inspectBuiltPage(pages.home, "home"),
-    learning: inspectBuiltPage(pages.learning, "learning"),
-    roadmap: inspectBuiltPage(pages.roadmap, "roadmap"),
+    home: inspectBuiltPage(pages.home, "home", styles),
+    learning: inspectBuiltPage(pages.learning, "learning", styles),
   };
 }
 
@@ -356,11 +497,21 @@ function pageHasContractFailure(result) {
     !result.navRoutesValid ||
     result.activeNavCount !== 1 ||
     !result.footerValid ||
-    !result.singleScreenValid ||
+    (result.page === "home" && !result.singleScreenValid) ||
     !result.heroIdentityVisible ||
-    !result.learningStatusesValid ||
+    !result.heroSignatureValid ||
+    !result.futureOsInterfaceValid ||
+    !result.identityAvatarValid ||
+    !result.aboutSectionsValid ||
     !result.responsivePortraitValid ||
     !result.portraitDensityValid ||
+    !result.aboutRailAccessible ||
+    !result.identityContactValid ||
+    !result.identityLabelsLocalized ||
+    !result.publishedEmailValid ||
+    !result.aboutScrollValid ||
+    !result.standaloneContactAbsent ||
+    !result.viewportFallbackValid ||
     result.canvasCount !== expectedCanvasCount
   );
 }
@@ -374,23 +525,24 @@ const isDirectRun =
   resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (isDirectRun) {
+  const assetDirectory = new URL("../dist/_astro/", import.meta.url);
+  const styles = readdirSync(assetDirectory)
+    .filter((name) => name.endsWith(".css"))
+    .map((name) => readFileSync(new URL(name, assetDirectory), "utf8"))
+    .join("\n");
   const pages = {
     home: readFileSync(new URL("../dist/index.html", import.meta.url), "utf8"),
     learning: readFileSync(
       new URL("../dist/learning/index.html", import.meta.url),
       "utf8",
     ),
-    roadmap: readFileSync(
-      new URL("../dist/roadmap/index.html", import.meta.url),
-      "utf8",
-    ),
   };
-  const result = inspectBuiltSite(pages);
+  const result = inspectBuiltSite(pages, styles);
 
   if (hasContractFailure(result)) {
     console.error(result);
     process.exit(1);
   }
 
-  console.log("Built-site contract verified for /, /learning, and /roadmap.");
+  console.log("Built-site contract verified for / and /learning.");
 }

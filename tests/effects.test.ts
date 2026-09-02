@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { shouldRunPointerEffects } from '@/lib/effects';
+import { describe, expect, it } from "vitest";
+import { shouldRunPointerEffects } from "@/lib/effects";
 
-describe('shouldRunPointerEffects', () => {
-  it('runs only for a wide fine-pointer viewport without reduced motion', () => {
+describe("shouldRunPointerEffects", () => {
+  it("runs only for a wide fine-pointer viewport without reduced motion", () => {
     expect(
       shouldRunPointerEffects({
         reducedMotion: false,

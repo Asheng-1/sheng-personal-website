@@ -1,0 +1,589 @@
+---
+import { ScrollReveal } from "@/components/effects/ScrollReveal";
+import type { AboutContent, ContactContent } from "@/data/profile";
+
+interface Props {
+  content: AboutContent;
+  contact: ContactContent;
+}
+
+const { content, contact } = Astro.props;
+const primaryContact = contact.channels[0];
+const primaryContactLabel = primaryContact?.href.startsWith("mailto:")
+  ? primaryContact.href.slice("mailto:".length)
+  : (primaryContact?.label ?? "邮箱待补充");
+---
+
+<section id="about" class="content-section about" aria-labelledby="about-title">
+  <ScrollReveal client:visible className="section-reveal">
+    <header class="about__topline">
+      <p class="section-kicker">PROFILE / 02</p>
+      <p>PERSONAL FILE · LIVE</p>
+    </header>
+
+    <div class="about__console">
+      <aside class="about__identity system-panel" aria-label="个人信息">
+        <span class="panel-corner" aria-hidden="true"></span>
+        <p class="about__label">IDENTITY.EXE</p>
+        <h1 id="about-title">关于我<span aria-hidden="true">_</span></h1>
+
+        <dl class="about__facts">
+          <div>
+            <dt><span aria-hidden="true">⌖</span> 所在地</dt>
+            <dd>{content.origin}</dd>
+          </div>
+          <div id="contact" class="about__contact-fact">
+            <dt><span aria-hidden="true">◇</span> 联系方式</dt>
+            <dd>
+              <a href={primaryContact?.href ?? "#contact"}>
+                {primaryContactLabel}<span aria-hidden="true"> ↘</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        <footer class="about__identity-status">
+          <span>STATUS</span>
+          <strong>ACTIVE <i aria-hidden="true"></i></strong>
+        </footer>
+      </aside>
+
+      <div class="about__main">
+        <article class="about__biography system-panel" aria-label="个人介绍">
+          <span class="panel-corner" aria-hidden="true"></span>
+          <p class="about__label">BIOGRAPHY.LOG</p>
+          <h2>你好，我是 Sheng。</h2>
+          <p class="about__biography-lead">{content.introduction}</p>
+          {content.introductionDetails.map((paragraph) => <p>{paragraph}</p>)}
+          <footer>
+            <span aria-hidden="true"></span>
+            CONTENT VERIFIED / CONTINUOUS UPDATE
+          </footer>
+        </article>
+
+        <section
+          class="about__focus-areas system-panel"
+          aria-labelledby="focus-areas-title"
+        >
+          <span class="panel-corner" aria-hidden="true"></span>
+          <header>
+            <p class="about__label">RADAR.LOG</p>
+            <h2 id="focus-areas-title">关注领域</h2>
+          </header>
+          <ul>
+            {
+              content.focusAreas.map((item) => (
+                <li>
+                  <span class="about__focus-dot" aria-hidden="true" />
+                  <p>{item.code}</p>
+                  <h3>{item.title}</h3>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+  </ScrollReveal>
+
+  <ScrollReveal client:visible className="section-reveal">
+    <section
+      class="about__portfolio system-panel"
+      aria-labelledby="portfolio-title"
+    >
+      <span class="panel-corner" aria-hidden="true"></span>
+      <header class="about__portfolio-heading">
+        <div>
+          <p class="about__label">SELECTED WORK / SOON</p>
+          <h2 id="portfolio-title">个人作品</h2>
+        </div>
+        <p>{content.portfolioEmptyState}</p>
+      </header>
+
+      <div class="about__work-grid">
+        {
+          ["01", "02"].map((index) => (
+            <article class="about__work-card" aria-label={`作品位置 ${index}`}>
+              <span>{index}</span>
+              <div aria-hidden="true">&gt;_</div>
+              <h3>待添加作品</h3>
+              <p>持续更新中</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </ScrollReveal>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(6rem, 9vw, 8rem);
+  }
+
+  .about__topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(117, 234, 216, 0.18);
+  }
+
+  .about__topline p,
+  .about__label {
+    margin: 0;
+    font:
+      800 0.62rem/1.4 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.15em;
+  }
+
+  .about__topline p:last-child {
+    color: var(--color-muted);
+  }
+
+  .about__label {
+    color: var(--color-cyan);
+  }
+
+  .about__console {
+    display: grid;
+    grid-template-columns: minmax(16rem, 0.38fr) minmax(0, 1fr);
+    gap: clamp(1rem, 2.5vw, 2rem);
+  }
+
+  .system-panel {
+    position: relative;
+    border: 1px solid rgba(117, 234, 216, 0.2);
+    background:
+      linear-gradient(135deg, rgba(117, 234, 216, 0.035), transparent 42%),
+      rgba(7, 10, 18, 0.7);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.02);
+  }
+
+  .panel-corner::before,
+  .panel-corner::after {
+    position: absolute;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-color: var(--color-cyan);
+    content: "";
+    pointer-events: none;
+  }
+
+  .panel-corner::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .panel-corner::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+
+  .about__identity {
+    display: flex;
+    min-height: 36rem;
+    flex-direction: column;
+    padding: clamp(1.4rem, 3vw, 2.25rem);
+  }
+
+  .about__identity h1 {
+    margin: 1.8rem 0 2.2rem;
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+  }
+
+  .about__identity h1 span {
+    color: var(--color-cyan);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  }
+
+  .about__facts {
+    display: grid;
+    flex: 1;
+    grid-template-rows: auto 1fr;
+    margin: 0;
+  }
+
+  .about__contact-fact {
+    align-content: start;
+  }
+
+  .about__facts div {
+    display: grid;
+    gap: 0.7rem;
+    padding: 1.35rem 0;
+    border-top: 1px solid rgba(137, 161, 188, 0.16);
+  }
+
+  .about__facts dt {
+    color: var(--color-muted);
+    font:
+      700 0.58rem/1.4 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.13em;
+  }
+
+  .about__facts dt span {
+    display: inline-block;
+    width: 1.2rem;
+    color: var(--color-cyan);
+    font-size: 0.9rem;
+  }
+
+  .about__facts dd {
+    margin: 0 0 0 1.2rem;
+    font-size: clamp(1rem, 1.7vw, 1.25rem);
+    font-weight: 650;
+  }
+
+  .about__facts dd a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .about__contact-fact dd {
+    font-size: clamp(0.9rem, 1.45vw, 1.1rem);
+  }
+
+  .about__contact-fact dd a {
+    white-space: nowrap;
+  }
+
+  .about__facts dd a:hover,
+  .about__facts dd a:focus-visible {
+    color: var(--color-cyan);
+  }
+
+  .about__identity-status {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(137, 161, 188, 0.16);
+    color: var(--color-muted);
+    font:
+      800 0.58rem/1.4 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.13em;
+  }
+
+  .about__identity-status strong {
+    color: var(--color-cyan);
+  }
+
+  .about__identity-status i {
+    display: inline-block;
+    width: 0.42rem;
+    height: 0.42rem;
+    margin-left: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 0.7rem rgba(117, 234, 216, 0.75);
+  }
+
+  .about__main {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 2rem);
+  }
+
+  .about__biography {
+    min-height: 20rem;
+    padding: clamp(1.5rem, 3.5vw, 3rem);
+  }
+
+  .about__biography h2 {
+    margin: 1.6rem 0 1rem;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.04em;
+  }
+
+  .about__biography > p:not(.about__label) {
+    max-width: 49rem;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: clamp(0.96rem, 1.4vw, 1.08rem);
+    line-height: 1.95;
+  }
+
+  .about__biography .about__biography-lead {
+    color: var(--color-text);
+  }
+
+  .about__biography .about__biography-lead + p {
+    margin-top: 1rem;
+  }
+
+  .about__biography footer {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    margin-top: 2rem;
+    color: var(--color-muted);
+    font:
+      700 0.54rem/1.4 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.12em;
+  }
+
+  .about__biography footer span {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+  }
+
+  .about__focus-areas {
+    padding: clamp(1.35rem, 2.5vw, 2rem);
+  }
+
+  .about__focus-areas header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .about__focus-areas h2,
+  .about__portfolio h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+  }
+
+  .about__focus-areas ul {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__focus-areas ul::before {
+    position: absolute;
+    top: 0.35rem;
+    right: 0;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-cyan), #8b7cff);
+    content: "";
+    opacity: 0.65;
+  }
+
+  .about__focus-areas li {
+    position: relative;
+    min-width: 0;
+    padding-top: 1.55rem;
+  }
+
+  .about__focus-dot {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0.15rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 2px solid #101929;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow:
+      0 0 0 1px var(--color-cyan),
+      0 0 0.8rem rgba(117, 234, 216, 0.5);
+  }
+
+  .about__focus-areas li > p:first-of-type {
+    margin: 0;
+    color: var(--color-cyan);
+    font:
+      700 0.52rem/1.4 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .about__focus-areas h3 {
+    margin: 0.65rem 0 0;
+    font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+  }
+
+  .about__portfolio {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .about__portfolio-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .about__portfolio-heading h2 {
+    margin-top: 0.65rem;
+  }
+
+  .about__portfolio-heading > p {
+    max-width: 30rem;
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+
+  .about__work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .about__work-card {
+    position: relative;
+    display: grid;
+    min-height: 11rem;
+    place-items: center;
+    align-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(137, 161, 188, 0.16);
+    background: rgba(9, 14, 24, 0.55);
+    text-align: center;
+    transition:
+      border-color 180ms ease,
+      transform 220ms ease;
+  }
+
+  .about__work-card > span {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.9rem;
+    color: var(--color-muted);
+    font:
+      700 0.55rem/1 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+  }
+
+  .about__work-card div {
+    color: var(--color-cyan);
+    font:
+      500 2rem/1 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+  }
+
+  .about__work-card h3 {
+    margin: 1rem 0 0;
+    font-size: 1rem;
+  }
+
+  .about__work-card p {
+    margin: 0.45rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .about__work-card:hover {
+      border-color: rgba(117, 234, 216, 0.52);
+      transform: translateY(-2px);
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .about__console {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about__identity {
+      min-height: auto;
+    }
+
+    .about__facts {
+      grid-template-rows: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .about__identity-status {
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (max-width: 45rem) {
+    .about__topline p:last-child {
+      display: none;
+    }
+
+    .about__facts,
+    .about__focus-areas ul,
+    .about__work-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about__focus-areas ul {
+      gap: 0;
+      padding-left: 0.2rem;
+    }
+
+    .about__focus-areas ul::before {
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: 0.52rem;
+      width: 1px;
+      height: auto;
+      background: linear-gradient(var(--color-cyan), #8b7cff);
+    }
+
+    .about__focus-areas li {
+      padding: 0 0 2rem 2rem;
+    }
+
+    .about__focus-areas li:last-child {
+      padding-bottom: 0;
+    }
+
+    .about__focus-dot {
+      top: 0.15rem;
+      left: 0;
+    }
+
+    .about__portfolio-heading {
+      display: grid;
+      align-items: start;
+      gap: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about__work-card {
+      transition: border-color 120ms ease;
+    }
+
+    .about__work-card:hover {
+      transform: none;
+    }
+  }
+</style>

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { shouldRunPointerEffects } from '@/lib/effects';
+import { useEffect, useRef, useState } from "react";
+import { shouldRunPointerEffects } from "@/lib/effects";
 
 interface Props {
   targets: readonly string[];
@@ -10,8 +10,8 @@ export function TargetCursor({ targets }: Props) {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const pointerQuery = window.matchMedia('(pointer: coarse)');
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pointerQuery = window.matchMedia("(pointer: coarse)");
     const update = () => {
       setEnabled(
         shouldRunPointerEffects({
@@ -23,14 +23,14 @@ export function TargetCursor({ targets }: Props) {
     };
 
     update();
-    window.addEventListener('resize', update);
-    motionQuery.addEventListener('change', update);
-    pointerQuery.addEventListener('change', update);
+    window.addEventListener("resize", update);
+    motionQuery.addEventListener("change", update);
+    pointerQuery.addEventListener("change", update);
 
     return () => {
-      window.removeEventListener('resize', update);
-      motionQuery.removeEventListener('change', update);
-      pointerQuery.removeEventListener('change', update);
+      window.removeEventListener("resize", update);
+      motionQuery.removeEventListener("change", update);
+      pointerQuery.removeEventListener("change", update);
     };
   }, []);
 
@@ -40,7 +40,7 @@ export function TargetCursor({ targets }: Props) {
 
     const move = (event: PointerEvent) => {
       ring.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
-      ring.dataset.visible = 'true';
+      ring.dataset.visible = "true";
 
       const target = event.target;
       ring.dataset.active = String(
@@ -50,18 +50,18 @@ export function TargetCursor({ targets }: Props) {
     };
 
     const hide = () => {
-      ring.dataset.visible = 'false';
-      ring.dataset.active = 'false';
+      ring.dataset.visible = "false";
+      ring.dataset.active = "false";
     };
 
-    window.addEventListener('pointermove', move, { passive: true });
-    window.addEventListener('blur', hide);
-    document.documentElement.addEventListener('pointerleave', hide);
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("blur", hide);
+    document.documentElement.addEventListener("pointerleave", hide);
 
     return () => {
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('blur', hide);
-      document.documentElement.removeEventListener('pointerleave', hide);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("blur", hide);
+      document.documentElement.removeEventListener("pointerleave", hide);
     };
   }, [enabled, targets]);
 

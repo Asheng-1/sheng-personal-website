@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export function GridScan() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current) ref.current.dataset.active = 'true';
+    if (ref.current) ref.current.dataset.active = "true";
   }, []);
 
   return (

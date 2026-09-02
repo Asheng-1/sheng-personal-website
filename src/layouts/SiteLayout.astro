@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteHeader from "@/components/layout/SiteHeader.astro";
 import SiteFooter from "@/components/layout/SiteFooter.astro";
+import PageTurnNavigation from "@/components/layout/PageTurnNavigation.astro";
 import { TargetCursor } from "@/components/effects/TargetCursor";
 import { profile } from "@/data/profile";
 
@@ -33,6 +34,7 @@ const {
   <main class:list={["site-main", { "site-main--fit": fitScreen }]}>
     <slot />
   </main>
+  <PageTurnNavigation nav={profile.nav} currentPath={Astro.url.pathname} />
   {showFooter && <SiteFooter identity={profile.footer} />}
   <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
 </BaseLayout>
@@ -62,5 +64,19 @@ const {
   :global(body.screen-locked) {
     height: 100svh;
     overflow: hidden;
+  }
+
+  @media (max-height: 43.75rem) {
+    .site-main--fit {
+      height: auto;
+      min-height: calc(100svh - 5rem);
+      overflow-y: auto;
+    }
+
+    :global(body.screen-locked) {
+      height: auto;
+      min-height: 100svh;
+      overflow-y: auto;
+    }
   }
 </style>

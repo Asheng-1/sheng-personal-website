@@ -1,0 +1,237 @@
+---
+import { GridScan } from "@/components/effects/GridScan";
+import { ScrollReveal } from "@/components/effects/ScrollReveal";
+import { ShinyText } from "@/components/effects/ShinyText";
+import type { ContactContent } from "@/data/profile";
+
+interface Props {
+  content: ContactContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  id="contact"
+  class="content-section contact"
+  aria-labelledby="contact-title"
+>
+  <ScrollReveal client:visible className="section-reveal">
+    <header class="section-heading">
+      <p class="section-kicker">CONTACT / PROFILE</p>
+      <h2 id="contact-title">
+        <ShinyText
+          text="联系方式"
+          speed={4.2}
+          delay={0.35}
+          color="#dce7ff"
+          shineColor="#ffffff"
+          spread={68}
+          direction="left"
+        />
+      </h2>
+      <p>{content.introduction}</p>
+    </header>
+
+    <div class="contact__stage">
+      <GridScan client:visible />
+      <div class="contact__signal" aria-hidden="true">
+        <span></span>
+        CHANNELS / STANDBY
+      </div>
+
+      {
+        content.channels.length > 0 ? (
+          <ul class="contact__channels" aria-label="联系方式列表">
+            {content.channels.map((channel) => (
+              <li>
+                <a class="contact__channel" href={channel.href}>
+                  <span>{channel.label}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="contact__empty" role="status">
+            <p class="contact__empty-label">OPEN CHANNEL</p>
+            <h2>保持联系</h2>
+            <p>{content.emptyState}</p>
+          </div>
+        )
+      }
+    </div>
+  </ScrollReveal>
+</section>
+
+<style>
+  .section-heading {
+    grid-template-columns: minmax(0, 29rem) minmax(20rem, 1fr);
+    gap: 0.75rem clamp(2rem, 5vw, 5rem);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+  .contact__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 18rem;
+    margin-top: clamp(1.75rem, 3vw, 2.5rem);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    background: rgba(10, 13, 24, 0.56);
+    isolation: isolate;
+  }
+
+  .contact__stage::before {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      110deg,
+      transparent 8%,
+      var(--color-cyan) 28%,
+      transparent 43%,
+      transparent 62%,
+      var(--color-violet) 78%,
+      transparent 92%
+    );
+    background-size: 260% 100%;
+    content: "";
+    opacity: 0.72;
+    pointer-events: none;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: contact-border-flow 6s linear infinite;
+  }
+
+  .contact__signal {
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    right: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-muted);
+    font:
+      700 0.58rem/1 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.12em;
+  }
+
+  .contact__signal span {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 0.7rem rgba(117, 234, 216, 0.85);
+  }
+
+  .contact__empty {
+    position: relative;
+    z-index: 1;
+    max-width: 34rem;
+    text-align: center;
+  }
+
+  .contact__empty-label {
+    margin: 0;
+    color: var(--color-cyan);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .contact__empty h2 {
+    margin: 1rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    letter-spacing: -0.04em;
+  }
+
+  .contact__empty > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--color-muted);
+    line-height: 1.8;
+  }
+
+  .contact__channels {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: min(100%, 40rem);
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .contact__channel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4rem;
+    padding: 0 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: rgba(15, 18, 31, 0.72);
+    color: var(--color-text);
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      border-color 220ms ease,
+      transform 220ms ease;
+  }
+
+  .contact__channel:hover,
+  .contact__channel:focus-visible {
+    border-color: rgba(117, 234, 216, 0.56);
+    transform: translateY(-2px);
+  }
+
+  @keyframes contact-border-flow {
+    to {
+      background-position: -260% 0;
+    }
+  }
+
+  @media (max-width: 53.125rem) {
+    .section-heading {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact__stage {
+      min-height: min(18rem, 42vh);
+      padding: 1.25rem;
+    }
+
+    .contact__signal {
+      right: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact__stage::before {
+      animation: none;
+    }
+
+    .contact__channel {
+      transition: none;
+    }
+  }
+</style>

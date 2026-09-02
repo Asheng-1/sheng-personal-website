@@ -1,23 +1,27 @@
-export type SiteHref = "/" | "/learning" | "/roadmap";
+export type SiteHref = "/" | "/learning";
 
 export interface NavItem {
   label: string;
   href: SiteHref;
 }
 
-export interface ContentItem {
-  id: string;
-  title: string;
-  description: string;
-}
-
-export interface LearningItem extends ContentItem {
-  status: string;
+export interface AboutContent {
+  origin: string;
+  focusAreas: readonly { code: string; title: string }[];
+  introduction: string;
+  introductionDetails: readonly string[];
+  portfolioEmptyState: string;
 }
 
 export interface ProfileLink {
   label: string;
   href: string;
+}
+
+export interface ContactContent {
+  introduction: string;
+  emptyState: string;
+  channels: readonly ProfileLink[];
 }
 
 export interface Profile {
@@ -28,79 +32,44 @@ export interface Profile {
   introduction: string;
   footer: string;
   nav: readonly NavItem[];
-  learning: readonly LearningItem[];
-  roadmap: readonly ContentItem[];
-  principles: readonly ContentItem[];
-  links: readonly ProfileLink[];
+  about: AboutContent;
+  contact: ContactContent;
 }
 
 export const profile = {
   name: "Sheng",
   role: "AI TRAINER IN PROGRESS",
   eyebrow: "HELLO, I'M SHENG",
-  heroStatement: "保持好奇，奔赴未知。",
-  introduction:
-    "正在探索 AI 世界的新手训练师。我喜欢拆解问题、打磨表达，也在一次次实践中学习如何让回答更准确、更好用。",
+  heroStatement: "保持好奇，探索未知。",
+  introduction: "正在把好奇，训练成判断力。",
   footer: "SHENG · AI TRAINER IN PROGRESS · BUILT WITH CURIOSITY",
   nav: [
     { label: "首页", href: "/" },
-    { label: "正在学习", href: "/learning" },
-    { label: "路线图", href: "/roadmap" },
+    { label: "关于我", href: "/learning" },
   ],
-  learning: [
-    {
-      id: "annotation",
-      title: "数据标注",
-      description: "理解任务规则，让判断有清楚、一致的依据。",
-      status: "正在学习",
-    },
-    {
-      id: "prompting",
-      title: "提示词设计",
-      description: "把模糊需求拆成具体、可执行的输入。",
-      status: "正在学习",
-    },
-    {
-      id: "evaluation",
-      title: "回答评估",
-      description: "从准确、清晰和实用三个角度检查回答。",
-      status: "正在学习",
-    },
-  ],
-  roadmap: [
-    {
-      id: "understand",
-      title: "了解行业",
-      description: "建立 AI 训练工作的基础认知。",
-    },
-    {
-      id: "practice",
-      title: "基础练习",
-      description: "从标注、提示词和回答评估开始。",
-    },
-    {
-      id: "portfolio",
-      title: "建立作品",
-      description: "把真实练习整理成可阅读的案例。",
-    },
-    {
-      id: "opportunity",
-      title: "寻找实践机会",
-      description: "参与真实任务，继续积累反馈。",
-    },
-  ],
-  principles: [
-    { id: "clear", title: "清晰", description: "回答容易理解，重点明确。" },
-    {
-      id: "accurate",
-      title: "准确",
-      description: "遵循任务要求，不加入没有依据的判断。",
-    },
-    {
-      id: "useful",
-      title: "有帮助",
-      description: "给用户一个能够继续行动的下一步。",
-    },
-  ],
-  links: [],
+  about: {
+    origin: "来自广东广州",
+    focusAreas: [
+      { code: "01 / EMBODIED AI", title: "具身智能" },
+      { code: "02 / AI AGENT", title: "AI Agent" },
+      { code: "03 / MULTIMODAL", title: "多模态交互" },
+    ],
+    introduction:
+      "你好，我是 Sheng，来自广东广州。正在从事 AI 行业工作，沿着通往 AGI 之路持续学习和积累。",
+    introductionDetails: [
+      "对我来说，这不只是一个新的职业选择，也是一次重新认识技术、内容和人的过程。我会从具体的学习与练习开始，逐步建立自己的理解和判断。",
+      "这个网站会记录我的学习、作品和思考，也会随着我的经历继续更新。",
+    ],
+    portfolioEmptyState: "作品正在整理中，之后会从这里开始更新。",
+  },
+  contact: {
+    introduction: "邮箱和社交主页确认后，会在这里公开。",
+    emptyState: "联系方式正在整理中，之后可以从这里直接找到我。",
+    channels: [
+      {
+        label: "asheng060@163.com",
+        href: "mailto:asheng060@163.com",
+      },
+    ],
+  },
 } as const satisfies Profile;

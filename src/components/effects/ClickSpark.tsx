@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 interface Props {
   targets: readonly string[];
@@ -13,7 +13,7 @@ export function ClickSpark({ targets }: Props) {
     const layer = layerRef.current;
     if (!layer) return;
 
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const activeSparks = new Set<HTMLSpanElement>();
     const timeouts = new Map<HTMLSpanElement, number>();
 
@@ -54,13 +54,13 @@ export function ClickSpark({ targets }: Props) {
           : event.clientY;
 
       for (let index = 0; index < SPARK_COUNT; index += 1) {
-        const spark = document.createElement('span');
+        const spark = document.createElement("span");
         const angle = (Math.PI * 2 * index) / SPARK_COUNT;
-        spark.className = 'click-spark__particle';
+        spark.className = "click-spark__particle";
         spark.style.left = `${originX}px`;
         spark.style.top = `${originY}px`;
-        spark.style.setProperty('--spark-x', `${Math.cos(angle) * 24}px`);
-        spark.style.setProperty('--spark-y', `${Math.sin(angle) * 24}px`);
+        spark.style.setProperty("--spark-x", `${Math.cos(angle) * 24}px`);
+        spark.style.setProperty("--spark-y", `${Math.sin(angle) * 24}px`);
         layer.append(spark);
         activeSparks.add(spark);
         timeouts.set(
@@ -70,9 +70,9 @@ export function ClickSpark({ targets }: Props) {
       }
     };
 
-    document.addEventListener('click', activate);
+    document.addEventListener("click", activate);
     return () => {
-      document.removeEventListener('click', activate);
+      document.removeEventListener("click", activate);
       clearSparks();
     };
   }, [targets]);

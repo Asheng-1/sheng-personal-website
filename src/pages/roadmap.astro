@@ -1,14 +1,3 @@
 ---
-import { profile } from "@/data/profile";
-import SiteLayout from "@/layouts/SiteLayout.astro";
-import Roadmap from "@/components/sections/Roadmap.astro";
+return Astro.redirect("/learning#contact", 301);
 ---
-
-<SiteLayout
-  title={`入行路线 | ${profile.name}`}
-  description="Sheng 的 AI 训练师学习路线。"
-  fitScreen
-  showFooter={false}
->
-  <Roadmap items={profile.roadmap} />
-</SiteLayout>
