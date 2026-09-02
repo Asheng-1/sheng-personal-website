@@ -1,6 +1,7 @@
 ---
 import { ShinyText } from "@/components/effects/ShinyText";
 import type { NavItem } from "@/data/profile";
+import { withBasePath } from "@/lib/sitePath";
 
 interface Props {
   name: string;
@@ -19,7 +20,11 @@ const systemLabels: Record<NavItem["href"], string> = {
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__brand" href="/" aria-label={`${name} 首页`}>
+    <a
+      class="site-header__brand"
+      href={withBasePath("/")}
+      aria-label={`${name} 首页`}
+    >
       {name.toUpperCase()} / OS
     </a>
     <div class="site-header__nav">
@@ -30,7 +35,7 @@ const systemLabels: Record<NavItem["href"], string> = {
               aria-label={label}
               aria-current={normalizedPath === href ? "page" : undefined}
               class="section-nav__link"
-              href={href}
+              href={withBasePath(href)}
             >
               <span class="section-nav__code">{systemLabels[href]}</span>
               <span class="sr-only">{label}</span>

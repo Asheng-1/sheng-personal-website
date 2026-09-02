@@ -1,6 +1,30 @@
 import { describe, expect, it } from "vitest";
 import { profile } from "@/data/profile";
 import { getAdjacentPages } from "@/lib/pageNavigation";
+import { stripBasePath, withBasePath } from "@/lib/sitePath";
+
+describe("GitHub Pages base paths", () => {
+  it("prefixes site routes without changing root development routes", () => {
+    expect(withBasePath("/", "/")).toBe("/");
+    expect(withBasePath("/learning", "/")).toBe("/learning");
+    expect(withBasePath("/", "/sheng-personal-website/")).toBe(
+      "/sheng-personal-website/",
+    );
+    expect(withBasePath("/learning#contact", "/sheng-personal-website/")).toBe(
+      "/sheng-personal-website/learning#contact",
+    );
+  });
+
+  it("removes the deployment base before matching the active page", () => {
+    expect(stripBasePath("/", "/")).toBe("/");
+    expect(
+      stripBasePath(
+        "/sheng-personal-website/learning/",
+        "/sheng-personal-website/",
+      ),
+    ).toBe("/learning/");
+  });
+});
 
 describe("getAdjacentPages", () => {
   it("returns only the next page at the start of the site", () => {

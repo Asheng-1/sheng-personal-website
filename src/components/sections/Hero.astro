@@ -8,6 +8,7 @@ import type { Profile } from "@/data/profile";
 import { Picture } from "astro:assets";
 import heroImage from "@/assets/sheng-ip-hero-refined.png";
 import avatarImage from "@/assets/sheng-avatar-luffy.jpg";
+import { withBasePath } from "@/lib/sitePath";
 
 interface Props {
   profile: Profile;
@@ -92,7 +93,7 @@ const { profile } = Astro.props;
         <SpecularButton
           client:visible
           className="hero__action hero__action--primary"
-          href="/learning"
+          href={withBasePath("/learning")}
           size="md"
           radius={10}
           tint="#75ead8"
@@ -113,7 +114,7 @@ const { profile } = Astro.props;
         <SpecularButton
           client:visible
           className="hero__action hero__action--secondary"
-          href="/learning#contact"
+          href={withBasePath("/learning#contact")}
           size="md"
           radius={10}
           tint="#ffffff"

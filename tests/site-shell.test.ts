@@ -39,8 +39,12 @@ describe("two-page personal site shell", () => {
   });
 
   it("routes homepage actions to about and contact", () => {
-    expect(heroSource).toMatch(/href="\/learning"[\s\S]*>了解我</);
-    expect(heroSource).toMatch(/href="\/learning#contact"[\s\S]*>联系我</);
+    expect(heroSource).toMatch(
+      /href=\{withBasePath\("\/learning"\)\}[\s\S]*>了解我</,
+    );
+    expect(heroSource).toMatch(
+      /href=\{withBasePath\("\/learning#contact"\)\}[\s\S]*>联系我</,
+    );
     expect(heroSource).not.toContain('href="#learning"');
     expect(heroSource).not.toContain('href="#roadmap"');
   });
@@ -53,9 +57,7 @@ describe("two-page personal site shell", () => {
     expect(aboutPageSource).not.toContain(
       'import ContactPanel from "@/components/sections/ContactPanel.astro"',
     );
-    expect(contactPageSource).toContain(
-      'Astro.redirect("/learning#contact", 301)',
-    );
+    expect(contactPageSource).toContain('withBasePath("/learning#contact")');
     expect(contactPageSource).not.toContain("<ContactPanel");
   });
 

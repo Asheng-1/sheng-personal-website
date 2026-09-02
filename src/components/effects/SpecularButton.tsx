@@ -7,14 +7,13 @@ import {
   type ReactNode,
   type Ref,
 } from "react";
-import type { SiteHref } from "@/data/profile";
 
 type SpecularStyle = CSSProperties &
   Record<`--specular-${string}`, string | number>;
 
 interface Props {
   children: ReactNode;
-  href?: SiteHref | `${SiteHref}#${string}`;
+  href?: string;
   size?: "sm" | "md" | "lg";
   radius?: number;
   tint?: string;

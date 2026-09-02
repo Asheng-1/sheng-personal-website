@@ -5,6 +5,7 @@ import SiteFooter from "@/components/layout/SiteFooter.astro";
 import PageTurnNavigation from "@/components/layout/PageTurnNavigation.astro";
 import { TargetCursor } from "@/components/effects/TargetCursor";
 import { profile } from "@/data/profile";
+import { stripBasePath } from "@/lib/sitePath";
 
 interface Props {
   title: string;
@@ -19,6 +20,7 @@ const {
   fitScreen = false,
   showFooter = true,
 } = Astro.props;
+const currentPath = stripBasePath(Astro.url.pathname);
 ---
 
 <BaseLayout
@@ -26,15 +28,11 @@ const {
   description={description}
   bodyClass={fitScreen ? "screen-locked" : undefined}
 >
-  <SiteHeader
-    name={profile.name}
-    nav={profile.nav}
-    currentPath={Astro.url.pathname}
-  />
+  <SiteHeader name={profile.name} nav={profile.nav} currentPath={currentPath} />
   <main class:list={["site-main", { "site-main--fit": fitScreen }]}>
     <slot />
   </main>
-  <PageTurnNavigation nav={profile.nav} currentPath={Astro.url.pathname} />
+  <PageTurnNavigation nav={profile.nav} currentPath={currentPath} />
   {showFooter && <SiteFooter identity={profile.footer} />}
   <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
 </BaseLayout>

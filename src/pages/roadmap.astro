@@ -1,3 +1,7 @@
 ---
-return Astro.redirect("/learning#contact", 301);
+import { withBasePath } from "@/lib/sitePath";
+
+const redirectTarget = withBasePath("/learning#contact");
+
+return Astro.redirect(redirectTarget, 301);
 ---
