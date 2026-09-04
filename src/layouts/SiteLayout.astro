@@ -61,7 +61,8 @@ const currentPath = stripBasePath(Astro.url.pathname);
 
   :global(body.screen-locked) {
     height: 100svh;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   @media (max-height: 43.75rem) {

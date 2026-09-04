@@ -666,7 +666,7 @@ const { profile } = Astro.props;
     }
   }
 
-  @media (max-width: 64rem) {
+  @media (max-width: 64rem) and (min-width: 72.126rem) {
     .hero {
       grid-template-columns: minmax(24rem, 0.9fr) minmax(25rem, 1.1fr);
     }
@@ -682,7 +682,7 @@ const { profile } = Astro.props;
     }
   }
 
-  @media (max-width: 53.125rem) {
+  @media (max-width: 53.125rem) and (min-width: 72.126rem) {
     .hero {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
@@ -796,7 +796,7 @@ const { profile } = Astro.props;
     }
   }
 
-  @media (max-width: 30rem) {
+  @media (max-width: 30rem) and (min-width: 72.126rem) {
     .hero__identity-panel {
       display: none;
     }
