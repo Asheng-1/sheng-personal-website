@@ -67,7 +67,7 @@ describe("two-page personal site shell", () => {
     expect(aboutSource).toContain('id="contact"');
   });
 
-  it("uses a personal OS console with truthful data and portfolio placeholders", () => {
+  it("uses a personal OS console with truthful data and project cards", () => {
     expect(aboutSource).toContain('class="about__console"');
     expect(aboutSource).toContain('class="about__identity system-panel"');
     expect(aboutSource).toContain('class="about__biography system-panel"');
@@ -87,7 +87,12 @@ describe("two-page personal site shell", () => {
     expect(aboutSource).not.toContain("content.focus]");
     expect(aboutSource).toContain("content.introduction");
     expect(aboutSource).toContain("content.introductionDetails");
-    expect(aboutSource).toContain("content.portfolioEmptyState");
+    expect(aboutSource).toContain("content.portfolioIntroduction");
+    expect(aboutSource).toContain("content.projects.map");
+    expect(profile.about.projects.map(({ company }) => company)).toEqual([
+      "商汤",
+      "美团",
+    ]);
     expect(aboutSource).toContain("prefers-reduced-motion: reduce");
     expect(aboutSource).not.toContain("description:");
     expect(aboutSource).not.toContain("我喜欢的两项球类运动");

@@ -94,20 +94,30 @@ const primaryContactLabel = primaryContact?.href.startsWith("mailto:")
       <span class="panel-corner" aria-hidden="true"></span>
       <header class="about__portfolio-heading">
         <div>
-          <p class="about__label">SELECTED WORK / SOON</p>
-          <h2 id="portfolio-title">个人作品</h2>
+          <p class="about__label">SELECTED EXPERIENCE</p>
+          <h2 id="portfolio-title">项目实践</h2>
         </div>
-        <p>{content.portfolioEmptyState}</p>
+        <p>{content.portfolioIntroduction}</p>
       </header>
 
       <div class="about__work-grid">
         {
-          ["01", "02"].map((index) => (
-            <article class="about__work-card" aria-label={`作品位置 ${index}`}>
-              <span>{index}</span>
-              <div aria-hidden="true">&gt;_</div>
-              <h3>待添加作品</h3>
-              <p>持续更新中</p>
+          content.projects.map((project, index) => (
+            <article
+              class="about__work-card"
+              aria-label={`${project.company} ${project.title}`}
+            >
+              <header>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{project.company}</strong>
+              </header>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <ul aria-label="项目关键词">
+                {project.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
             </article>
           ))
         }
@@ -459,23 +469,28 @@ const primaryContactLabel = primaryContact?.href.startsWith("mailto:")
 
   .about__work-card {
     position: relative;
-    display: grid;
+    display: flex;
     min-height: 11rem;
-    place-items: center;
-    align-content: center;
+    flex-direction: column;
+    justify-content: center;
     overflow: hidden;
+    padding: 1.4rem;
     border: 1px solid rgba(137, 161, 188, 0.16);
     background: rgba(9, 14, 24, 0.55);
-    text-align: center;
     transition:
       border-color 180ms ease,
       transform 220ms ease;
   }
 
-  .about__work-card > span {
-    position: absolute;
-    top: 0.8rem;
-    left: 0.9rem;
+  .about__work-card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .about__work-card header span {
     color: var(--color-muted);
     font:
       700 0.55rem/1 ui-monospace,
@@ -484,24 +499,47 @@ const primaryContactLabel = primaryContact?.href.startsWith("mailto:")
       monospace;
   }
 
-  .about__work-card div {
+  .about__work-card header strong {
     color: var(--color-cyan);
     font:
-      500 2rem/1 ui-monospace,
+      800 0.68rem/1 ui-monospace,
       SFMono-Regular,
       Consolas,
       monospace;
+    letter-spacing: 0.16em;
   }
 
   .about__work-card h3 {
-    margin: 1rem 0 0;
-    font-size: 1rem;
+    margin: 0;
+    font-size: clamp(1.05rem, 1.65vw, 1.35rem);
   }
 
-  .about__work-card p {
-    margin: 0.45rem 0 0;
+  .about__work-card > p {
+    margin: 0.65rem 0 0;
     color: var(--color-muted);
-    font-size: 0.78rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .about__work-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__work-card li {
+    padding: 0.35rem 0.55rem;
+    border: 1px solid rgba(117, 234, 216, 0.18);
+    color: var(--color-muted);
+    font:
+      700 0.58rem/1 ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      monospace;
+    letter-spacing: 0.05em;
   }
 
   @media (hover: hover) and (pointer: fine) {

@@ -18,12 +18,26 @@ describe("profile content contract", () => {
         { code: "03 / MULTIMODAL", title: "多模态交互" },
       ],
       introduction:
-        "你好，我是 Sheng，来自广东广州。正在从事 AI 行业工作，沿着通往 AGI 之路持续学习和积累。",
+        "我来自广东广州，从事过 AI Agent、模型数据策略与评测相关工作。曾参与 Agent 与多模态电商场景项目",
       introductionDetails: [
-        "对我来说，这不只是一个新的职业选择，也是一次重新认识技术、内容和人的过程。我会从具体的学习与练习开始，逐步建立自己的理解和判断。",
-        "这个网站会记录我的学习、作品和思考，也会随着我的经历继续更新。",
+        "我比较关注如何把模糊的任务需求转化为清晰、可执行的标准，也在尝试通过流程优化和自动化工具，提高数据生产与评测效率。",
+        "这个网站会持续记录我的项目实践、作品和思考，以及我对 AI Agent、具身智能和多模态交互的关注。",
       ],
-      portfolioEmptyState: "作品正在整理中，之后会从这里开始更新。",
+      portfolioIntroduction: "从真实工作中整理的方法、经验与阶段性成果。",
+      projects: [
+        {
+          company: "商汤",
+          title: "多模态数据生产与评测",
+          description: "参与多模态数据生产、质量管理及模型评测。",
+          tags: ["多模态", "数据策略", "模型评测"],
+        },
+        {
+          company: "美团",
+          title: "AI Agent 数据标注与评测",
+          description: "参与 Agent 数据标注、结果评测与流程优化。",
+          tags: ["AI Agent", "数据标注", "自动化"],
+        },
+      ],
     });
     expect(profile.contact.channels).toEqual([
       {
