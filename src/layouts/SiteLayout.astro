@@ -61,8 +61,26 @@ const currentPath = stripBasePath(Astro.url.pathname);
 
   :global(body.screen-locked) {
     height: 100svh;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
+  }
+
+  :global(body.screen-locked > header),
+  :global(body.screen-locked > main),
+  :global(body.screen-locked > footer) {
+    min-width: 0;
+  }
+
+  @media (max-width: 53.125rem) {
+    :global(body.screen-locked) {
+      overflow-x: auto;
+    }
+
+    :global(body.screen-locked > header),
+    :global(body.screen-locked > main),
+    :global(body.screen-locked > footer) {
+      min-width: 72.125rem;
+    }
   }
 
   @media (max-height: 43.75rem) {

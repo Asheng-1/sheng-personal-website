@@ -11,6 +11,7 @@ const indexSource = readSource("src/pages/index.astro");
 const aboutPageSource = readSource("src/pages/learning.astro");
 const contactPageSource = readSource("src/pages/roadmap.astro");
 const layoutSource = readSource("src/layouts/SiteLayout.astro");
+const headerSource = readSource("src/components/layout/SiteHeader.astro");
 const heroSource = readSource("src/components/sections/Hero.astro");
 const aboutSource = readSource("src/components/sections/AboutShowcase.astro");
 const contactSource = readSource("src/components/sections/ContactPanel.astro");
@@ -36,6 +37,25 @@ describe("two-page personal site shell", () => {
     expect(aboutPageSource).toContain("showFooter={false}");
     expect(layoutSource).toContain("overflow: hidden");
     expect(layoutSource).toContain("height: 100svh");
+  });
+
+  it("renders the main navigation as a rounded floating glass panel", () => {
+    expect(headerSource).toContain("border-radius: 0.875rem");
+    expect(headerSource).toContain("backdrop-filter: blur(22px)");
+    expect(headerSource).toContain("0 1rem 2.5rem rgba(0, 0, 0, 0.28)");
+  });
+
+  it("keeps desktop fixed while allowing the homepage canvas to pan on mobile", () => {
+    expect(layoutSource).toContain("overflow-x: hidden");
+    expect(layoutSource).toContain("@media (max-width: 53.125rem)");
+    expect(layoutSource).toContain("overflow-x: auto");
+    expect(layoutSource).toContain("min-width: 72.125rem");
+    expect(heroSource).toContain(
+      "@media (max-width: 53.125rem) and (min-width: 72.126rem)",
+    );
+    expect(headerSource).toContain(
+      "@media (max-width: 47rem) and (min-width: 72.126rem)",
+    );
   });
 
   it("routes homepage actions to about and contact", () => {
