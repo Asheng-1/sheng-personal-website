@@ -427,7 +427,7 @@ export function inspectBuiltPage(html, page, styles = html) {
       workGrid &&
       identityText.includes("来自广东广州") &&
       aboutText.includes(
-        "我来自广东广州，从事过 AI Agent、模型数据策略与评测相关工作。曾参与 Agent 与多模态电商场景项目",
+        "我来自广东广州，从事过 AI Agent、模型数据策略与评测相关工作。曾参与 Agent 与多模态模型项目",
       ) &&
       aboutText.includes(
         "我比较关注如何把模糊的任务需求转化为清晰、可执行的标准，也在尝试通过流程优化和自动化工具，提高数据生产与评测效率。",

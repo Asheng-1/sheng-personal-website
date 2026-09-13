@@ -22,7 +22,7 @@ const futureOsHero = `<main>
     </div>
     <div class="hero__status-panel" aria-label="个人状态">
       <dl>
-        <dt>ROLE</dt><dd>AI 训练师</dd>
+        <dt>ROLE</dt><dd>AI 探索者</dd>
         <dt>FOCUS</dt><dd>认知 × 创造力</dd>
         <dt>MODE</dt><dd>探索 / 学习 / 构建</dd>
       </dl>
