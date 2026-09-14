@@ -331,7 +331,7 @@ export function AssistantChat({ endpoint }: Props) {
             </button>
           </form>
           <p className="assistant-chat__notice">
-            AI 回答可能有误，请以网站公开内容为准。
+            AI 回答可能有误，如需确认，欢迎联系 Sheng 本人。
           </p>
         </section>
       )}

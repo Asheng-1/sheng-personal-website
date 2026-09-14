@@ -10,8 +10,12 @@ const readSource = (path: string) => readFileSync(fromRoot(path), "utf8");
 const indexSource = readSource("src/pages/index.astro");
 const aboutPageSource = readSource("src/pages/learning.astro");
 const contactPageSource = readSource("src/pages/roadmap.astro");
+const globalSource = readSource("src/styles/global.css");
 const layoutSource = readSource("src/layouts/SiteLayout.astro");
 const headerSource = readSource("src/components/layout/SiteHeader.astro");
+const pageTurnSource = readSource(
+  "src/components/layout/PageTurnNavigation.astro",
+);
 const heroSource = readSource("src/components/sections/Hero.astro");
 const aboutSource = readSource("src/components/sections/AboutShowcase.astro");
 const contactSource = readSource("src/components/sections/ContactPanel.astro");
@@ -45,17 +49,28 @@ describe("two-page personal site shell", () => {
     expect(headerSource).toContain("0 1rem 2.5rem rgba(0, 0, 0, 0.28)");
   });
 
-  it("keeps desktop fixed while allowing the homepage canvas to pan on mobile", () => {
+  it("keeps every viewport inside the page width", () => {
+    expect(globalSource).toContain("overflow-x: hidden");
+    expect(globalSource).not.toContain("min-width: 72.125rem");
     expect(layoutSource).toContain("overflow-x: hidden");
-    expect(layoutSource).toContain("@media (max-width: 53.125rem)");
-    expect(layoutSource).toContain("overflow-x: auto");
-    expect(layoutSource).toContain("min-width: 72.125rem");
-    expect(heroSource).toContain(
-      "@media (max-width: 53.125rem) and (min-width: 72.126rem)",
-    );
-    expect(headerSource).toContain(
-      "@media (max-width: 47rem) and (min-width: 72.126rem)",
-    );
+    expect(layoutSource).not.toContain("overflow-x: auto");
+    expect(heroSource).toContain("@media (max-width: 53.125rem)");
+    expect(headerSource).toContain("@media (max-width: 47rem)");
+    expect(pageTurnSource).toContain("@media (max-width: 53.125rem)");
+    expect(aboutSource).toContain("@media (max-width: 45rem)");
+    expect(contactSource).toContain("@media (max-width: 53.125rem)");
+
+    const responsiveSources = [
+      globalSource,
+      heroSource,
+      headerSource,
+      pageTurnSource,
+      aboutSource,
+      contactSource,
+    ];
+    responsiveSources.forEach((source) => {
+      expect(source).not.toContain("and (min-width: 72.126rem)");
+    });
   });
 
   it("routes homepage actions to about and contact", () => {
