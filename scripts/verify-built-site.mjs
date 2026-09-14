@@ -427,17 +427,17 @@ export function inspectBuiltPage(html, page, styles = html) {
       workGrid &&
       identityText.includes("来自广东广州") &&
       aboutText.includes(
-        "我来自广东广州，从事过 AI Agent、模型数据策略与评测相关工作。曾参与 Agent 与多模态模型项目",
+        "我来自广州，做过 AI Agent、模型数据策略与评测，也参与过多模态模型项目。",
       ) &&
       aboutText.includes(
-        "我比较关注如何把模糊的任务需求转化为清晰、可执行的标准，也在尝试通过流程优化和自动化工具，提高数据生产与评测效率。",
+        "面对模糊需求，我习惯先拆清目标、场景与判断标准，再把它们转化为可执行的规则。",
       ) &&
       aboutText.includes(
-        "这个网站会持续记录我的项目实践、作品和思考，以及我对 AI Agent、具身智能和多模态交互的关注。",
+        "在数据构建与模型评测中，我会从 Bad Case 里定位问题、补充规则，也会用 Prompt 和自动化工具减少重复工作，让每轮数据都能继续迭代。",
       ) &&
       aboutText.includes("具身智能") &&
       aboutText.includes("AI Agent") &&
-      aboutText.includes("多模态交互") &&
+      aboutText.includes("多模态模型") &&
       aboutText.includes("项目实践") &&
       aboutText.includes("商汤") &&
       aboutText.includes("美团"),

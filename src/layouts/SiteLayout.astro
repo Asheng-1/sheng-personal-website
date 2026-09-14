@@ -4,6 +4,7 @@ import SiteHeader from "@/components/layout/SiteHeader.astro";
 import SiteFooter from "@/components/layout/SiteFooter.astro";
 import PageTurnNavigation from "@/components/layout/PageTurnNavigation.astro";
 import { TargetCursor } from "@/components/effects/TargetCursor";
+import { AssistantChat } from "@/components/assistant/AssistantChat";
 import { profile } from "@/data/profile";
 import { stripBasePath } from "@/lib/sitePath";
 
@@ -34,6 +35,10 @@ const currentPath = stripBasePath(Astro.url.pathname);
   </main>
   <PageTurnNavigation nav={profile.nav} currentPath={currentPath} />
   {showFooter && <SiteFooter identity={profile.footer} />}
+  <AssistantChat
+    client:idle
+    endpoint="https://sheng-assistant-api.lock-06789.workers.dev/chat"
+  />
   <TargetCursor client:idle targets={["a", "button", "[data-cursor-target]"]} />
 </BaseLayout>
 

@@ -9,7 +9,10 @@ export default defineConfig({
     include: /\.[cm]?[jt]sx?$/,
     jsx: { runtime: "automatic", importSource: "react" },
   },
-  test: { environment: "node" },
+  test: {
+    environment: "node",
+    include: ["tests/**/*.test.{ts,tsx}"],
+  },
   resolve: {
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },

@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sheng-assistant-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-14",
+  "workers_dev": true,
+  "preview_urls": false,
+  "keep_vars": true,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+    },
+  },
+  "secrets": {
+    "required": ["DIFY_API_KEY"],
+  },
+  "ratelimits": [
+    {
+      "name": "ASSISTANT_RATE_LIMITER",
+      "namespace_id": "67489",
+      "simple": {
+        "limit": 8,
+        "period": 60,
+      },
+    },
+  ],
+}

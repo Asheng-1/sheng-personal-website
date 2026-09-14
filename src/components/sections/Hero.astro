@@ -513,6 +513,9 @@ const { profile } = Astro.props;
   }
 
   .hero__visual {
+    --portrait-depth-x: 0px;
+    --portrait-depth-y: 0px;
+
     position: relative;
     z-index: 1;
     display: grid;
@@ -527,19 +530,21 @@ const { profile } = Astro.props;
     z-index: -1;
     width: min(78%, 40rem);
     aspect-ratio: 1;
-    border: 1px solid rgba(117, 234, 216, 0.24);
+    border: 1px solid rgba(117, 234, 216, 0.14);
     border-radius: 50%;
     background:
-      linear-gradient(rgba(117, 234, 216, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(117, 234, 216, 0.05) 1px, transparent 1px),
-      radial-gradient(circle, rgba(75, 72, 199, 0.34), transparent 66%);
+      linear-gradient(rgba(117, 234, 216, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(117, 234, 216, 0.03) 1px, transparent 1px),
+      radial-gradient(circle, rgba(75, 72, 199, 0.24), transparent 66%);
     background-size:
       2rem 2rem,
       2rem 2rem,
       auto;
     box-shadow:
-      0 0 5rem rgba(83, 77, 221, 0.16),
-      inset 0 0 3rem rgba(117, 234, 216, 0.04);
+      0 0 5rem rgba(83, 77, 221, 0.1),
+      inset 0 0 3rem rgba(117, 234, 216, 0.025);
+    transform: translate3d(var(--portrait-depth-x), var(--portrait-depth-y), 0);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.25, 1);
   }
 
   .hero__scan-ring::before,
@@ -552,20 +557,20 @@ const { profile } = Astro.props;
 
   .hero__scan-ring::before {
     inset: 8%;
-    border: 1px dashed rgba(145, 127, 255, 0.34);
+    border: 1px dashed rgba(145, 127, 255, 0.2);
     animation: hero-ring-spin 28s linear infinite;
   }
 
   .hero__scan-ring::after {
     inset: 18%;
-    border: 1px solid rgba(117, 234, 216, 0.16);
+    border: 1px solid rgba(117, 234, 216, 0.1);
   }
 
   .hero__scan-ring span:nth-child(1) {
     inset: -3%;
-    border-top: 2px solid var(--color-cyan);
-    border-right: 2px solid transparent;
-    opacity: 0.8;
+    border-top: 1px solid rgba(117, 234, 216, 0.48);
+    border-right: 1px solid transparent;
+    opacity: 0.58;
     animation: hero-ring-spin 16s linear infinite reverse;
   }
 
@@ -578,7 +583,7 @@ const { profile } = Astro.props;
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(117, 234, 216, 0.5),
+      rgba(117, 234, 216, 0.3),
       transparent
     );
   }
@@ -591,7 +596,7 @@ const { profile } = Astro.props;
     border-radius: 0;
     background: linear-gradient(
       to bottom,
-      rgba(117, 234, 216, 0.45),
+      rgba(117, 234, 216, 0.26),
       transparent
     );
   }
@@ -632,14 +637,16 @@ const { profile } = Astro.props;
       transparent 100%
     );
     filter: contrast(1.045) saturate(1.035);
-    transition: transform 180ms ease-out;
+    transform-origin: 50% 56%;
+    backface-visibility: hidden;
+    transition: transform 220ms cubic-bezier(0.2, 0.72, 0.25, 1);
     will-change: transform;
   }
 
   .hero__visual-status {
     position: absolute;
-    right: 2%;
-    bottom: 7%;
+    top: 11%;
+    right: 1.5%;
     padding-left: 0.8rem;
     border-left: 1px solid rgba(117, 234, 216, 0.55);
     color: rgba(178, 185, 202, 0.68);

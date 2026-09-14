@@ -13,6 +13,11 @@ assets/sheng-ip-original.png
 assets/sheng-ip-hero-v1.png
 assets/sheng-ip-hero-v2.png
 .env.local
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
 coverage/
 playwright-report/
 test-results/
