@@ -2,7 +2,7 @@
   position: fixed;
   z-index: 80;
   right: max(1.75rem, env(safe-area-inset-right));
-  bottom: max(1.75rem, env(safe-area-inset-bottom));
+  bottom: max(3.75rem, calc(env(safe-area-inset-bottom) + 2rem));
   color: var(--color-text);
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
@@ -420,7 +420,7 @@
 @media (max-width: 32rem) {
   .assistant-chat {
     right: max(0.75rem, env(safe-area-inset-right));
-    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    bottom: max(2.75rem, calc(env(safe-area-inset-bottom) + 2rem));
   }
 
   .assistant-chat__launcher {
