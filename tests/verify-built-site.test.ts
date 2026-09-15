@@ -12,7 +12,7 @@ const head = (title: string, bodyClass?: string) => `<html lang="zh-CN"><head>
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="Sheng 的个人网站">
   <meta name="twitter:card" content="summary_large_image">
-  <style>@media (max-height: 43.75rem) { body.screen-locked { overflow-y: auto; } }</style>
+  <style>body.screen-locked { height: 100svh; overflow-x: hidden; overflow-y: hidden; }</style>
 </head><body${bodyClass ? ` class="${bodyClass}"` : ""}>`;
 const nav = (active: "/" | "/learning") => `<header>
   <nav aria-label="Primary navigation">
@@ -22,7 +22,7 @@ const nav = (active: "/" | "/learning") => `<header>
 </header>`;
 const close = `</body></html>`;
 const validStyles =
-  "@media (max-height: 43.75rem) { body.screen-locked { overflow-y: auto; } }";
+  "body.screen-locked { height: 100svh; overflow-x: hidden; overflow-y: hidden; }";
 
 const validPages = {
   home: `${head("Sheng | AI TRAINER IN PROGRESS", "screen-locked")}${nav("/")}
@@ -82,7 +82,7 @@ describe("built-site verifier", () => {
       publishedEmailValid: true,
       aboutScrollValid: true,
       standaloneContactAbsent: true,
-      viewportFallbackValid: true,
+      viewportLockValid: true,
       canvasCount: 0,
       footerValid: true,
       singleScreenValid: false,

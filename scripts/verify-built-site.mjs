@@ -254,9 +254,10 @@ export function inspectBuiltPage(html, page, styles = html) {
     publishedEmailValid: true,
     aboutScrollValid: true,
     standaloneContactAbsent: true,
-    viewportFallbackValid:
-      /(?:max-height\s*:\s*43\.75rem|height\s*<=\s*43\.75rem)/i.test(styles) &&
-      /overflow-y\s*:\s*auto/i.test(styles),
+    viewportLockValid:
+      /body\.screen-locked[^}]*(?:overflow\s*:\s*hidden|overflow-y\s*:\s*hidden)/i.test(
+        styles,
+      ),
   };
 
   if (page === "home") {
@@ -513,7 +514,7 @@ function pageHasContractFailure(result) {
     !result.publishedEmailValid ||
     !result.aboutScrollValid ||
     !result.standaloneContactAbsent ||
-    !result.viewportFallbackValid ||
+    !result.viewportLockValid ||
     result.canvasCount !== expectedCanvasCount
   );
 }

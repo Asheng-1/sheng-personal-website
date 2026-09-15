@@ -73,6 +73,15 @@ describe("two-page personal site shell", () => {
     });
   });
 
+  it("keeps the homepage locked to one viewport at short heights", () => {
+    expect(layoutSource).toContain("overflow-y: hidden");
+    expect(layoutSource).not.toContain("overflow-y: auto");
+    expect(layoutSource).not.toContain("@media (max-height: 43.75rem)");
+    expect(heroSource).not.toContain(
+      "@media (max-height: 43.75rem) and (min-width: 53.126rem)",
+    );
+  });
+
   it("routes homepage actions to about and contact", () => {
     expect(heroSource).toMatch(
       /href=\{withBasePath\("\/learning"\)\}[\s\S]*>了解我</,
